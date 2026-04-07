@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.4  
+**Version:** 1.11.5  
 **Author:** Byron Iniotakis  
 **License:** GPL-3.0-or-later
 
@@ -94,7 +94,7 @@ Supported attributes:
 
 ## Changelog
 
-### 1.11.4
+### 1.11.5
 - Changed PDF card titles to a single-line ellipsis layout
 - Added hover tooltips with the full PDF title
 - Improved card stretching so the download button stays aligned at the bottom without fixed caption heights

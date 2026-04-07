@@ -4,7 +4,7 @@ Tags: pdf, thumbnail, media, shortcode, gutenberg
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.11.4
+Stable tag: 1.11.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -62,7 +62,7 @@ Yes. Use `link_to="attachment"`, `link_to="custom"` with `url="..."`, or `link_t
 
 == Changelog ==
 
-= 1.11.4 =
+= 1.11.5 =
 * Changed PDF card titles to a single-line ellipsis layout.
 * Added hover tooltips with the full PDF title.
 * Improved card stretching so the download button stays aligned at the bottom without fixed caption heights.

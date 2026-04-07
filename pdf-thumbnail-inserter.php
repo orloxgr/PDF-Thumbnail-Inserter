@@ -1177,18 +1177,19 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             $target_url = $link_data['target_url'];
             $link_to = $link_data['link_to'];
             $button_should_render = $context['show_button'] && 'none' !== $link_to && ! empty( $target_url );
+            $button_title = trim( $context['button_text'] . ' ' . $preview_data['title'] );
 
             ob_start();
             ?>
             <div class="pti-card-wrap">
                 <figure class="pti-card">
                     <?php if ( ! empty( $target_url ) ) : ?>
-                        <a class="pti-card__thumb-link" href="<?php echo esc_url( $target_url ); ?>"<?php echo $context['target_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $context['rel_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-label="<?php echo esc_attr( $preview_data['title'] ); ?>">
-                            <img class="pti-card__thumb" src="<?php echo esc_url( $preview_data['thumbnail_url'] ); ?>" alt="<?php echo esc_attr( $preview_data['title'] ); ?>">
+                        <a class="pti-card__thumb-link" href="<?php echo esc_url( $target_url ); ?>"<?php echo $context['target_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $context['rel_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-label="<?php echo esc_attr( $preview_data['title'] ); ?>" title="<?php echo esc_attr( $preview_data['title'] ); ?>">
+                            <img class="pti-card__thumb" src="<?php echo esc_url( $preview_data['thumbnail_url'] ); ?>" alt="<?php echo esc_attr( $preview_data['title'] ); ?>" title="<?php echo esc_attr( $preview_data['title'] ); ?>">
                         </a>
                     <?php else : ?>
-                        <span class="pti-card__thumb-link pti-card__thumb-link--static" aria-hidden="true">
-                            <img class="pti-card__thumb" src="<?php echo esc_url( $preview_data['thumbnail_url'] ); ?>" alt="<?php echo esc_attr( $preview_data['title'] ); ?>">
+                        <span class="pti-card__thumb-link pti-card__thumb-link--static" aria-hidden="true" title="<?php echo esc_attr( $preview_data['title'] ); ?>">
+                            <img class="pti-card__thumb" src="<?php echo esc_url( $preview_data['thumbnail_url'] ); ?>" alt="<?php echo esc_attr( $preview_data['title'] ); ?>" title="<?php echo esc_attr( $preview_data['title'] ); ?>">
                         </span>
                     <?php endif; ?>
 
@@ -1203,7 +1204,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                     <?php endif; ?>
 
                     <?php if ( $button_should_render ) : ?>
-                        <a class="pti-card__button" href="<?php echo esc_url( $target_url ); ?>"<?php echo $context['target_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $context['rel_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $context['button_text'] ); ?></a>
+                        <a class="pti-card__button" href="<?php echo esc_url( $target_url ); ?>"<?php echo $context['target_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $context['rel_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> title="<?php echo esc_attr( $button_title ); ?>"><?php echo esc_html( $context['button_text'] ); ?></a>
                     <?php endif; ?>
                 </figure>
             </div>
