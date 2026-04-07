@@ -16,12 +16,14 @@
     display: grid;
     gap: 24px;
     grid-template-columns: repeat(var(--pti-columns-desktop), minmax(0, 1fr));
-    align-items: start;
+    align-items: stretch;
 }
 
 .pti-card-wrap {
     min-width: 0;
     margin: 0;
+    display: flex;
+    height: 100%;
 }
 
 .pti-card {
@@ -32,6 +34,7 @@
     gap: 12px;
     margin: 0 auto;
     text-align: center;
+    height: 100%;
 }
 
 .pti-card__thumb-link {
@@ -65,16 +68,21 @@
 
 .pti-card__caption {
     margin: 0;
+    min-width: 0;
 }
 
 .pti-card__title,
 .pti-card__title-link {
+    display: block;
+    max-width: 100%;
     color: var(--pti-title-color);
     font-size: var(--pti-title-size);
     line-height: 1.45;
     font-weight: 600;
     text-decoration: none;
-    word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .pti-card__title-link:hover,
@@ -84,6 +92,7 @@
 
 .pti-card__button {
     display: inline-flex;
+    margin-top: auto;
     align-items: center;
     justify-content: center;
     min-height: 38px;

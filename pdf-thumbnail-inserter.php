@@ -3,7 +3,7 @@
  * Plugin Name:       PDF Thumbnail Inserter
  * Plugin URI:        https://github.com/orloxgr/PDF-Thumbnail-Inserter
  * Description:       Generates and reuses PDF thumbnails, provides a shortcode and Gutenberg block, and adds editor helpers for inserting PDF thumbnail cards.
- * Version:           1.11.3
+ * Version:           1.11.4
  * Author:            Byron Iniotakis
  * Author URI:        https://github.com/orloxgr
  * License:           GPL-3.0-or-later
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
     final class PDF_Thumbnail_Inserter {
-        const VERSION = '1.11.3';
+        const VERSION = '1.11.4';
         const TRANSIENT_REGEN_REPORT = 'pdf_thumbnail_regen_report';
         const OPTION_NAME = 'pdf_thumbnail_defaults';
         const NONCE_ACTION = 'pdf_thumbnail_nonce';
@@ -1193,11 +1193,11 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                     <?php endif; ?>
 
                     <?php if ( $context['show_title'] ) : ?>
-                        <figcaption class="pti-card__caption">
+                        <figcaption class="pti-card__caption" title="<?php echo esc_attr( $preview_data['title'] ); ?>">
                             <?php if ( ! empty( $target_url ) ) : ?>
-                                <a class="pti-card__title pti-card__title-link" href="<?php echo esc_url( $target_url ); ?>"<?php echo $context['target_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $context['rel_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $preview_data['title'] ); ?></a>
+                                <a class="pti-card__title pti-card__title-link" href="<?php echo esc_url( $target_url ); ?>"<?php echo $context['target_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $context['rel_attr']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> title="<?php echo esc_attr( $preview_data['title'] ); ?>"><?php echo esc_html( $preview_data['title'] ); ?></a>
                             <?php else : ?>
-                                <span class="pti-card__title"><?php echo esc_html( $preview_data['title'] ); ?></span>
+                                <span class="pti-card__title" title="<?php echo esc_attr( $preview_data['title'] ); ?>"><?php echo esc_html( $preview_data['title'] ); ?></span>
                             <?php endif; ?>
                         </figcaption>
                     <?php endif; ?>
