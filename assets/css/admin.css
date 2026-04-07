@@ -1,1 +1,7 @@
+.pdf-thumbnail-settings-wrap .form-table td .wp-picker-container {
+    vertical-align: middle;
+}
 
+.pdf-thumbnail-settings-wrap hr {
+    margin: 2rem 0;
+}
