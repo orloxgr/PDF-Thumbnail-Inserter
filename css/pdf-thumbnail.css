@@ -62,3 +62,10 @@
     transform: perspective(800px) rotateY(0deg) scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+.pdf-download-button {
+    background-color: var(--btn-bg);
+    transition: background-color 0.2s ease-in-out;
+}
+.pdf-download-button:hover {
+    background-color: var(--btn-hover);
+}
