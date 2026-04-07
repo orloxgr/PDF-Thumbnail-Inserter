@@ -1,0 +1,118 @@
+.pti-grid-wrap {
+    --pti-thumbnail-width: 212px;
+    --pti-title-color: #333333;
+    --pti-title-size: 14px;
+    --pti-button-bg: #0073aa;
+    --pti-button-bg-hover: #005177;
+    --pti-button-color: #ffffff;
+    --pti-button-size: 12px;
+    --pti-columns-desktop: 3;
+    --pti-columns-laptop: 2;
+    --pti-columns-mobile: 1;
+    margin: 20px 0;
+}
+
+.pti-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(var(--pti-columns-desktop), minmax(0, 1fr));
+    align-items: start;
+}
+
+.pti-card-wrap {
+    min-width: 0;
+    margin: 0;
+}
+
+.pti-card {
+    width: 100%;
+    max-width: min(100%, var(--pti-thumbnail-width));
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.pti-card__thumb-link {
+    position: relative;
+    display: block;
+    text-decoration: none;
+}
+
+.pti-card__thumb-link--static {
+    cursor: default;
+}
+
+.pti-card__thumb {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: #f6f7f7;
+}
+
+.pti-card__thumb-link:hover .pti-card__thumb,
+.pti-card__thumb-link:focus .pti-card__thumb {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
+}
+
+.pti-card__caption {
+    margin: 0;
+}
+
+.pti-card__title,
+.pti-card__title-link {
+    color: var(--pti-title-color);
+    font-size: var(--pti-title-size);
+    line-height: 1.45;
+    font-weight: 600;
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.pti-card__title-link:hover,
+.pti-card__title-link:focus {
+    text-decoration: underline;
+}
+
+.pti-card__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0.65rem 1rem;
+    border-radius: 6px;
+    background: var(--pti-button-bg);
+    color: var(--pti-button-color);
+    font-size: var(--pti-button-size);
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.pti-card__button:hover,
+.pti-card__button:focus {
+    background: var(--pti-button-bg-hover);
+    color: var(--pti-button-color);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 1180px) {
+    .pti-grid {
+        grid-template-columns: repeat(var(--pti-columns-laptop), minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .pti-grid {
+        grid-template-columns: repeat(var(--pti-columns-mobile), minmax(0, 1fr));
+    }
+}
