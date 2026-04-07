@@ -1,0 +1,81 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "pdf-thumbnail-inserter/pdf-thumbnail",
+  "title": "PDF Thumbnail",
+  "category": "media",
+  "icon": "media-document",
+  "description": "Display one or more PDF thumbnail cards in a responsive grid.",
+  "textdomain": "pdf-thumbnail-inserter",
+  "attributes": {
+    "id": {
+      "type": "number",
+      "default": 0
+    },
+    "ids": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "number"
+      }
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "thumbnail": {
+      "type": "string",
+      "default": ""
+    },
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "link_to": {
+      "type": "string",
+      "default": "file"
+    },
+    "show_title": {
+      "type": "string",
+      "default": "yes"
+    },
+    "show_button": {
+      "type": "string",
+      "default": "yes"
+    },
+    "button_text": {
+      "type": "string",
+      "default": ""
+    },
+    "new_tab": {
+      "type": "string",
+      "default": "yes"
+    },
+    "size": {
+      "type": "string",
+      "default": "medium"
+    },
+    "columns_desktop": {
+      "type": "number",
+      "default": 3
+    },
+    "columns_laptop": {
+      "type": "number",
+      "default": 2
+    },
+    "columns_mobile": {
+      "type": "number",
+      "default": 1
+    },
+    "class": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "pdf-thumbnail-block-editor",
+  "style": "pdf-thumbnail-frontend",
+  "editorStyle": "pdf-thumbnail-block-editor-style"
+}

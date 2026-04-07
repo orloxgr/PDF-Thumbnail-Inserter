@@ -3,7 +3,7 @@
  * Plugin Name:       PDF Thumbnail Inserter
  * Plugin URI:        https://github.com/orloxgr/PDF-Thumbnail-Inserter
  * Description:       Generates and reuses PDF thumbnails, provides a shortcode and Gutenberg block, and adds editor helpers for inserting PDF thumbnail cards.
- * Version:           1.11.2
+ * Version:           1.11.3
  * Author:            Byron Iniotakis
  * Author URI:        https://github.com/orloxgr
  * License:           GPL-3.0-or-later
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
     final class PDF_Thumbnail_Inserter {
-        const VERSION = '1.11.2';
+        const VERSION = '1.11.3';
         const TRANSIENT_REGEN_REPORT = 'pdf_thumbnail_regen_report';
         const OPTION_NAME = 'pdf_thumbnail_defaults';
         const NONCE_ACTION = 'pdf_thumbnail_nonce';
@@ -1031,7 +1031,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             }
 
             if ( ! $thumbnail_url ) {
-                $thumbnail_url = PDF_THUMBNAIL_INSERTER_URL . 'assets/images/pdf-placeholder.svg';
+                $thumbnail_url = PDF_THUMBNAIL_INSERTER_URL . 'assets/images/pdf-placeholder.png';
             }
 
             return array(

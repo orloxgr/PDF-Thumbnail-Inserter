@@ -1,0 +1,33 @@
+.pti-block-placeholder {
+    padding: 16px;
+    border: 1px dashed #bfc3c8;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+.pti-block-placeholder p {
+    margin-top: 0;
+}
+
+
+.pti-block-editor-wrap {
+    position: relative;
+}
+
+.pti-block-editor-preview {
+    position: relative;
+}
+
+.pti-block-editor-preview,
+.pti-block-editor-preview * {
+    pointer-events: none;
+}
+
+.pti-block-editor-preview .pti-grid-wrap {
+    margin-bottom: 0;
+}
+
+.pti-block-editor-wrap.is-selected .pti-block-editor-preview,
+.pti-block-editor-wrap.is-selected .pti-block-placeholder {
+    outline: 1px solid transparent;
+}
