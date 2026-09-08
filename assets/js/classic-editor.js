@@ -55,8 +55,8 @@ jQuery(function ($) {
             }
 
             const shortcode = ids.length === 1
-                ? '[pdf_thumbnail id="' + ids[0] + '" columns_desktop="' + desktop + '" columns_laptop="' + laptop + '" columns_mobile="' + mobile + '"]'
-                : '[pdf_thumbnail ids="' + ids.join(',') + '" columns_desktop="' + desktop + '" columns_laptop="' + laptop + '" columns_mobile="' + mobile + '"]';
+                ? '[pdf_thumbnail_inserter id="' + ids[0] + '" columns_desktop="' + desktop + '" columns_laptop="' + laptop + '" columns_mobile="' + mobile + '"]'
+                : '[pdf_thumbnail_inserter ids="' + ids.join(',') + '" columns_desktop="' + desktop + '" columns_laptop="' + laptop + '" columns_mobile="' + mobile + '"]';
 
             wp.media.editor.insert(shortcode);
         });

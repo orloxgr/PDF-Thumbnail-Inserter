@@ -1,7 +1,7 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.5  
-**Author:** Byron Iniotakis  
+**Version:** 1.11.41
+**Author:** Byron Iniotakis
 **License:** GPL-3.0-or-later
 
 ## Description
@@ -40,23 +40,23 @@ It now supports rendering one PDF or multiple PDFs in a responsive grid with sep
 ### Basic usage
 
 ```text
-[pdf_thumbnail id="123"]
+[pdf_thumbnail_inserter id="123"]
 ```
 
 ### Multiple PDFs in a grid
 
 ```text
-[pdf_thumbnail ids="123,124,125,126" columns_desktop="4" columns_laptop="2" columns_mobile="1"]
+[pdf_thumbnail_inserter ids="123,124,125,126" columns_desktop="4" columns_laptop="2" columns_mobile="1"]
 ```
 
 ### Common attributes
 
 ```text
-[pdf_thumbnail id="123" link_to="file" show_title="yes" show_button="yes"]
-[pdf_thumbnail id="123" link_to="attachment" new_tab="no"]
-[pdf_thumbnail id="123" link_to="custom" url="https://example.com/custom-page/"]
-[pdf_thumbnail id="123" link_to="none" show_button="no"]
-[pdf_thumbnail ids="123,124,125" columns_desktop="3" columns_laptop="2" columns_mobile="1"]
+[pdf_thumbnail_inserter id="123" link_to="file" show_title="yes" show_button="yes"]
+[pdf_thumbnail_inserter id="123" link_to="attachment" new_tab="no"]
+[pdf_thumbnail_inserter id="123" link_to="custom" url="https://example.com/custom-page/"]
+[pdf_thumbnail_inserter id="123" link_to="none" show_button="no"]
+[pdf_thumbnail_inserter ids="123,124,125" columns_desktop="3" columns_laptop="2" columns_mobile="1"]
 ```
 
 Supported attributes:
@@ -91,8 +91,137 @@ Supported attributes:
 - The maintenance button is disabled automatically when the server cannot generate PDF previews. If support is installed later, refresh the settings page and the button becomes available again.
 - Generated preview images are saved as child image attachments of the original PDF.
 - `thumbnail`, `title`, and `url` overrides are intended for single-PDF usage. When multiple PDFs are rendered, the plugin ignores single-item overrides that would otherwise apply the same custom data to every card.
+- `[pdf_thumbnail]` remains available as a legacy alias for existing content; new inserts use `[pdf_thumbnail_inserter]`.
 
 ## Changelog
+
+### 1.11.41
+- Renames plugin-created settings, action, nonce, and transient identifiers to the full `pdf_thumbnail_inserter` prefix while migrating existing saved settings.
+- Adds `[pdf_thumbnail_inserter]` as the canonical shortcode and keeps `[pdf_thumbnail]` as a legacy alias for existing content.
+- Routes the bundled PDF.js viewer through a WordPress-rendered endpoint, restricts it to local uploads PDFs, and prints viewer assets through registered WordPress style/script handles.
+
+### 1.11.40
+- Adds a narrowly scoped loose title resolver for PDF Thumbnail Inserter blocks saved only with `id`/`ids` and `title`, so punctuation or filename/title differences do not make the block disappear.
+
+### 1.11.39
+- Matches PDF canvas archive previews to the WGL listing image frame ratio, preventing portrait PDF pages from making `/nea/` cards excessively tall.
+
+### 1.11.38
+- Enqueues the PDF.js canvas thumbnail renderer early on `/nea/` and category archives, so previews inserted by the WGL output-buffer pass do not stay stuck on “Loading PDF preview...”.
+
+### 1.11.37
+- Adds a PDF.js canvas thumbnail fallback for `/nea/` and category featured media when a PDF preview block exists but no generated JPG preview image is available.
+- Keeps existing generated image previews as the first choice and avoids iframe replacement in archive cards.
+
+### 1.11.36
+- Makes the PDF Thumbnail Inserter dynamic block render from a resolved PDF URL when saved `id`/`ids` cannot produce a usable attachment card.
+
+### 1.11.35
+- Restores `/nea/` and category featured-media fallbacks to image previews only, avoiding PDF.js iframe substitution in archive cards.
+- Keeps the PDF Thumbnail Inserter block ID/parent/title resolution fixes separate from archive rendering.
+
+### 1.11.34
+- Resolves PDF Thumbnail Inserter blocks whose saved `id` points at a PDF preview child image by following the attachment parent back to the real PDF.
+- Adds a title/filename fallback for PDF Thumbnail Inserter blocks that only expose `id`, `ids`, and `title` attributes.
+
+### 1.11.33
+- Accepts PDF Thumbnail Inserter block attachment IDs as PDFs when the attachment URL ends in `.pdf`, even if the stored MIME metadata is missing or wrong.
+- Reuses standalone PDF preview lookup for those attachment-ID cards before falling back to the placeholder image.
+
+### 1.11.32
+- Adds a PDF.js iframe fallback for list/category featured media when a Gutenberg PDF preview exists but WordPress has no generated `-pdf.jpg` preview image for that file.
+
+### 1.11.31
+- Distinguishes Gutenberg File preview PDFs (`displayPreview` / embedded PDF objects) from normal PDF cards/links when resolving list-page fallback images, so preview blocks are preferred without changing card rendering.
+
+### 1.11.30
+- Adds a narrowly scoped frontend output pass for WGL Blog listing cards on `/nea/` and category archives, inserting the resolved first-PDF preview image when the theme emits `format-no_featured` markup and never calls the normal thumbnail hooks.
+
+### 1.11.29
+- Fixes first-PDF detection for Gutenberg File blocks whose PDF URLs contain Greek/non-ASCII filenames by extracting URL paths without relying only on `wp_parse_url()`.
+- Checks decoded and encoded upload-relative filename variants when mapping a local PDF URL back to an attachment.
+
+### 1.11.28
+- Restores the PDF attachment ID as a valid fallback thumbnail ID so WordPress and Elementor can use native PDF preview metadata when available.
+- Applies the featured-image fallback to `/nea/` Loop Grid requests as well as category archives, while still leaving single posts untouched.
+- Registers the existing Elementor dynamic tag hook so templates using the dynamic tag can resolve the fallback.
+
+### 1.11.27
+- Makes `has_post_thumbnail()` return true in category listings when the post has no real featured image but does have a resolvable first-PDF preview, so themes that skip thumbnail markup for `format-no_featured` posts still render the fallback image.
+
+### 1.11.26
+- Adds a dedicated first-PDF resolver that prefers the real PDF URL in post content over stale imported attachment IDs.
+- Keeps the Elementor widget dynamic and tied to the current Loop Grid post ID, rendering only a real featured image or one generated/static PDF preview image.
+- Restricts category archive handling to featured-image fallback plus attachment cleanup; previews are no longer injected into excerpts or content.
+- Skips frontend filters in admin, REST, WP-CLI, AJAX, and Elementor editor/preview contexts.
+
+### 1.11.25
+- Separates the three list-rendering paths: Elementor `/nea/`, category featured media, and category excerpt/content cleanup.
+- Resolves the first PDF from Gutenberg File blocks, raw PDF URLs, `[pdf_thumbnail_inserter]`/`[pdf_thumbnail]` shortcodes, and PDF Thumbnail block `id`/`ids` attributes.
+- Removes PDF/DOC attachment labels from automatically generated excerpts while preserving real article text.
+- Ensures category archives render PDF fallback visuals through the featured-image slot only.
+- Leaves single-post attachment rendering unchanged.
+
+### 1.11.24
+- Isolated the `/nea/` Elementor Loop Grid fallback inside the dedicated widget.
+- Restored category-only featured-image fallback using the first PDF preview.
+- Hid file blocks and PDF Thumbnail shortcodes only on category archives so attachment lists are not duplicated.
+- Added first-page PDF.js fallback in the Elementor widget when no static preview image can be generated.
+
+### 1.11.23
+- Rebuilds the Elementor fallback from the stable 1.11.20 code path without global featured-image filters or archive block suppression.
+- Resolves the current Loop Grid post at render time and renders the widget once per item, avoiding cached image data from the containing page or template.
+- Uses only the first PDF found in the post content, including imported Gutenberg/raw HTML content.
+- Reuses or generates the first PDF preview when the local PDF exists, while leaving category/archive post content unchanged.
+
+### 1.11.20
+- The Elementor fallback widget now injects its image directly at render time instead of relying on a dynamic-tag default, so PDF previews work inside Loop Grid templates and Elementor preview contexts.
+- Adds a dedicated Elementor widget named `Featured Image or First PDF Preview`, which uses the real featured image first and the first PDF preview only as fallback.
+- Keeps existing Elementor widgets unchanged until the new tag is selected explicitly.
+- Removes automatic WordPress featured-image filtering, so the plugin no longer changes normal featured-image output globally.
+
+### 1.11.17
+- Fixed Elementor dynamic-tag initialization so the PDF featured-image fallback no longer causes a fatal error in Loop Grid rendering.
+
+### 1.11.16
+
+- Fixes the Elementor Pro featured-image fallback fatal error by matching the public visibility of the parent dynamic-tag method.
+- No fallback logic or other plugin behavior was changed.
+
+### 1.11.15
+
+- Adds direct compatibility with Elementor Pro’s Post Featured Image dynamic tag in Loop Grid templates.
+- Uses the first existing PDF preview image by URL when imported content has no valid PDF attachment record.
+- Keeps real featured images as the first priority and does not write `_thumbnail_id` or any other post data.
+
+### 1.11.14
+
+- Uses the Gutenberg File block `href` as the authoritative file URL when its stored attachment ID points to a different file.
+- Resolves the correct attachment from the PDF URL when possible, so legacy posts with incorrect block IDs still use PDF.js previews and generated thumbnails.
+- Adds an opt-in frontend fallback that uses the first PDF preview as the featured image in post lists when no real featured image exists.
+- Existing featured images always take priority, and no `_thumbnail_id` value is written to the database.
+
+### 1.11.13
+
+- Detects Gutenberg PDF previews from both the `displayPreview` block attribute and the rendered `wp-block-file__embed` object.
+- Keeps existing PDF previews as previews in archive/category rendering instead of converting them to cards.
+
+### 1.11.12
+
+- Replaced direct browser PDF iframe loading with a local PDF.js 6.1.200 viewer.
+- The PDF.js iframe displays the PDF pages without the browser fallback screen or duplicate open/download controls.
+- Kept the existing opt-in setting, maximum preview height, WordPress file title, and download button behavior unchanged.
+
+### 1.11.9
+
+- Added an opt-in setting that replaces existing WordPress PDF file-block previews with iframes.
+- Added a configurable maximum PDF preview height, defaulting to 600px.
+
+### 1.11.8
+
+- Restored support for legacy URL-based shortcodes without attachment IDs.
+- Uses the bundled placeholder when `thumbnail` is missing.
+- Builds the title from the PDF filename when `title` is missing.
 
 ### 1.11.5
 - Changed PDF card titles to a single-line ellipsis layout
