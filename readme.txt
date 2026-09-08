@@ -4,7 +4,7 @@ Tags: pdf, thumbnail, media, shortcode, gutenberg
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.11.42
+Stable tag: 1.11.43
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ Generate and reuse PDF thumbnails, then insert one or many of them with a shortc
 
 PDF Thumbnail Inserter generates and reuses thumbnail previews for PDF attachments.
 
-If WordPress already provides a preview image for a PDF, the plugin reuses it. If no preview exists, the plugin attempts to generate one from the first page of the PDF using Imagick. The preview can then be displayed through a shortcode, a Gutenberg block, or a Classic Editor insert button.
+If WordPress already provides a preview image for a PDF, the plugin reuses it. If no preview exists, the plugin attempts to generate one from the first page of the PDF using Imagick. Administrators can also generate missing previews in the browser with the bundled PDF.js runtime when the server cannot render PDFs. The preview can then be displayed through a shortcode, a Gutenberg block, or a Classic Editor insert button.
 
 The plugin also supports rendering multiple PDFs in a responsive grid with separate column counts for desktop, laptop/tablet, and mobile.
 
@@ -29,7 +29,7 @@ Features:
 * Link modes: file, attachment page, custom URL, or no link.
 * Copyable shortcode field in Media Library attachment details.
 * Settings page with visual color controls.
-* Maintenance tool for generating previews for older PDFs when the server supports PDF preview generation.
+* Maintenance tool for generating previews for older PDFs through the server or through the browser with bundled PDF.js.
 
 == Installation ==
 
@@ -42,7 +42,7 @@ Features:
 
 = Does this require Imagick? =
 
-Only when WordPress does not already provide a PDF preview. If the server cannot generate PDF previews, the plugin disables the maintenance action and falls back to the placeholder image until support is installed. Refresh the settings page after enabling Imagick/ImageMagick/Ghostscript and the maintenance action will become available automatically.
+Only for automatic server-side preview generation when WordPress does not already provide a PDF preview. If the server cannot generate PDF previews, administrators can still use the browser PDF.js maintenance action from the settings page to create reusable image previews.
 
 = How do I insert a PDF card manually? =
 
@@ -63,6 +63,10 @@ The older [pdf_thumbnail] shortcode remains available as a legacy alias for exis
 Yes. Use `link_to="attachment"`, `link_to="custom"` with `url="..."`, or `link_to="none"`.
 
 == Changelog ==
+
+= 1.11.43 =
+* Adds an admin-only browser PDF.js maintenance fallback that renders missing PDF previews in the browser and saves them as reusable WordPress image attachments.
+* Keeps the existing WordPress/Imagick generation path unchanged while allowing manual preview generation when server-side PDF rendering is unavailable.
 
 = 1.11.42 =
 * Updates the bundled PDF.js runtime from 6.1.200 to 6.3.289, the current npm latest release at build time, addressing the high-severity PDF.js advisory fixed in 6.2.108.

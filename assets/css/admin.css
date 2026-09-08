@@ -5,3 +5,28 @@
 .pdf-thumbnail-settings-wrap hr {
     margin: 2rem 0;
 }
+
+.pti-browser-maintenance {
+    margin-top: 1.25rem;
+    max-width: 760px;
+}
+
+.pti-browser-preview-progress {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 0.75rem;
+}
+
+.pti-browser-preview-status {
+    display: block;
+    margin-top: 0.75rem;
+}
+
+.pti-browser-preview-log {
+    max-width: 760px;
+    margin-top: 0.75rem;
+    color: #b32d2e;
+    list-style: disc;
+    padding-left: 1.5rem;
+}

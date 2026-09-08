@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.42
+**Version:** 1.11.43
 **Author:** Byron Iniotakis
 **License:** GPL-3.0-or-later
 
@@ -8,7 +8,7 @@
 
 PDF Thumbnail Inserter generates and reuses thumbnail previews for PDF attachments and lets you insert them with a shortcode, a Gutenberg block, or a Classic Editor media button.
 
-The plugin first reuses any preview WordPress already provides. If no preview exists, it attempts to generate one from the first page of the PDF using Imagick. Generated previews are stored as image attachments so they can be reused later.
+The plugin first reuses any preview WordPress already provides. If no preview exists, it attempts to generate one from the first page of the PDF using Imagick. Administrators can also generate missing previews in the browser with the bundled PDF.js runtime when the server cannot render PDFs. Generated previews are stored as image attachments so they can be reused later.
 
 It now supports rendering one PDF or multiple PDFs in a responsive grid with separate column controls for desktop, laptop/tablet, and mobile.
 
@@ -27,13 +27,14 @@ It now supports rendering one PDF or multiple PDFs in a responsive grid with sep
   - No link
 - Media Library attachment field with a copyable shortcode.
 - Settings page with color picker controls.
-- Maintenance tool to generate missing previews for existing PDFs when the server supports PDF preview generation.
+- Maintenance tool to generate missing previews for existing PDFs through the server or through the browser with bundled PDF.js.
 
 ## Requirements
 
 - WordPress 6.0+
 - PHP 7.4+
-- Imagick for plugin-generated previews when WordPress does not already provide one
+- Imagick for automatic server-side previews when WordPress does not already provide one
+- A modern browser for the browser-based PDF.js maintenance fallback
 
 ## Shortcode
 
@@ -87,13 +88,17 @@ Supported attributes:
 
 ## Notes
 
-- If Imagick or WordPress PDF preview support is unavailable, the plugin still works, but PDFs without an existing preview will fall back to the placeholder image.
-- The maintenance button is disabled automatically when the server cannot generate PDF previews. If support is installed later, refresh the settings page and the button becomes available again.
+- If Imagick or WordPress PDF preview support is unavailable, the plugin still works; administrators can generate missing previews from the settings page with the browser-based PDF.js fallback.
+- The server maintenance button is disabled automatically when the server cannot generate PDF previews, but the browser PDF.js maintenance button remains available.
 - Generated preview images are saved as child image attachments of the original PDF.
 - `thumbnail`, `title`, and `url` overrides are intended for single-PDF usage. When multiple PDFs are rendered, the plugin ignores single-item overrides that would otherwise apply the same custom data to every card.
 - `[pdf_thumbnail]` remains available as a legacy alias for existing content; new inserts use `[pdf_thumbnail_inserter]`.
 
 ## Changelog
+
+### 1.11.43
+- Adds an admin-only browser PDF.js maintenance fallback that renders missing PDF previews in the browser and saves them as reusable WordPress image attachments.
+- Keeps the existing WordPress/Imagick generation path unchanged while allowing manual preview generation when server-side PDF rendering is unavailable.
 
 ### 1.11.42
 - Updates the bundled PDF.js runtime from 6.1.200 to 6.3.289, the current npm `latest` release at build time, addressing the high-severity PDF.js advisory fixed in 6.2.108.
