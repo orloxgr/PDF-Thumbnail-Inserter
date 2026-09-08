@@ -4,7 +4,7 @@ Tags: pdf, thumbnail, media, shortcode, gutenberg
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.11.41
+Stable tag: 1.11.42
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -63,6 +63,10 @@ The older [pdf_thumbnail] shortcode remains available as a legacy alias for exis
 Yes. Use `link_to="attachment"`, `link_to="custom"` with `url="..."`, or `link_to="none"`.
 
 == Changelog ==
+
+= 1.11.42 =
+* Updates the bundled PDF.js runtime from 6.1.200 to 6.3.289, the current npm latest release at build time, addressing the high-severity PDF.js advisory fixed in 6.2.108.
+* Adds the bundled PDF.js image decoder resources to keep the 6.3.x runtime fully local.
 
 = 1.11.41 =
 * Renames plugin-created settings, action, nonce, and transient identifiers to the full pdf_thumbnail_inserter prefix while migrating existing saved settings.

@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.41
+**Version:** 1.11.42
 **Author:** Byron Iniotakis
 **License:** GPL-3.0-or-later
 
@@ -94,6 +94,10 @@ Supported attributes:
 - `[pdf_thumbnail]` remains available as a legacy alias for existing content; new inserts use `[pdf_thumbnail_inserter]`.
 
 ## Changelog
+
+### 1.11.42
+- Updates the bundled PDF.js runtime from 6.1.200 to 6.3.289, the current npm `latest` release at build time, addressing the high-severity PDF.js advisory fixed in 6.2.108.
+- Adds the bundled PDF.js image decoder resources to keep the 6.3.x runtime fully local.
 
 ### 1.11.41
 - Renames plugin-created settings, action, nonce, and transient identifiers to the full `pdf_thumbnail_inserter` prefix while migrating existing saved settings.

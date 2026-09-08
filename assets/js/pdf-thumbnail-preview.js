@@ -30,6 +30,7 @@ async function renderPreview(element) {
             cMapUrl: assetUrl('../pdfjs/cmaps/'),
             cMapPacked: true,
             iccUrl: assetUrl('../pdfjs/iccs/'),
+            imageResourcesPath: assetUrl('../pdfjs/image_decoders/'),
             standardFontDataUrl: assetUrl('../pdfjs/standard_fonts/'),
             wasmUrl: assetUrl('../pdfjs/wasm/'),
             isEvalSupported: false,
