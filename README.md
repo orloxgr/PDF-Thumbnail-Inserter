@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.43
+**Version:** 1.11.44
 **Author:** Byron Iniotakis
 **License:** GPL-3.0-or-later
 
@@ -95,6 +95,9 @@ Supported attributes:
 - `[pdf_thumbnail]` remains available as a legacy alias for existing content; new inserts use `[pdf_thumbnail_inserter]`.
 
 ## Changelog
+
+### 1.11.44
+- Fixes browser preview generation on PDF.js builds where the loaded PDF document exposes `cleanup()` but not `destroy()`.
 
 ### 1.11.43
 - Adds an admin-only browser PDF.js maintenance fallback that renders missing PDF previews in the browser and saves them as reusable WordPress image attachments.

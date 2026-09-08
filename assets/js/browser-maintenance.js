@@ -96,9 +96,7 @@ async function renderPdfToBlob(fileUrl) {
         background: '#ffffff',
     }).promise;
 
-    pdf.destroy();
-
-    return new Promise((resolve, reject) => {
+    const blob = await new Promise((resolve, reject) => {
         canvas.toBlob(
             (blob) => {
                 if (blob) {
@@ -112,6 +110,18 @@ async function renderPdfToBlob(fileUrl) {
             0.86
         );
     });
+
+    try {
+        if (typeof pdf.destroy === 'function') {
+            await pdf.destroy();
+        } else if (typeof pdf.cleanup === 'function') {
+            pdf.cleanup();
+        }
+    } catch (error) {
+        // Preview rendering has already succeeded; cleanup support differs across PDF.js builds.
+    }
+
+    return blob;
 }
 
 function appendLog(logElement, message) {

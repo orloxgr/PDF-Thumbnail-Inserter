@@ -4,7 +4,7 @@ Tags: pdf, thumbnail, media, shortcode, gutenberg
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.11.43
+Stable tag: 1.11.44
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -63,6 +63,9 @@ The older [pdf_thumbnail] shortcode remains available as a legacy alias for exis
 Yes. Use `link_to="attachment"`, `link_to="custom"` with `url="..."`, or `link_to="none"`.
 
 == Changelog ==
+
+= 1.11.44 =
+* Fixes browser preview generation on PDF.js builds where the loaded PDF document exposes cleanup() but not destroy().
 
 = 1.11.43 =
 * Adds an admin-only browser PDF.js maintenance fallback that renders missing PDF previews in the browser and saves them as reusable WordPress image attachments.
