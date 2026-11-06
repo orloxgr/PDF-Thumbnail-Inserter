@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.44
+**Version:** 1.11.47
 **Author:** Byron Iniotakis
 **License:** GPL-3.0-or-later
 
@@ -10,14 +10,16 @@ PDF Thumbnail Inserter generates and reuses thumbnail previews for PDF attachmen
 
 The plugin first reuses any preview WordPress already provides. If no preview exists, it attempts to generate one from the first page of the PDF using Imagick. Administrators can also generate missing previews in the browser with the bundled PDF.js runtime when the server cannot render PDFs. Generated previews are stored as image attachments so they can be reused later.
 
-It now supports rendering one PDF or multiple PDFs in a responsive grid with separate column controls for desktop, laptop/tablet, and mobile.
+It supports rendering one PDF or multiple PDFs in a responsive grid with separate column controls for widescreen, desktop, tablet, and mobile.
 
 ## Features
 
 - Automatically creates missing PDF previews on upload.
 - Reuses existing WordPress PDF previews when available.
 - Shortcode support for single or multiple PDFs.
-- Responsive grid layout with separate desktop, laptop/tablet, and mobile column counts.
+- Responsive grid layout with separate widescreen, desktop, tablet, and mobile column counts.
+- Saved column defaults for new inserts, without column prompts in the Classic Editor.
+- Optional title covers for PDFs without a preview image, using the existing plugin colors.
 - Gutenberg block support with multi-select PDF picker.
 - Classic Editor insert button with multi-select PDF picker.
 - Link modes for the thumbnail card:
@@ -28,6 +30,7 @@ It now supports rendering one PDF or multiple PDFs in a responsive grid with sep
 - Media Library attachment field with a copyable shortcode.
 - Settings page with color picker controls.
 - Maintenance tool to generate missing previews for existing PDFs through the server or through the browser with bundled PDF.js.
+- Optional automatic browser generation immediately after uploading a PDF without a server preview, using the same renderer and save endpoint as manual maintenance.
 
 ## Requirements
 
@@ -47,7 +50,7 @@ It now supports rendering one PDF or multiple PDFs in a responsive grid with sep
 ### Multiple PDFs in a grid
 
 ```text
-[pdf_thumbnail_inserter ids="123,124,125,126" columns_desktop="4" columns_laptop="2" columns_mobile="1"]
+[pdf_thumbnail_inserter ids="123,124,125,126" columns_widescreen="4" columns_desktop="3" columns_laptop="2" columns_mobile="1"]
 ```
 
 ### Common attributes
@@ -81,6 +84,7 @@ Supported attributes:
 - `button_text_color`
 - `button_text_size`
 - `columns_desktop` (`1` to `6`)
+- `columns_widescreen` (`1` to `6`; when omitted, follows `columns_desktop`)
 - `columns_laptop` (`1` to `6`)
 - `columns_mobile` (`1` to `6`)
 - `class`
@@ -88,13 +92,48 @@ Supported attributes:
 
 ## Notes
 
+- Enable **Automatically create missing PDF previews in my browser after upload** in **Settings > PDF Thumbnail Settings** to generate and save a JPEG of the first page after upload. This covers editor media dialogs, Gutenberg REST uploads, and **Media > Add New**. Keep the upload tab open until the progress notice finishes. Existing previews are preserved, failures do not stop later files, and the manual maintenance button remains available for older PDFs. The option is off by default.
+- In **Settings > PDF Thumbnail Settings**, set the widescreen (1600px+), desktop (1181–1599px), tablet (768–1180px), and mobile (up to 767px) columns once. New Classic Editor inserts and new Gutenberg blocks save those values automatically. Existing content keeps its explicit columns, or the original 3/2/1 defaults when omitted.
+- The `columns_laptop` attribute remains the tablet setting for compatibility with existing content.
+- Enable **Fallback cover for PDFs without previews** to show a cover with the PDF title when a PDF exists but has no preview image. This works in PDF cards and listing previews; posts without a PDF are unchanged. A generated, WordPress, or custom preview image always takes priority. The small document label is editable; accent and text reuse the existing button and title colors. Fake covers do not count as real previews, so browser preview generation can still run.
+- Configure **Additional listing pages** with this site's page IDs or slugs. Category archives and the WordPress posts page are included automatically. The initial `nea` value preserves existing installations.
 - If Imagick or WordPress PDF preview support is unavailable, the plugin still works; administrators can generate missing previews from the settings page with the browser-based PDF.js fallback.
 - The server maintenance button is disabled automatically when the server cannot generate PDF previews, but the browser PDF.js maintenance button remains available.
 - Generated preview images are saved as child image attachments of the original PDF.
 - `thumbnail`, `title`, and `url` overrides are intended for single-PDF usage. When multiple PDFs are rendered, the plugin ignores single-item overrides that would otherwise apply the same custom data to every card.
 - `[pdf_thumbnail]` remains available as a legacy alias for existing content; new inserts use `[pdf_thumbnail_inserter]`.
 
+## Development checks
+
+```sh
+php -l pdf-thumbnail-inserter.php
+php tests/preview-regression.php
+node tests/editor-regression.cjs
+node tests/browser-upload-regression.cjs
+```
+
 ## Changelog
+
+### 1.11.47
+- Corrects default-cover eligibility: only PDFs without preview images receive a fake cover. Posts without PDFs are unchanged.
+- Uses the PDF title instead of a category name, with portrait covers for cards and landscape covers for listings.
+- Preserves real/custom image previews and keeps browser generation available while a fake cover is displayed.
+- Clarifies the setting description and encodes PDF URLs and titles correctly.
+
+### 1.11.46
+- Adds an opt-in setting to automatically render and save missing PDF previews in the uploading browser.
+- Supports media-dialog uploads, Gutenberg REST uploads, and the legacy Media > Add New uploader, processing files one at a time without replacing existing previews.
+- Shares the renderer with the existing manual browser maintenance tool and releases workers on success or failure.
+- Shows saved browser previews in Media Library dialog responses and restricts saves to users allowed to upload and edit the PDF.
+
+### 1.11.45
+- Matches WGL listing titles independently of their HTML heading level or element.
+- Renders the first PDF page with bundled PDF.js in shortcode and Gutenberg cards when no generated thumbnail exists, while preserving saved and custom images.
+- Releases browser preview workers after rendering or failure.
+- Keeps the top of the PDF page visible when listing thumbnails crop to a landscape frame.
+- Adds configurable category document covers that reuse the existing button and title colors.
+- Adds configurable listing pages for use across sites.
+- Adds saved widescreen, desktop, tablet, and mobile defaults for new insertions; removes Classic Editor column prompts and preserves existing layouts.
 
 ### 1.11.44
 - Fixes browser preview generation on PDF.js builds where the loaded PDF document exposes `cleanup()` but not `destroy()`.

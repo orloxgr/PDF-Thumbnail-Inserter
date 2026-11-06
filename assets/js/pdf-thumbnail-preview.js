@@ -23,9 +23,10 @@ async function renderPreview(element) {
     }
 
     element.dataset.ptiRendered = '1';
+    let loadingTask;
 
     try {
-        const loadingTask = pdfjsLib.getDocument({
+        loadingTask = pdfjsLib.getDocument({
             url: fileUrl,
             cMapUrl: assetUrl('../pdfjs/cmaps/'),
             cMapPacked: true,
@@ -67,6 +68,12 @@ async function renderPreview(element) {
         if (status) {
             status.textContent = 'PDF preview unavailable';
             status.hidden = false;
+        }
+    } finally {
+        // Release the worker and document data even when loading/rendering fails.
+        // The painted canvas remains usable after the loading task is destroyed.
+        if (loadingTask) {
+            await loadingTask.destroy().catch(() => {});
         }
     }
 }

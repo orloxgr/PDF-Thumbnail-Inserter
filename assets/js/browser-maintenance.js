@@ -1,16 +1,7 @@
-import * as pdfjsLib from '../pdfjs/pdf.min.js';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-    '../pdfjs/pdf.worker.min.js',
-    import.meta.url
-).href;
+import { renderPdfToBlob } from './browser-preview.js';
 
 const config = window.pdfThumbnailBrowserMaintenance || {};
 const labels = config.labels || {};
-
-function assetUrl(relativePath) {
-    return new URL(relativePath, import.meta.url).href;
-}
 
 function label(key, fallback) {
     return labels[key] || fallback;
@@ -64,64 +55,6 @@ async function readJsonResponse(response) {
     } catch (error) {
         throw new Error(label('unknownError', 'Unknown error.'));
     }
-}
-
-async function renderPdfToBlob(fileUrl) {
-    const loadingTask = pdfjsLib.getDocument({
-        url: fileUrl,
-        cMapUrl: assetUrl('../pdfjs/cmaps/'),
-        cMapPacked: true,
-        iccUrl: assetUrl('../pdfjs/iccs/'),
-        imageResourcesPath: assetUrl('../pdfjs/image_decoders/'),
-        standardFontDataUrl: assetUrl('../pdfjs/standard_fonts/'),
-        wasmUrl: assetUrl('../pdfjs/wasm/'),
-        isEvalSupported: false,
-    });
-
-    const pdf = await loadingTask.promise;
-    const page = await pdf.getPage(1);
-    const baseViewport = page.getViewport({ scale: 1 });
-    const targetWidth = 1200;
-    const scale = Math.max(0.1, targetWidth / baseViewport.width);
-    const viewport = page.getViewport({ scale });
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d', { alpha: false });
-
-    canvas.width = Math.max(1, Math.floor(viewport.width));
-    canvas.height = Math.max(1, Math.floor(viewport.height));
-
-    await page.render({
-        canvasContext: context,
-        viewport,
-        background: '#ffffff',
-    }).promise;
-
-    const blob = await new Promise((resolve, reject) => {
-        canvas.toBlob(
-            (blob) => {
-                if (blob) {
-                    resolve(blob);
-                    return;
-                }
-
-                reject(new Error(label('renderError', 'Could not render the PDF in this browser.')));
-            },
-            'image/jpeg',
-            0.86
-        );
-    });
-
-    try {
-        if (typeof pdf.destroy === 'function') {
-            await pdf.destroy();
-        } else if (typeof pdf.cleanup === 'function') {
-            pdf.cleanup();
-        }
-    } catch (error) {
-        // Preview rendering has already succeeded; cleanup support differs across PDF.js builds.
-    }
-
-    return blob;
 }
 
 function appendLog(logElement, message) {

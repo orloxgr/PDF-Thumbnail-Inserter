@@ -4,7 +4,7 @@ Tags: pdf, thumbnail, media, shortcode, gutenberg
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.11.44
+Stable tag: 1.11.47
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -30,6 +30,7 @@ Features:
 * Copyable shortcode field in Media Library attachment details.
 * Settings page with visual color controls.
 * Maintenance tool for generating previews for older PDFs through the server or through the browser with bundled PDF.js.
+* Optional automatic browser generation of missing PDF previews immediately after upload, using the same renderer as manual maintenance.
 
 == Installation ==
 
@@ -63,6 +64,27 @@ The older [pdf_thumbnail] shortcode remains available as a legacy alias for exis
 Yes. Use `link_to="attachment"`, `link_to="custom"` with `url="..."`, or `link_to="none"`.
 
 == Changelog ==
+
+= 1.11.47 =
+* Corrects fake covers to apply only when a PDF exists but its preview image is missing.
+* Displays the PDF title, with portrait card covers and landscape listing covers; posts without PDFs are unchanged.
+* Keeps real/custom previews first and allows browser preview generation while a fake cover is displayed.
+* Clarifies the setting description and correctly encodes titles and PDF URLs.
+
+= 1.11.46 =
+* Adds an opt-in setting to automatically generate and save missing PDF previews in the uploading browser.
+* Supports media dialogs, Gutenberg REST uploads and Media > Add New, preserving existing previews and continuing after individual failures.
+* Reuses the existing manual browser maintenance mechanism and shows saved browser previews in Media Library dialogs.
+* Requires upload and PDF edit permissions, and releases rendering workers after success or failure.
+
+= 1.11.45 =
+* Matches WGL listing titles independently of their HTML heading level or element.
+* Renders the first PDF page with bundled PDF.js in shortcode and Gutenberg cards when no generated thumbnail exists, while preserving saved and custom images.
+* Releases browser preview workers after rendering or failure.
+* Keeps the top of the PDF page visible when listing thumbnails crop to a landscape frame.
+* Adds optional category document covers using the existing button and title colors, with a configurable label.
+* Adds configurable listing page IDs or slugs for different sites.
+* Adds saved widescreen, desktop, tablet and mobile defaults for new inserts, removes Classic Editor column prompts, and preserves old layouts.
 
 = 1.11.44 =
 * Fixes browser preview generation on PDF.js builds where the loaded PDF document exposes cleanup() but not destroy().

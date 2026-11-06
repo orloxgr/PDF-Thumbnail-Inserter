@@ -7,6 +7,7 @@
     --pti-button-color: #ffffff;
     --pti-button-size: 12px;
     --pti-columns-desktop: 3;
+    --pti-columns-widescreen: var(--pti-columns-desktop);
     --pti-columns-laptop: 2;
     --pti-columns-mobile: 1;
     margin: 20px 0;
@@ -66,6 +67,11 @@
     box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
 }
 
+img[src*="pdf_thumbnail_inserter_cover="] {
+    object-fit: contain;
+    background: #f6f7f7;
+}
+
 .pti-card__caption {
     margin: 0;
     min-width: 0;
@@ -114,6 +120,12 @@
     transform: translateY(-1px);
 }
 
+@media (min-width: 1600px) {
+    .pti-grid {
+        grid-template-columns: repeat(var(--pti-columns-widescreen, var(--pti-columns-desktop)), minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 1180px) {
     .pti-grid {
         grid-template-columns: repeat(var(--pti-columns-laptop), minmax(0, 1fr));
@@ -155,6 +167,7 @@
     width: 100% !important;
     height: 100% !important;
     object-fit: cover;
+    object-position: top;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
@@ -190,6 +203,7 @@
 
 .pti-listing-pdf-preview .pti-featured-image-or-pdf-preview {
     aspect-ratio: 1170 / 725;
+    object-position: top;
 }
 
 .pti-listing-pdf-preview .pti-featured-media-link {

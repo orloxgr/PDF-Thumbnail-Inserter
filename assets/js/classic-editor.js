@@ -1,19 +1,4 @@
 jQuery(function ($) {
-    function askColumn(label, fallback) {
-        const value = window.prompt(label, String(fallback));
-
-        if (value === null) {
-            return null;
-        }
-
-        const parsed = parseInt(value, 10);
-        if (isNaN(parsed) || parsed < 1 || parsed > 6) {
-            return fallback;
-        }
-
-        return parsed;
-    }
-
     $(document).on('click', '#insert-pdf-thumbnail', function (event) {
         event.preventDefault();
 
@@ -39,24 +24,15 @@ jQuery(function ($) {
                 return;
             }
 
-            const desktop = askColumn(pdfThumbnailClassic.labels.desktopColumns, 3);
-            if (desktop === null) {
-                return;
-            }
-
-            const laptop = askColumn(pdfThumbnailClassic.labels.laptopColumns, 2);
-            if (laptop === null) {
-                return;
-            }
-
-            const mobile = askColumn(pdfThumbnailClassic.labels.mobileColumns, 1);
-            if (mobile === null) {
-                return;
-            }
-
-            const shortcode = ids.length === 1
-                ? '[pdf_thumbnail_inserter id="' + ids[0] + '" columns_desktop="' + desktop + '" columns_laptop="' + laptop + '" columns_mobile="' + mobile + '"]'
-                : '[pdf_thumbnail_inserter ids="' + ids.join(',') + '" columns_desktop="' + desktop + '" columns_laptop="' + laptop + '" columns_mobile="' + mobile + '"]';
+            const columns = pdfThumbnailClassic.columns || {
+                columns_widescreen: 4, columns_desktop: 3, columns_laptop: 2, columns_mobile: 1
+            };
+            const columnAttributes = Object.entries(columns).map(function ([name, value]) {
+                const count = Math.max(1, Math.min(6, parseInt(value, 10) || 1));
+                return ' ' + name + '="' + count + '"';
+            }).join('');
+            const reference = ids.length === 1 ? 'id="' + ids[0] + '"' : 'ids="' + ids.join(',') + '"';
+            const shortcode = '[pdf_thumbnail_inserter ' + reference + columnAttributes + ']';
 
             wp.media.editor.insert(shortcode);
         });

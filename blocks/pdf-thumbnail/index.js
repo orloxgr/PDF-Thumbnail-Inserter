@@ -81,6 +81,13 @@
                     ),
                     hasPdf ? el(Button, { isDestructive: true, variant: 'link', onClick: removePdf }, __('Remove selection', 'pdf-thumbnail-inserter')) : null,
                     el(RangeControl, {
+                        label: __('Widescreen columns', 'pdf-thumbnail-inserter'),
+                        value: attributes.columns_widescreen || attributes.columns_desktop || 3,
+                        min: 1,
+                        max: 6,
+                        onChange: function (value) { setAttributes({ columns_widescreen: value || attributes.columns_desktop || 3 }); }
+                    }),
+                    el(RangeControl, {
                         label: __('Desktop columns', 'pdf-thumbnail-inserter'),
                         value: attributes.columns_desktop || 3,
                         min: 1,
@@ -88,7 +95,7 @@
                         onChange: function (value) { setAttributes({ columns_desktop: value || 3 }); }
                     }),
                     el(RangeControl, {
-                        label: __('Laptop / tablet columns', 'pdf-thumbnail-inserter'),
+                        label: __('Tablet columns', 'pdf-thumbnail-inserter'),
                         value: attributes.columns_laptop || 2,
                         min: 1,
                         max: 6,
@@ -194,6 +201,17 @@
         },
         save: function () {
             return null;
+        }
+    });
+
+    // Inserter defaults apply only when creating a block. Keep the schema defaults
+    // unchanged so loading an older block never rewrites its saved layout.
+    wp.blocks.registerBlockVariation('pdf-thumbnail-inserter/pdf-thumbnail', {
+        name: 'site-column-defaults',
+        isDefault: true,
+        scope: ['inserter'],
+        attributes: (window.pdfThumbnailBlock && window.pdfThumbnailBlock.columns) || {
+            columns_widescreen: 4, columns_desktop: 3, columns_laptop: 2, columns_mobile: 1
         }
     });
 }(window.wp));

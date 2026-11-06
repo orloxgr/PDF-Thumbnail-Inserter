@@ -55,6 +55,9 @@
       "type": "string",
       "default": "medium"
     },
+    "columns_widescreen": {
+      "type": "number"
+    },
     "columns_desktop": {
       "type": "number",
       "default": 3
