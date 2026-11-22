@@ -123,6 +123,18 @@ try {
     $file_data = pti_audit_private( 'get_valid_local_pdf_attachment_file', $pdf_id );
     pti_audit_assert( ! is_wp_error( $file_data ), 'Greek PDF with ampersand resolves inside uploads' );
     pti_audit_assert( '' !== pti_audit_private( 'get_local_upload_pdf_path', $pdf_url ), 'Unencoded Greek attachment URL maps to the original local file' );
+    $literal_stem = $uploads['path'] . '/pti-glob-' . bin2hex( random_bytes( 5 ) );
+    $literal_pdf = $literal_stem . '[1].pdf';
+    $unrelated_image = $literal_stem . '1-pdf-preview.png';
+    $literal_image = $literal_stem . '[1]-pdf-120x200.png';
+    foreach ( array( $literal_pdf, $unrelated_image, $literal_image ) as $literal_path ) $pti_created_paths[] = $literal_path;
+    copy( __DIR__ . '/fixtures/one-page.pdf', $literal_pdf );
+    copy( WP_PLUGIN_DIR . '/pdf-thumbnail-inserter/assets/images/pdf-placeholder.png', $unrelated_image );
+    $literal_url = $uploads['url'] . '/' . rawurlencode( basename( $literal_pdf ) );
+    pti_audit_assert( '' === pti_audit_private( 'get_pdf_preview_url_from_file_url', $literal_url, false ), 'A literal bracket filename cannot select a different PDF preview through glob expansion' );
+    copy( WP_PLUGIN_DIR . '/pdf-thumbnail-inserter/assets/images/pdf-placeholder.png', $literal_image );
+    $literal_preview = pti_audit_private( 'get_pdf_preview_url_from_file_url', $literal_url, false );
+    pti_audit_assert( basename( $literal_image ) === rawurldecode( basename( $literal_preview ) ), 'Glob discovery still finds a size-suffixed preview for a literal bracket filename' );
     pti_audit_assert( $pdf_id === pti_audit_private( 'get_attachment_id_from_file_url', $pdf_url . '?download=1&version=2' ), 'Real WordPress metadata lookup resolves a Greek URL with query parameters' );
     $filename_reference = pathinfo( basename( $pti_pdf_path ), PATHINFO_FILENAME );
     $exact_reference = pti_audit_private( 'get_pdf_file_data_from_reference_title', $filename_reference );
@@ -429,6 +441,69 @@ try {
         $generated = pti_audit_private( 'generate_standalone_pdf_preview', $pti_pdf_path, dirname( $pti_pdf_path ), pathinfo( $pti_pdf_path, PATHINFO_FILENAME ), $uploads['basedir'] );
         pti_audit_assert( wp_normalize_path( $standalone ) === $generated && wp_getimagesize( $standalone ), 'Real Ghostscript/Imagick preview ignores stale legacy lock file; generated=' . $generated );
         wp_delete_file( $standalone );
+        $core_pattern = dirname( $pti_pdf_path ) . '/' . pathinfo( $pti_pdf_path, PATHINFO_FILENAME ) . '-pdf*.*';
+        $before_core_files = glob( $core_pattern );
+        $reject_pdf_metadata = function ( $check, $id, $key ) use ( $pdf_id ) {
+            return (int) $id === $pdf_id && '_wp_attachment_metadata' === $key ? false : $check;
+        };
+        add_filter( 'update_post_metadata', $reject_pdf_metadata, 100, 3 );
+        try {
+            $rejected_core = pti_audit_private( 'maybe_generate_core_pdf_preview', $pdf_id, true );
+        } finally {
+            remove_filter( 'update_post_metadata', $reject_pdf_metadata, 100 );
+        }
+        pti_audit_assert( is_wp_error( $rejected_core ) && 'core_preview_metadata_failed' === $rejected_core->get_error_code(), 'Real core preview generation detects rejected PDF metadata writes' );
+        pti_audit_assert( glob( $core_pattern ) === $before_core_files && ! wp_get_attachment_metadata( $pdf_id ), 'Rejected core metadata writes leave no orphaned new JPEGs or sub-sizes' );
+
+        $core_exception = function ( $metadata, $id ) use ( $pdf_id ) {
+            if ( (int) $id === $pdf_id ) throw new RuntimeException( 'Injected core metadata exception' );
+            return $metadata;
+        };
+        add_filter( 'wp_generate_attachment_metadata', $core_exception, 100, 2 );
+        try {
+            $interrupted_core = pti_audit_private( 'maybe_generate_core_pdf_preview', $pdf_id, true );
+        } finally {
+            remove_filter( 'wp_generate_attachment_metadata', $core_exception, 100 );
+        }
+        pti_audit_assert( is_wp_error( $interrupted_core ) && glob( $core_pattern ) === $before_core_files && ! wp_get_attachment_metadata( $pdf_id ), 'A final core metadata exception rolls back generated files and partial database metadata' );
+
+        $update_exception = function ( $metadata, $id ) use ( $pdf_id ) {
+            if ( (int) $id === $pdf_id ) throw new RuntimeException( 'Injected core metadata update exception' );
+            return $metadata;
+        };
+        add_filter( 'wp_update_attachment_metadata', $update_exception, 100, 2 );
+        try {
+            $interrupted_update = pti_audit_private( 'maybe_generate_core_pdf_preview', $pdf_id, true );
+        } finally {
+            remove_filter( 'wp_update_attachment_metadata', $update_exception, 100 );
+        }
+        pti_audit_assert( is_wp_error( $interrupted_update ) && glob( $core_pattern ) === $before_core_files && ! wp_get_attachment_metadata( $pdf_id ), 'A core metadata update-filter exception cannot escape rollback or orphan its new full-size preview' );
+
+        $previous_core_file = dirname( $pti_pdf_path ) . '/' . pathinfo( $pti_pdf_path, PATHINFO_FILENAME ) . '-pdf-existing.png';
+        $pti_created_paths[] = $previous_core_file;
+        copy( WP_PLUGIN_DIR . '/pdf-thumbnail-inserter/assets/images/pdf-placeholder.png', $previous_core_file );
+        $previous_core_meta = array( 'legacy_note' => 'Keep existing PDF metadata', 'sizes' => array( 'full' => array( 'file' => basename( $previous_core_file ), 'width' => 200, 'height' => 300, 'mime-type' => 'image/png' ) ) );
+        wp_update_attachment_metadata( $pdf_id, $previous_core_meta );
+        $before_core_files = glob( $core_pattern );
+        add_filter( 'update_post_metadata', $reject_pdf_metadata, 100, 3 );
+        try {
+            $failed_replacement = pti_audit_private( 'maybe_generate_core_pdf_preview', $pdf_id, true );
+        } finally {
+            remove_filter( 'update_post_metadata', $reject_pdf_metadata, 100 );
+        }
+        pti_audit_assert( is_wp_error( $failed_replacement ) && $previous_core_meta === wp_get_attachment_metadata( $pdf_id ) && is_file( $previous_core_file )
+            && glob( $core_pattern ) === $before_core_files, 'Rejected regeneration preserves every existing preview file and the original custom metadata' );
+        $corrupt_update = function ( $metadata, $id ) use ( $pdf_id ) { return (int) $id === $pdf_id ? array( 'invalid_fixture' => true ) : $metadata; };
+        add_filter( 'wp_update_attachment_metadata', $corrupt_update, 100, 2 );
+        try {
+            $corrupt_replacement = pti_audit_private( 'maybe_generate_core_pdf_preview', $pdf_id, true );
+        } finally {
+            remove_filter( 'wp_update_attachment_metadata', $corrupt_update, 100 );
+        }
+        pti_audit_assert( is_wp_error( $corrupt_replacement ) && $previous_core_meta === wp_get_attachment_metadata( $pdf_id ) && is_file( $previous_core_file )
+            && glob( $core_pattern ) === $before_core_files, 'A corrupting metadata transformation is rolled back to the exact previous values and files' );
+        wp_delete_file( $previous_core_file );
+        delete_post_meta( $pdf_id, '_wp_attachment_metadata' );
         $generated = pti_audit_private( 'ensure_pdf_preview', $pdf_id );
         pti_audit_assert( ! is_wp_error( $generated ) && $generated['generated'], 'Explicit server generation reports newly generated preview accurately' );
         $again = pti_audit_private( 'ensure_pdf_preview', $pdf_id );

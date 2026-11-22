@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "phase": "inactive",
+  "wordpress": "7.1.5",
+  "php": "8.2.30",
+  "assertions": [
+    "The phase uses its existing disposable lifecycle state",
+    "The fixture identity still matches its original attachment path",
+    "The original PDF bytes are preserved",
+    "Stored legacy shortcode and dynamic block content are unchanged",
+    "Both settings options survive the lifecycle transition exactly",
+    "The generated image attachment and its original bytes remain intact",
+    "Preview linkage and ownership metadata are preserved",
+    "An inactive/uninstalled plugin is absent from a fresh request"
+  ]
+}

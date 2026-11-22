@@ -1,0 +1,692 @@
+[
+  {
+    "id": "S01",
+    "control": "`button_text`",
+    "expected": "Saved text appears on buttons; per-card override wins. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S02",
+    "control": "`thumbnail_width`",
+    "expected": "Saved value reaches the corresponding CSS custom property, with invalid input falling back safely. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S03",
+    "control": "`title_color`",
+    "expected": "Saved value reaches the corresponding CSS custom property, with invalid input falling back safely. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S04",
+    "control": "`title_size`",
+    "expected": "Saved value reaches the corresponding CSS custom property, with invalid input falling back safely. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S05",
+    "control": "`button_color`",
+    "expected": "Saved value reaches the corresponding CSS custom property, with invalid input falling back safely. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S06",
+    "control": "`button_hover_color`",
+    "expected": "Saved value reaches the corresponding CSS custom property, with invalid input falling back safely. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S07",
+    "control": "`button_text_color`",
+    "expected": "Saved value reaches the corresponding CSS custom property, with invalid input falling back safely. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S08",
+    "control": "`button_text_size`",
+    "expected": "Saved value reaches the corresponding CSS custom property, with invalid input falling back safely. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S09",
+    "control": "`default_link_to`",
+    "expected": "All four targets select the correct URL; none removes all links. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S10",
+    "control": "`default_new_tab`",
+    "expected": "On adds _blank with noopener/noreferrer; off removes target. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S11",
+    "control": "`default_show_title`",
+    "expected": "On displays caption; off hides caption without removing accessibility labels. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S12",
+    "control": "`default_show_button`",
+    "expected": "On displays a button for a usable target; off hides it. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S13",
+    "control": "`use_iframe_pdf_previews`",
+    "expected": "On replaces an existing local PDF core/file preview with the bundled viewer; off preserves original embed. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S14",
+    "control": "`max_pdf_preview_height`",
+    "expected": "Viewer height is the minimum of the block height and the configured maximum. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S15",
+    "control": "`convert_gutenberg_pdf_links_to_cards`",
+    "expected": "On converts every PDF core/file block, including existing preview embeds; off preserves it unless another explicit setting applies. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S16",
+    "control": "`convert_gutenberg_doc_links_to_cards`",
+    "expected": "On converts DOC and DOCX to document cards; off leaves them unchanged. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S17",
+    "control": "`use_first_pdf_preview_as_featured_image`",
+    "expected": "On supplies the first PDF only in supported listings lacking a real featured image and enables Elementor integrations; off makes no listing changes. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S18",
+    "control": "`use_default_document_cover`",
+    "expected": "On uses title covers only for PDFs lacking a real/custom preview; off uses the normal preview fallback. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S19",
+    "control": "`auto_browser_preview_on_upload`",
+    "expected": "On renders/saves missing previews in media dialogs, Gutenberg REST uploads and Media > Add New; off attaches no listeners. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S20",
+    "control": "`document_cover_label`",
+    "expected": "Saved label appears safely on both portrait and landscape covers. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S21",
+    "control": "`listing_pages`",
+    "expected": "Configured IDs/slugs and their pagination are recognized; removed slugs stop matching; category/posts archives remain included. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S22",
+    "control": "`default_columns_widescreen`",
+    "expected": "Saved 1–6 columns apply to newly inserted Classic/Gutenberg content; old omitted/explicit layouts remain stable. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S23",
+    "control": "`default_columns_desktop`",
+    "expected": "Saved 1–6 columns apply to newly inserted Classic/Gutenberg content; old omitted/explicit layouts remain stable. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S24",
+    "control": "`default_columns_tablet`",
+    "expected": "Saved 1–6 columns apply to newly inserted Classic/Gutenberg content; old omitted/explicit layouts remain stable. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "S25",
+    "control": "`default_columns_mobile`",
+    "expected": "Saved 1–6 columns apply to newly inserted Classic/Gutenberg content; old omitted/explicit layouts remain stable. `get_defaults`, `sanitize_settings`, rendering/editor configuration.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A01",
+    "control": "`id`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A02",
+    "control": "`ids`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A03",
+    "control": "`thumbnail`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A04",
+    "control": "`title`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A05",
+    "control": "`url`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A06",
+    "control": "`link_to`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A07",
+    "control": "`show_title`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A08",
+    "control": "`show_button`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A09",
+    "control": "`button_text`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A10",
+    "control": "`new_tab`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A11",
+    "control": "`size`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A12",
+    "control": "`thumbnail_width`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A13",
+    "control": "`title_color`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A14",
+    "control": "`title_size`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A15",
+    "control": "`button_color`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A16",
+    "control": "`button_hover_color`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A17",
+    "control": "`button_text_color`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A18",
+    "control": "`button_text_size`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A19",
+    "control": "`columns_desktop`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A20",
+    "control": "`columns_widescreen`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A21",
+    "control": "`columns_laptop`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A22",
+    "control": "`columns_mobile`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A23",
+    "control": "`class`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "A24",
+    "control": "`rel`",
+    "expected": "Omitted, valid explicit, invalid/malformed values; correct output and precedence. Block-supported values also survive save/reload.",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Save valid/invalid values; reload through WordPress options; render and inspect final HTML/CSS or new-insert configuration; verify explicit overrides and preserved old content.",
+    "status": "PASS",
+    "actual": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php",
+    "evidence": "readiness-expanded-{minimum,latest}{,-imagick}.json; editor-regression.cjs; readiness-regression.php"
+  },
+  {
+    "id": "F01",
+    "control": "Single, multiple and URL-only PDF cards; canonical and legacy aliases",
+    "expected": "render_shortcode, render_pdf_card, render_legacy_url_card",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "native readiness; preview-regression.php; Classic/Gutenberg browser records",
+    "evidence": "native readiness; preview-regression.php; Classic/Gutenberg browser records"
+  },
+  {
+    "id": "F02",
+    "control": "Existing WordPress, plugin, standalone and custom image priority; missing/corrupt PDF behavior",
+    "expected": "get_pdf_preview_data and resolvers",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "native readiness: WordPress/plugin/custom/standalone priority and corrupt files",
+    "evidence": "native readiness: WordPress/plugin/custom/standalone priority and corrupt files"
+  },
+  {
+    "id": "F03",
+    "control": "All editor selection/replace/remove actions, inspector controls and insertion defaults",
+    "expected": "blocks/pdf-thumbnail/index.js; classic-editor.js",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS_WITH_ACCEPTED_VISUAL_EXCEPTION",
+    "actual": "WP 6.0 real Gutenberg/Classic browser records; editor-regression.cjs; native registration/rendering on 7.1.5",
+    "evidence": "WP 6.0 real Gutenberg/Classic browser records; editor-regression.cjs; native registration/rendering on 7.1.5"
+  },
+  {
+    "id": "F04",
+    "control": "Responsive widescreen/desktop/tablet/mobile and visual CSS controls",
+    "expected": "pdf-thumbnail.css; get_grid_style",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "responsive-css-browser.json; visual-css-browser.json; native card matrix",
+    "evidence": "responsive-css-browser.json; visual-css-browser.json; native card matrix"
+  },
+  {
+    "id": "F05",
+    "control": "PDF/DOC conversion, iframe on/off and setting combinations",
+    "expected": "replace_pdf_file_block_preview",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "native readiness and readiness-regression.php: PDF/DOC/iframe combinations",
+    "evidence": "native readiness and readiness-regression.php: PDF/DOC/iframe combinations"
+  },
+  {
+    "id": "F06",
+    "control": "Portrait/landscape title covers, label/colors and escaped Greek titles",
+    "expected": "get_document_cover_url; maybe_render_document_cover",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "native cover tests; actual WGL/Loop Grid cover browser records",
+    "evidence": "native cover tests; actual WGL/Loop Grid cover browser records"
+  },
+  {
+    "id": "F07",
+    "control": "Listing eligibility, featured-image priority, manual excerpts, no-PDF and single-post preservation",
+    "expected": "featured-image and excerpt/content hooks",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "native listing/excerpt tests; real WGL browser switch/slug/priority checks",
+    "evidence": "native listing/excerpt tests; real WGL browser switch/slug/priority checks"
+  },
+  {
+    "id": "F08",
+    "control": "Elementor widget and dynamic tag on real supported versions",
+    "expected": "register_elementor_featured_image_fallback_widget/tag",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "native actual Elementor null-document test; actual Pro Loop Grid browser records",
+    "evidence": "native actual Elementor null-document test; actual Pro Loop Grid browser records"
+  },
+  {
+    "id": "F09",
+    "control": "WGL cards on a real supported theme",
+    "expected": "filter_listing_output",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "actual TheGov/WGL listing browser records",
+    "evidence": "actual TheGov/WGL listing browser records"
+  },
+  {
+    "id": "F10",
+    "control": "Actual upload/core Imagick rendering, failures and reuse",
+    "expected": "maybe_generate_pdf_preview_on_upload; ensure_pdf_preview",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "four native readiness reports, actual Ghostscript/Imagick core/direct paths",
+    "evidence": "four native readiness reports, actual Ghostscript/Imagick core/direct paths"
+  },
+  {
+    "id": "F11",
+    "control": "Server maintenance enable/disable, generation, report and failure continuation",
+    "expected": "handle_regenerate_missing_previews",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "server-maintenance-{minimum,latest}.json; server-maintenance-http.json; actual settings browser run",
+    "evidence": "server-maintenance-{minimum,latest}.json; server-maintenance-http.json; actual settings browser run"
+  },
+  {
+    "id": "F12",
+    "control": "Browser maintenance discovery, render, actual multipart save, replay and duplicate concurrency",
+    "expected": "browser-maintenance.js; ajax_save_browser_preview",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "server-maintenance-http.json; browser-maintenance-regression.cjs; actual browser generation",
+    "evidence": "server-maintenance-http.json; browser-maintenance-regression.cjs; actual browser generation"
+  },
+  {
+    "id": "F13",
+    "control": "Automatic media-dialog, REST/drop and Media > Add New uploads on/off",
+    "expected": "browser-upload.js",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "upload-http-{minimum,latest}.json; browser-upload-regression.cjs; actual Media Add New browser upload",
+    "evidence": "upload-http-{minimum,latest}.json; browser-upload-regression.cjs; actual Media Add New browser upload"
+  },
+  {
+    "id": "F14",
+    "control": "Media Library copyable shortcode/status and saved preview response",
+    "expected": "add_attachment_fields; add_browser_preview_to_media_response",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "native readiness; real core media-model HTTP response; actual Classic media dialog",
+    "evidence": "native readiness; real core media-model HTTP response; actual Classic media dialog"
+  },
+  {
+    "id": "F15",
+    "control": "PDF deletion cleans only owned image; failures leave no orphans or lost existing previews",
+    "expected": "cleanup_generated_preview; save/generation paths",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "deletion-concurrency-{minimum,latest}.json; native injected metadata failures",
+    "evidence": "deletion-concurrency-{minimum,latest}.json; native injected metadata failures"
+  },
+  {
+    "id": "F16",
+    "control": "Fresh install, upgrade, migration, deactivation/reactivation, uninstall data retention",
+    "expected": "bootstrap; maybe_migrate_legacy_options; core plugin lifecycle",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "lifecycle phase reports, actual published ZIP baseline and new ZIP upgrade; original integration 31 assertions",
+    "evidence": "lifecycle phase reports, actual published ZIP baseline and new ZIP upgrade; original integration 31 assertions"
+  },
+  {
+    "id": "F17",
+    "control": "Capabilities/nonces, input shapes, traversal/symlinks, invalid images, repeated/concurrent requests",
+    "expected": "AJAX/public viewer/cover endpoints",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "security-regression.php; native readiness; two-process locks; real authenticated HTTP",
+    "evidence": "security-regression.php; native readiness; two-process locks; real authenticated HTTP"
+  },
+  {
+    "id": "F18",
+    "control": "Query count, generation attempts, caches, bounded scans and conditional resources",
+    "expected": "read/write/render paths",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "3 queries/100 cold attachments; server bounds; renderer/viewer behavioral suites; 100-page actual browser checkpoint",
+    "evidence": "3 queries/100 cold attachments; server bounds; renderer/viewer behavioral suites; 100-page actual browser checkpoint"
+  },
+  {
+    "id": "F19",
+    "control": "Bundled dependency provenance, licenses, security and source availability",
+    "expected": "assets/pdfjs; LICENSE; metadata",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "pdfjs-provenance.json: all 208 resource/notice files and npm advisory result",
+    "evidence": "pdfjs-provenance.json: all 208 resource/notice files and npm advisory result"
+  },
+  {
+    "id": "F20",
+    "control": "Final ZIP consistency, reproducibility, installation/upgrade and Plugin Check",
+    "expected": "scripts/package.py; final release candidate",
+    "preconditions": "Owned disposable local site; core/PHP pinned; plugin active; synthetic fixtures. Imagick-specific cases require the pinned extension and Ghostscript.",
+    "steps": "Execute the linked native, HTTP, behavioral and/or browser scenario in its recorded environment and compare final files, metadata and output with the requirement.",
+    "status": "PASS",
+    "actual": "release-manifest.json; exact ZIP installs/upgrade; plugin-check-checkpoint.json; reproducible package",
+    "evidence": "release-manifest.json; exact ZIP installs/upgrade; plugin-check-checkpoint.json; reproducible package"
+  }
+]

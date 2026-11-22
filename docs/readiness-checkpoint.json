@@ -1,180 +1,48 @@
 {
-  "audit_status": "IN_PROGRESS",
-  "release_gate": "FAIL",
-  "baseline_commit": "695d8cfa3a72554b1f1ebac1391942e309c7dfa8",
+  "audit_status": "READY_FOR_RELEASE",
+  "release_gate": "PASS_WITH_DOCUMENTED_WARNINGS_AND_ACCEPTED_VISUAL_EXCEPTION",
   "branch": "codex/full-readiness-audit",
-  "candidate": {
-    "version": "1.11.48",
-    "purpose": "Unreleased audit candidate; never replace the existing release",
-    "published": false,
-    "files": 229,
-    "sha256": "7b699966072dd8d67209afcfc46c9550abc589faecb27e3ecab84b96575d9045",
-    "verification_status": "CHECKED_RUNTIME_CODE_AT_60d3dfc; README development documentation advanced afterward; final new-version ZIP still required"
-  },
-  "native_cases": [
+  "version": "1.11.49",
+  "candidate_sha256": "ad067fd7ea7c6def25abc8f298c3cfd940c43bdc2473363b625f848f5fec59c8",
+  "runtime_files": 229,
+  "native_readiness_assertions": 1102,
+  "native_matrix": [
     {
       "wordpress": "6.0",
       "php": "7.4.27",
-      "imagick": false,
-      "status": "PASS",
-      "assertions": 266
+      "without_imagick": 268,
+      "with_imagick": 282
     },
     {
       "wordpress": "7.1.5",
       "php": "8.2.30",
-      "imagick": false,
-      "status": "PASS",
-      "assertions": 267
-    },
-    {
-      "wordpress": "6.0",
-      "php": "7.4.27",
-      "imagick": true,
-      "status": "PASS",
-      "assertions": 274
-    },
-    {
-      "wordpress": "7.1.5",
-      "php": "8.2.30",
-      "imagick": true,
-      "status": "PASS",
-      "assertions": 275
+      "without_imagick": 269,
+      "with_imagick": 283
     }
   ],
-  "syntax": {
-    "individual_files": 32,
-    "php_files": 11,
-    "javascript_files": 21,
-    "status": "PASS",
-    "command": "python scripts/check_syntax.py --php C:/wamp64/bin/php/php7.4.27/php.exe"
-  },
-  "php_compatibility": {
-    "range": "7.4-8.4",
-    "errors": 0,
-    "warnings": 0
-  },
-  "query_budget": {
-    "wordpress": "6.0",
-    "cold_pdf_attachments": 100,
-    "before_queries": 201,
-    "after_queries": 3,
-    "budget": 10
-  },
   "plugin_check": {
-    "version": "2.2.0",
-    "counts": {
-      "ERROR": 1,
-      "WARNING": 27
-    },
-    "rules": {
-      "outdated_tested_upto_header": 1,
-      "PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound": 1,
-      "WordPress.DB.SlowDBQuery.slow_db_query_meta_key": 3,
-      "WordPress.DB.SlowDBQuery.slow_db_query_meta_value": 3,
-      "WordPress.Security.NonceVerification.Recommended": 18,
-      "WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound": 2
-    },
-    "early_runtime_runner": true,
-    "selected_checks": 36,
-    "runtime_checks": [
-      "enqueued_scripts_size",
-      "enqueued_styles_size",
-      "enqueued_styles_scope",
-      "enqueued_scripts_scope",
-      "non_blocking_scripts"
-    ]
+    "errors": 0,
+    "warnings": 27,
+    "dispositions": "automated-findings.md"
+  },
+  "phpstan": {
+    "level": 5,
+    "findings": 18,
+    "status": "REVIEWED_FINDINGS_NOT_CLEAN"
   },
   "verification_exception": {
-    "scope": "Visual WordPress 7.1 blob iframe in the available embedded browser",
+    "scope": "Visual Gutenberg 7.1 iframe in available embedded browser",
     "status": "NOT_VERIFIED",
     "user_accepted_best_effort": true
   },
-  "remaining": [
-    "Consolidate complete source/requirements coverage",
-    "Actual remaining editor upload paths",
-    "Lifecycle/upgrade/uninstall retention",
-    "Large/malformed viewer and resource behavior",
-    "Concurrent deletion and core metadata-write failures",
-    "Final new-version ZIP and publication verification"
+  "limitations": [
+    "Only PHP 7.4.27 and 8.2.30 were executed; 7.4–8.4 compatibility is static.",
+    "No real symlink could be created under this Windows account.",
+    "Final lazy placeholder batch is behaviorally tested; the recorded real 100-page viewer run precedes this final batching adjustment.",
+    "REST/media-dialog event detection is behaviorally tested with real HTTP upload/save contracts; actual automatic canvas painting was executed in Media Add New.",
+    "Multisite and arbitrary historical Elementor/themes were not executed."
   ],
-  "server_maintenance": {
-    "native_cases": [
-      {
-        "wordpress": "6.0",
-        "php": "7.4.27",
-        "imagick": true,
-        "assertions": 20,
-        "status": "PASS"
-      },
-      {
-        "wordpress": "7.1.5",
-        "php": "8.2.30",
-        "imagick": true,
-        "assertions": 20,
-        "status": "PASS"
-      }
-    ],
-    "http": {
-      "wordpress": "7.1.5",
-      "php_server": "8.2.30",
-      "assertions": 35,
-      "status": "PASS",
-      "covers": [
-        "administrator/subscriber/anonymous and CSRF",
-        "no-JavaScript form redirect and resume",
-        "multipart author/foreign author permissions",
-        "automatic preview on/off",
-        "invalid extension",
-        "persistent save/replay/media-model refresh"
-      ]
-    },
-    "browser": {
-      "status": "PASS",
-      "wordpress_generated": 14,
-      "plugin_generated": 0,
-      "failed": 0,
-      "already_present": 102
-    },
-    "request_bounds": {
-      "scan": 100,
-      "render_attempts": 10,
-      "soft_seconds_between_pdfs": 5
-    },
-    "caveat": "One PDF decoder is not preempted by the soft between-file time budget."
-  },
-  "dependency_audit": {
-    "status": "PASS",
-    "version": "6.3.289",
-    "checked_files": 208,
-    "npm_integrity": "sha512-ZHjSVpDa3D6izMq8/04lvkhkATUmL9px6ChPaXc1k6nU2Mrhlg1/7F0bdUqCwUjw3NsPTfPZsMDUU6ZIcRaeQw==",
-    "tarball_sha256": "06f25e887adc6489f04c9fcb14198c77e4e5623a59a0bba5c4cea5838a4f1241",
-    "supplemental_licenses": {
-      "wasm/LICENSE_QUICKJS": "https://raw.githubusercontent.com/mozilla/pdf.js/v6.5.438/external/quickjs/LICENSE_QUICKJS",
-      "wasm/LICENSE_PDFJS_QUICKJS": "https://raw.githubusercontent.com/mozilla/pdf.js/v6.5.438/external/quickjs/LICENSE_PDFJS_QUICKJS"
-    },
-    "mismatches": [],
-    "advisories": {}
-  },
-  "phpstan": {
-    "version": "2.3.7",
-    "wordpress_stubs": "7.1.2",
-    "wordpress_extension": "2.0.4",
-    "level": 5,
-    "php_version": 70400,
-    "file_errors": 17,
-    "status": "FINDINGS_REVIEWED; raw output and exact dispositions retained",
-    "no_baseline_or_ignores": true
-  },
-  "lifecycle": {
-    "wordpress": "7.1.5",
-    "php": "8.2.30",
-    "sqlite_integration": "3.1.3",
-    "native_assertions": 47,
-    "published_baseline_assertions": 14,
-    "status": "PARTIAL; final new-version upgrade remains",
-    "baseline_version": "1.11.48",
-    "baseline_zip_sha256": "e710ba256c98784dbe3fd50d70b6472ca2548e47e6f53369cd025ee38b748fc4",
-    "http_server_started": false,
-    "fixture_retained_for_final_upgrade": true
-  }
+  "publication_status": "Pending new immutable version tag and GitHub Release; never replace v1.11.48.",
+  "fresh_final_zip_lifecycle_assertions": 59,
+  "artifact_note": "README-only final documentation correction after native matrix; final ZIP reinstalled byte-for-byte on four sites and exact ZIP Plugin Check repeated. All PHP/JS runtime bytes are unchanged from the full passing matrix."
 }

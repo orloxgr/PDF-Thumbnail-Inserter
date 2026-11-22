@@ -57,22 +57,18 @@ async function maintenanceTest(mode) {
 }
 
 async function viewerTest(mode) {
-    let destroyed = 0;
-    const element = () => ({ style: {}, classList: { add() {} }, setAttribute() {}, appendChild() {}, replaceChildren() {}, getContext: () => ({}) });
-    const mock = { GlobalWorkerOptions: {}, getDocument: () => ({
-        promise: mode === 'load-error' ? Promise.reject(new Error('Load failed')) : Promise.resolve({
-            numPages: 1, getPage: async () => ({ getViewport: () => ({ width: 600, height: 800 }),
-                render: () => ({ promise: mode === 'render-error' ? Promise.reject(new Error('Render failed')) : Promise.resolve() }) })
-        }), destroy: async () => { destroyed++; }
-    }) };
-    const document = { body: element(), getElementById: element, createElement: element };
-    const window = { innerWidth: 800, location: { search: '?file=%2Ftest.pdf' } };
-    const source = fs.readFileSync(path.join(__dirname, '../assets/pdfjs-viewer/viewer.js'), 'utf8')
-        .replace("import * as pdfjsLib from '../pdfjs/pdf.min.js';", '')
-        .replaceAll('import.meta.url', JSON.stringify('https://example.test/assets/pdfjs-viewer/viewer.js'))
-        .replace(/loadPdf\(\);\s*$/, 'return loadPdf();');
-    await new Function('pdfjsLib', 'window', 'document', 'console', source)(mock, window, document, { error() {} });
-    assert.equal(destroyed, 1, `Viewer releases its worker on ${mode}`);
+    const { fixture, flush } = require('./viewer-regression.cjs');
+    const viewer = fixture({ pages: 2, badFile: mode === 'load-error', renderError: mode === 'render-error' ? 1 : 0 });
+    await flush();
+    if (mode === 'load-error') {
+        assert.equal(viewer.metrics.destroyed, 1, 'A failed document load releases its worker');
+    } else {
+        viewer.visible(1, true); await flush();
+        assert.equal(viewer.viewer.children[0].dataset.renderState, mode === 'render-error' ? 'error' : 'loaded');
+        assert.equal(viewer.metrics.destroyed, 0, 'A page result retains the worker for later pages');
+        await viewer.listeners.pagehide(); await flush();
+        assert.equal(viewer.metrics.destroyed, 1, `Navigation releases the worker after ${mode}`);
+    }
 }
 
 (async () => {

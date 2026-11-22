@@ -2,9 +2,9 @@
 Contributors: orloxgr
 Tags: pdf, thumbnail, media, shortcode, gutenberg
 Requires at least: 6.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.11.48
+Stable tag: 1.11.49
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -64,6 +64,14 @@ The older [pdf_thumbnail] shortcode remains available as a legacy alias for exis
 Yes. Use `link_to="attachment"`, `link_to="custom"` with `url="..."`, or `link_to="none"`.
 
 == Changelog ==
+
+= 1.11.49 =
+* Serialize preview publication and PDF deletion; preserve old previews and roll back failed files/metadata.
+* Fix settings validation, Greek URLs, literal filenames, missing previews and PDF/DOC conversion behavior.
+* Resume bounded server maintenance and avoid server conversion during ordinary frontend rendering.
+* Correct block defaults/classes/accessibility and Elementor/WGL current-post rendering.
+* Load PDF.js lazily and bound viewer rendering/canvas resources.
+* Restore bundled license notices and expand native WordPress, HTTP, concurrency and lifecycle verification.
 
 = 1.11.48 =
 * Restricts local PDF lookup and the viewer to readable PDFs inside uploads, rejecting traversal and symlinks outside uploads.

@@ -1,0 +1,17 @@
+{
+  "canvases": 2,
+  "firstPageHasCanvas": false,
+  "loaded": [
+    {
+      "height": 600,
+      "label": "Page 99 of 100",
+      "width": 400
+    },
+    {
+      "height": 600,
+      "label": "Page 100 of 100",
+      "width": 400
+    }
+  ],
+  "pages": 100
+}

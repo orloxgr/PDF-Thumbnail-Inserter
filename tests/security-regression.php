@@ -23,7 +23,7 @@ class Test_Json_Response extends Exception {
 }
 function wp_normalize_path( $path ) { return str_replace( '\\', '/', $path ); }
 function wp_getimagesize( $path ) { return getimagesize( $path ); }
-function wp_delete_attachment( $id, $force ) { $GLOBALS['deleted'][] = $id; }
+function wp_delete_attachment( $id, $force ) { $GLOBALS['deleted'][] = $id; return get_post( $id ); }
 function delete_post_meta( $id, $key ) { unset( $GLOBALS['metadata'][ $id ][ $key ] ); }
 function check_ajax_referer( $action, $key ) {
     if ( ( $_POST[ $key ] ?? '' ) !== 'valid' ) {

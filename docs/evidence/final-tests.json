@@ -1,0 +1,302 @@
+{
+  "native": [
+    {
+      "name": "final-74-preview-regression",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/preview-regression.php"
+      ]
+    },
+    {
+      "name": "final-74-security-regression",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/security-regression.php"
+      ]
+    },
+    {
+      "name": "final-74-readiness-regression",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/readiness-regression.php"
+      ]
+    },
+    {
+      "name": "final-74-readiness",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 268,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "<repository>\\dist\\readiness\\run-readiness-wordpress-minimum.php"
+      ]
+    },
+    {
+      "name": "final-74-readiness-imagick",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 282,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "-dextension=<repository>\\dist\\readiness\\imagick-php74\\php_imagick.dll",
+        "<repository>\\dist\\readiness\\run-readiness-wordpress-minimum.php"
+      ]
+    },
+    {
+      "name": "final-74-preview-lock-concurrency",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/preview-lock-concurrency.php",
+        "<repository>\\dist\\readiness\\wp-6.0"
+      ]
+    },
+    {
+      "name": "final-74-deletion-concurrency",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 12,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/deletion-concurrency.php",
+        "<repository>\\dist\\readiness\\wp-6.0"
+      ]
+    },
+    {
+      "name": "final-74-preview-discovery-queries",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/preview-discovery-queries.php",
+        "<repository>\\dist\\readiness\\wp-6.0"
+      ]
+    },
+    {
+      "name": "final-74-upload-http",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 10,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/upload-http.php",
+        "<repository>\\dist\\readiness\\wp-6.0"
+      ]
+    },
+    {
+      "name": "final-74-server-maintenance",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 20,
+      "command": [
+        "C:/wamp64/bin/php/php7.4.27/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "-dextension=<repository>\\dist\\readiness\\imagick-php74\\php_imagick.dll",
+        "tests/server-maintenance-wordpress.php",
+        "<repository>\\dist\\readiness\\wp-6.0"
+      ]
+    },
+    {
+      "name": "final-82-preview-regression",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/preview-regression.php"
+      ]
+    },
+    {
+      "name": "final-82-security-regression",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/security-regression.php"
+      ]
+    },
+    {
+      "name": "final-82-readiness-regression",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/readiness-regression.php"
+      ]
+    },
+    {
+      "name": "final-82-readiness",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 269,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "<repository>\\dist\\readiness\\run-readiness-wordpress.php"
+      ]
+    },
+    {
+      "name": "final-82-readiness-imagick",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 283,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "-dextension=<repository>\\dist\\readiness\\imagick-php82\\php_imagick.dll",
+        "<repository>\\dist\\readiness\\run-readiness-wordpress.php"
+      ]
+    },
+    {
+      "name": "final-82-preview-lock-concurrency",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/preview-lock-concurrency.php",
+        "<repository>\\dist\\readiness\\wp-7.1.5"
+      ]
+    },
+    {
+      "name": "final-82-deletion-concurrency",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 12,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/deletion-concurrency.php",
+        "<repository>\\dist\\readiness\\wp-7.1.5"
+      ]
+    },
+    {
+      "name": "final-82-preview-discovery-queries",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": null,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/preview-discovery-queries.php",
+        "<repository>\\dist\\readiness\\wp-7.1.5"
+      ]
+    },
+    {
+      "name": "final-82-upload-http",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 10,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/upload-http.php",
+        "<repository>\\dist\\readiness\\wp-7.1.5"
+      ]
+    },
+    {
+      "name": "final-82-server-maintenance",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 20,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "-dextension=<repository>\\dist\\readiness\\imagick-php82\\php_imagick.dll",
+        "tests/server-maintenance-wordpress.php",
+        "<repository>\\dist\\readiness\\wp-7.1.5"
+      ]
+    },
+    {
+      "name": "final-server-maintenance-http",
+      "status": "PASS",
+      "exit": 0,
+      "assertions": 35,
+      "command": [
+        "C:/wamp64/bin/php/php8.2.30/php.exe",
+        "-dxdebug.mode=off",
+        "-dmemory_limit=512M",
+        "tests/server-maintenance-http.php",
+        "<repository>\\dist\\readiness\\wp-7.1.5"
+      ]
+    }
+  ],
+  "node": [
+    {
+      "exit": 0,
+      "file": "browser-maintenance-regression.cjs"
+    },
+    {
+      "exit": 0,
+      "file": "browser-upload-regression.cjs"
+    },
+    {
+      "exit": 0,
+      "file": "editor-regression.cjs"
+    },
+    {
+      "exit": 0,
+      "file": "preview-renderer-regression.cjs"
+    },
+    {
+      "exit": 0,
+      "file": "server-maintenance-regression.cjs"
+    },
+    {
+      "exit": 0,
+      "file": "viewer-regression.cjs"
+    }
+  ],
+  "notes": [
+    "The old viewer mock assumed eager rendering and immediate worker destruction. It was updated to the viewport/disposal contract; all six Node suites were rerun successfully.",
+    "The lifecycle cleanup helper was corrected to accept the upgraded version; successful upgrade assertions were recorded before running the independent legacy integration suite.",
+    "Windows denied real symlink creation in the original integration suite; that optional case was skipped, not passed. Realpath containment has native path and mocked symlink coverage."
+  ]
+}

@@ -16,6 +16,8 @@
     "Real script output retains window.ptiAfter",
     "Greek PDF with ampersand resolves inside uploads",
     "Unencoded Greek attachment URL maps to the original local file",
+    "A literal bracket filename cannot select a different PDF preview through glob expansion",
+    "Glob discovery still finds a size-suffixed preview for a literal bracket filename",
     "Real WordPress metadata lookup resolves a Greek URL with query parameters",
     "Legacy filename reference resolves the correct PDF through real metadata queries",
     "Loose title tokens resolve the correct Greek PDF through real bounded candidate queries",

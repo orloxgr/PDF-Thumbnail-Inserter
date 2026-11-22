@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.48
+**Version:** 1.11.49
 **Author:** Byron Iniotakis
 **License:** GPL-3.0-or-later
 
@@ -118,6 +118,7 @@ node tests/browser-upload-regression.cjs
 node tests/browser-maintenance-regression.cjs
 node tests/preview-renderer-regression.cjs
 node tests/server-maintenance-regression.cjs
+node tests/viewer-regression.cjs
 ```
 
 `tests/wordpress-integration.php` installs the ZIP and checks real WordPress APIs on an explicitly disposable site. It requires `PTI_TEST_DISPOSABLE=true`; see its header for the install and verification phases. The test creates attachments and changes settings, so use a fresh test database.
@@ -126,15 +127,26 @@ node tests/server-maintenance-regression.cjs
 
 `tests/server-maintenance-wordpress.php` tests real resumable jobs, failures, concurrent deletion/new uploads, lock contention and bounded discovery on a disposable site with Imagick. `tests/server-maintenance-http.php` requires an owned loopback HTTP server with Imagick; it tests actual authenticated form/AJAX requests, CSRF and object permissions, multipart image saving/replay and media-model refresh. Both take the disposable WordPress root as their argument and require `PTI_TEST_DISPOSABLE=true`; fixtures and sessions are removed afterward.
 
-`tests/lifecycle-wordpress.php` must start on a **fresh disposable local site without this plugin or its options**. Set `PTI_TEST_DISPOSABLE=true`. Each phase is a separate PHP process: `php tests/lifecycle-wordpress.php /path/to/wp PHASE`. Run `init`, install/activate the ZIP with WordPress/WP-CLI, run `fresh` and `legacy`, deactivate the plugin, run `inactive`, uninstall through WordPress (including removal of its files), run `uninstalled`, reinstall/activate the ZIP, and run `reinstalled`. The synthetic PDF, child preview, settings and stored content are retained for an upgrade check. To establish an actual published starting version, install that release ZIP and run `baseline ZIP_PATH`; then install/activate the new version and run `upgraded VERSION` followed by `cleanup`. Never run these commands on production. An additional HTTP server or browser is not required for these native lifecycle checks.
+`tests/deletion-concurrency.php` checks actual cross-process writer/deletion contention, ownership, third-party deletion vetoes and stale publication paths. `tests/upload-http.php` checks actual REST PDF uploads and conditional Media Add New assets with automatic previews on and off. Both require the same disposable-site root and environment variable; the HTTP test additionally needs its owned loopback server. `tests/viewer-regression.cjs` covers lazy page batches, viewport rendering, pixel bounds, cancellation and worker disposal using explicit browser/PDF mocks.
+
+`tests/lifecycle-wordpress.php` must start on a **fresh disposable local site without this plugin or its options**. Set `PTI_TEST_DISPOSABLE=true`. Each phase is a separate PHP process: `php tests/lifecycle-wordpress.php /path/to/wp PHASE`. Run `init`, install/activate the ZIP with WordPress/WP-CLI, run `fresh` and `legacy`, deactivate the plugin, run `inactive`, uninstall through WordPress (including removal of its files), run `uninstalled`, reinstall/activate the ZIP, and run `reinstalled`. The synthetic PDF, child preview, settings and stored content are retained for an upgrade check. To establish an actual published starting version, install that release ZIP and run `baseline ZIP_PATH`; then install/activate the new version and run `upgraded VERSION` followed by `cleanup VERSION`. Never run these commands on production. An additional HTTP server or browser is not required for these native lifecycle checks.
 
 `python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt`.
 
 Build the installable ZIP with `python scripts/package.py`. This preserves the existing `pdf-thumbnail-inserter/` archive layout and includes only plugin root files and Git-tracked assets/blocks. The script checks version consistency, archive integrity, its runtime-only manifest, and every packaged byte against the source. Output goes to `dist/`; tests, development scripts, agent skills, Git metadata and local archives are excluded. Stage new runtime assets before building.
 
-The [1.11.48 audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/v1.11.48/docs/audit-1.11.48.md) records findings, verification and remaining environment limits.
+The [readiness audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/main/docs/readiness-audit.md) records the complete requirement matrix, fixes, tool findings and verification limits.
 
 ## Changelog
+
+### 1.11.49
+
+- Make preview publication atomic and serialize server/browser generation with PDF deletion; retain existing images and clean failed new files.
+- Repair malformed settings/IDs, missing or corrupt previews, Greek URLs and literal filenames containing glob characters.
+- Bound and resume server maintenance, batch preview discovery and keep ordinary frontend rendering free of server conversion writes.
+- Correct PDF/DOC conversion settings, block defaults/classes/accessibility and Elementor/WGL current-post behavior.
+- Render viewer pages near the viewport, bound canvas pixels and release offscreen canvases/workers; load the shared PDF.js library only when needed.
+- Restore upstream dependency license notices and add real WordPress, HTTP, concurrency, lifecycle and targeted browser regressions. See the repository's readiness audit for exact coverage and limitations.
 
 ### 1.11.48
 - Restricts local PDF preview lookup and the bundled viewer to readable PDF files inside uploads; rejects traversal, foreign origins and symlinks outside uploads.

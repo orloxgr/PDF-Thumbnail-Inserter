@@ -29,6 +29,18 @@ body {
     margin-bottom: 0;
 }
 
+.pdf-page-loader {
+    height: 1px;
+}
+
+.pdf-page.is-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: #991b1b;
+}
+
 .pdf-page canvas {
     display: block;
     width: 100%;
@@ -84,4 +96,8 @@ body.is-thumbnail #status {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+body.is-thumbnail #status[hidden] {
+    display: none;
 }

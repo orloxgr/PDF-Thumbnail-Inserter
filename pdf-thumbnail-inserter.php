@@ -3,7 +3,7 @@
  * Plugin Name:       PDF Thumbnail Inserter
  * Plugin URI:        https://github.com/orloxgr/PDF-Thumbnail-Inserter
  * Description:       Generates and reuses PDF thumbnails, provides a shortcode and Gutenberg block, and adds editor helpers for inserting PDF thumbnail cards.
- * Version:           1.11.48
+ * Version:           1.11.49
  * Author:            Byron Iniotakis
  * Author URI:        https://github.com/orloxgr
  * License:           GPL-3.0-or-later
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
     final class PDF_Thumbnail_Inserter {
-        const VERSION = '1.11.48';
+        const VERSION = '1.11.49';
         const TRANSIENT_REGEN_REPORT = 'pdf_thumbnail_inserter_regen_report';
         const TRANSIENT_SERVER_JOB = 'pdf_thumbnail_inserter_server_job';
         const SERVER_SCAN_LIMIT = 100;
@@ -61,6 +61,9 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
          */
         private $category_visual_rendered = array();
 
+        /** @var array<int,array{path:string,lock:resource}> Locks held through core attachment deletion. */
+        private $attachment_delete_locks = array();
+
         /**
          * @return PDF_Thumbnail_Inserter
          */
@@ -91,6 +94,9 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             add_action( 'wp_ajax_pdf_thumbnail_inserter_save_browser_preview', array( $this, 'ajax_save_browser_preview' ) );
             add_action( 'admin_post_' . self::ADMIN_ACTION_REGENERATE_MISSING, array( $this, 'handle_regenerate_missing_previews' ) );
             add_action( 'delete_attachment', array( $this, 'cleanup_generated_preview' ) );
+            add_filter( 'pre_delete_attachment', array( $this, 'protect_pdf_attachment_deletion' ), PHP_INT_MAX, 3 );
+            add_action( 'clean_post_cache', array( $this, 'release_deleted_pdf_lock' ) );
+            add_action( 'shutdown', array( $this, 'release_pdf_deletion_locks' ) );
             add_shortcode( 'pdf_thumbnail_inserter', array( $this, 'render_shortcode' ) );
             add_shortcode( 'pdf_thumbnail', array( $this, 'render_shortcode' ) );
             add_filter( 'attachment_fields_to_edit', array( $this, 'add_attachment_fields' ), 10, 2 );
@@ -1028,11 +1034,28 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
          * @return mixed|WP_Error Callback result, or a lock error.
          */
         private function with_pdf_preview_lock( $pdf_path, $callback ) {
-            return $this->with_preview_file_lock( $pdf_path . '.pti-preview.lock', $callback );
+            return $this->with_preview_file_lock( $pdf_path . '.pti-preview.lock', function () use ( $pdf_path, $callback ) {
+                // A deletion can finish after a writer validated its path but before it obtained the lock.
+                clearstatcache( true, $pdf_path );
+                if ( ! is_file( $pdf_path ) || ! is_readable( $pdf_path ) ) {
+                    return new WP_Error( 'missing_file', __( 'Original PDF file could not be found.', 'pdf-thumbnail-inserter' ) );
+                }
+                return call_user_func( $callback );
+            } );
         }
 
         /** Native locks are also used to serialize each administrator's maintenance cursor. */
         private function with_preview_file_lock( $lock_path, $callback ) {
+            $lock = $this->acquire_preview_file_lock( $lock_path );
+            if ( is_wp_error( $lock ) ) return $lock;
+            try {
+                return call_user_func( $callback );
+            } finally {
+                fclose( $lock ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Releases the native OS lock.
+            }
+        }
+
+        private function acquire_preview_file_lock( $lock_path ) {
             if ( is_link( $lock_path ) || ( file_exists( $lock_path ) && ! is_file( $lock_path ) ) ) {
                 return new WP_Error( 'preview_lock_failed', __( 'Could not lock PDF preview generation.', 'pdf-thumbnail-inserter' ) );
             }
@@ -1043,15 +1066,11 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 return new WP_Error( 'preview_lock_failed', __( 'Could not lock PDF preview generation.', 'pdf-thumbnail-inserter' ) );
             }
 
-            try {
-                if ( ! flock( $lock, LOCK_EX | LOCK_NB ) ) {
-                    return new WP_Error( 'preview_busy', __( 'A preview operation is already running. Please try again shortly.', 'pdf-thumbnail-inserter' ) );
-                }
-                return call_user_func( $callback );
-            } finally {
-                // Closing the native stream releases its lock, including after exceptions.
-                fclose( $lock ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+            if ( ! flock( $lock, LOCK_EX | LOCK_NB ) ) {
+                fclose( $lock ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Failed native lock must be closed.
+                return new WP_Error( 'preview_busy', __( 'A preview operation is already running. Please try again shortly.', 'pdf-thumbnail-inserter' ) );
             }
+            return $lock;
         }
 
         public function ajax_save_browser_preview() {
@@ -1088,6 +1107,9 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
         }
 
         private function save_browser_preview( $attachment_id, $file_data, $uploaded_file ) {
+            clean_post_cache( $attachment_id );
+            $current_file = $this->get_valid_local_pdf_attachment_file( $attachment_id );
+            if ( is_wp_error( $current_file ) ) return $current_file;
             wp_cache_delete( $attachment_id, 'post_meta' );
             $current_preview = $this->get_pdf_preview_data( $attachment_id, 'full', false );
             if ( 'placeholder' !== $current_preview['preview_source'] ) {
@@ -1175,6 +1197,9 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             $published = false;
             $metadata = array();
             try {
+                clean_post_cache( $attachment_id );
+                $parent_file = $this->get_valid_local_pdf_attachment_file( $attachment_id );
+                if ( is_wp_error( $parent_file ) ) return $parent_file;
                 $inserted = wp_insert_attachment(
                     array(
                         'post_mime_type' => $mime,
@@ -1359,8 +1384,57 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
 
             $preview_id = absint( get_post_meta( $attachment_id, self::META_PREVIEW_ID, true ) );
             if ( $this->is_owned_pdf_preview( $preview_id, $attachment_id ) ) {
-                delete_post_meta( $attachment_id, self::META_PREVIEW_ID );
-                wp_delete_attachment( $preview_id, true );
+                if ( wp_delete_attachment( $preview_id, true ) ) {
+                    delete_post_meta( $attachment_id, self::META_PREVIEW_ID, $preview_id );
+                }
+            }
+        }
+
+        /** Keep core deletion and preview publication in the same per-PDF critical section. */
+        public function protect_pdf_attachment_deletion( $delete, $post, $force_delete ) {
+            if ( null !== $delete || 'application/pdf' !== $post->post_mime_type ) return $delete;
+            $id = (int) $post->ID;
+            if ( isset( $this->attachment_delete_locks[ $id ] ) ) return false;
+            $file = get_attached_file( $id, true );
+            if ( is_string( $file ) && '' !== $file ) {
+                $path = realpath( $file );
+                if ( false === $path && realpath( dirname( $file ) ) ) $path = realpath( dirname( $file ) ) . '/' . basename( $file );
+                $uploads = wp_get_upload_dir();
+                $base = ! empty( $uploads['basedir'] ) ? realpath( $uploads['basedir'] ) : false;
+                if ( $path && $base && 'pdf' === strtolower( pathinfo( $path, PATHINFO_EXTENSION ) ) ) {
+                    $prefix = trailingslashit( wp_normalize_path( $base ) );
+                    $path = wp_normalize_path( $path );
+                    $inside = '\\' === DIRECTORY_SEPARATOR ? 0 === stripos( $path, $prefix ) : 0 === strpos( $path, $prefix );
+                    if ( $inside ) {
+                        $lock = $this->acquire_preview_file_lock( $path . '.pti-preview.lock' );
+                        if ( is_wp_error( $lock ) ) return false;
+                        $this->attachment_delete_locks[ $id ] = array( 'path' => $path, 'lock' => $lock );
+                    }
+                }
+            }
+            $preview_id = absint( get_post_meta( $id, self::META_PREVIEW_ID, true ) );
+            if ( $this->is_owned_pdf_preview( $preview_id, $id ) ) {
+                $this->cleanup_generated_preview( $id );
+                if ( get_post( $preview_id ) ) {
+                    $this->release_pdf_deletion_locks( $id );
+                    return false; // A third-party deletion veto must not orphan the owned image.
+                }
+            }
+            return $delete;
+        }
+
+        public function release_deleted_pdf_lock( $post_id ) {
+            if ( isset( $this->attachment_delete_locks[ $post_id ] ) ) {
+                clearstatcache( true, $this->attachment_delete_locks[ $post_id ]['path'] );
+                if ( ! file_exists( $this->attachment_delete_locks[ $post_id ]['path'] ) ) $this->release_pdf_deletion_locks( $post_id );
+            }
+        }
+
+        public function release_pdf_deletion_locks( $post_id = 0 ) {
+            foreach ( $this->attachment_delete_locks as $id => $entry ) {
+                if ( $post_id && (int) $post_id !== $id ) continue;
+                fclose( $entry['lock'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Releases a native deletion lock.
+                unset( $this->attachment_delete_locks[ $id ] );
             }
         }
 
@@ -1579,27 +1653,74 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
 
             require_once ABSPATH . 'wp-admin/includes/image.php';
 
+            $literal_prefix = strtr( dirname( $file_path ) . '/' . pathinfo( $file_path, PATHINFO_FILENAME ), array( '[' => '[[]', ']' => '[]]', '?' => '[?]', '*' => '[*]' ) );
+            $existing_files = glob( $literal_prefix . '-pdf*.*' );
+            $existing_files = $existing_files ? array_map( 'wp_normalize_path', $existing_files ) : array();
+            $generated_files = array();
+            $capture_metadata = function ( $data, $id ) use ( $attachment_id, $file_path, &$generated_files ) {
+                if ( (int) $id === $attachment_id ) {
+                    $generated_files = array_unique( array_merge( $generated_files, $this->get_core_preview_files( $file_path, $data ) ) );
+                }
+                return $data;
+            };
+            $published = false;
+            $metadata = array();
+            $failure = '';
+            $defer_writes = true;
+            $defer_metadata = function ( $check, $id, $key ) use ( $attachment_id, &$defer_writes ) {
+                // Core builds sub-size metadata in memory; publish once after every size is ready.
+                return $defer_writes && (int) $id === $attachment_id && '_wp_attachment_metadata' === $key ? false : $check;
+            };
+            add_filter( 'wp_update_attachment_metadata', $capture_metadata, PHP_INT_MIN, 2 );
+            add_filter( 'update_post_metadata', $defer_metadata, PHP_INT_MAX, 3 );
             remove_filter( 'wp_generate_attachment_metadata', array( $this, 'maybe_generate_pdf_preview_on_upload' ), 20 );
             try {
                 $metadata = wp_generate_attachment_metadata( $attachment_id, $file_path );
+                if ( is_array( $metadata ) ) {
+                    $defer_writes = false;
+                    wp_update_attachment_metadata( $attachment_id, $metadata );
+                    wp_cache_delete( $attachment_id, 'post_meta' );
+                    $stored = wp_get_attachment_metadata( $attachment_id, true );
+                    $published = $this->metadata_has_pdf_preview( $metadata ) && is_array( $stored )
+                        && isset( $stored['sizes'] ) && $stored['sizes'] === $metadata['sizes']
+                        && '' !== $this->get_wordpress_pdf_preview_url( $attachment_id, 'full' );
+                    if ( $this->metadata_has_pdf_preview( $metadata ) && ! $published ) {
+                        $failure = __( 'Could not save WordPress PDF preview metadata.', 'pdf-thumbnail-inserter' );
+                    }
+                }
+            } catch ( \Throwable $error ) {
+                $failure = sanitize_text_field( $error->getMessage() );
             } finally {
+                remove_filter( 'wp_update_attachment_metadata', $capture_metadata, PHP_INT_MIN );
+                remove_filter( 'update_post_metadata', $defer_metadata, PHP_INT_MAX );
                 add_filter( 'wp_generate_attachment_metadata', array( $this, 'maybe_generate_pdf_preview_on_upload' ), 20, 3 );
+                if ( ! $published ) {
+                    wp_cache_delete( $attachment_id, 'post_meta' );
+                    if ( wp_get_attachment_metadata( $attachment_id, true ) !== $existing_meta ) {
+                        try {
+                            // Restore exact stored values, without reapplying the transformation that failed.
+                            if ( false === $existing_meta ) delete_post_meta( $attachment_id, '_wp_attachment_metadata' );
+                            else update_post_meta( $attachment_id, '_wp_attachment_metadata', $existing_meta );
+                        } catch ( \Throwable $rollback_error ) {
+                            $failure = __( 'Could not restore the previous PDF preview metadata.', 'pdf-thumbnail-inserter' );
+                        }
+                    }
+                    wp_cache_delete( $attachment_id, 'post_meta' );
+                    $retained_meta = wp_get_attachment_metadata( $attachment_id, true );
+                    if ( $retained_meta !== $existing_meta ) $failure = __( 'Could not restore the previous PDF preview metadata.', 'pdf-thumbnail-inserter' );
+                    $referenced_files = $this->get_core_preview_files( $file_path, $retained_meta );
+                    foreach ( array_diff( $generated_files, $existing_files, $referenced_files ) as $generated_file ) wp_delete_file( $generated_file );
+                }
             }
 
-            if ( ! is_array( $metadata ) ) {
-                $metadata = array();
-            }
-
-            wp_update_attachment_metadata( $attachment_id, $metadata );
-
-            if ( $this->metadata_has_pdf_preview( $metadata ) ) {
+            if ( $published ) {
                 delete_post_meta( $attachment_id, self::META_PREVIEW_ERROR );
                 $this->invalidate_preview_caches();
-                return array(
-                    'generated'      => true,
-                    'preview_source' => 'wordpress',
-                    'preview_id'     => 0,
-                );
+                return array( 'generated' => true, 'preview_source' => 'wordpress', 'preview_id' => 0 );
+            }
+            if ( $failure ) {
+                update_post_meta( $attachment_id, self::META_PREVIEW_ERROR, $failure );
+                return new WP_Error( 'core_preview_metadata_failed', $failure );
             }
 
             require_once ABSPATH . 'wp-includes/media.php';
@@ -1612,6 +1733,21 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             update_post_meta( $attachment_id, self::META_PREVIEW_ERROR, $message );
 
             return new WP_Error( 'core_preview_failed', $message );
+        }
+
+        /** Paths returned by core's own PDF metadata, never arbitrary uploaded metadata paths. */
+        private function get_core_preview_files( $pdf_path, $metadata ) {
+            $files = array();
+            if ( ! is_array( $metadata ) || empty( $metadata['sizes'] ) || ! is_array( $metadata['sizes'] ) ) return $files;
+            $directory = wp_normalize_path( realpath( dirname( $pdf_path ) ) );
+            $prefix = pathinfo( $pdf_path, PATHINFO_FILENAME ) . '-pdf';
+            foreach ( $metadata['sizes'] as $size ) {
+                if ( ! is_array( $size ) || empty( $size['file'] ) || ! is_string( $size['file'] )
+                    || basename( $size['file'] ) !== $size['file'] || 0 !== strpos( $size['file'], $prefix ) ) continue;
+                $path = realpath( $directory . '/' . $size['file'] );
+                if ( $path && wp_normalize_path( dirname( $path ) ) === $directory && wp_getimagesize( $path ) ) $files[] = wp_normalize_path( $path );
+            }
+            return $files;
         }
 
         /**
@@ -1639,6 +1775,9 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
         }
 
         private function generate_pdf_attachment_preview( $attachment_id, $allow_retry ) {
+            clean_post_cache( $attachment_id );
+            $current_file = $this->get_valid_local_pdf_attachment_file( $attachment_id );
+            if ( is_wp_error( $current_file ) ) return $current_file;
             $existing = $this->get_pdf_preview_data( $attachment_id, 'full', false );
             if ( 'placeholder' !== $existing['preview_source'] && ! $allow_retry ) {
                 return array(
@@ -3150,8 +3289,10 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 }
             }
 
+            // The directory and filename are literal filesystem data, not glob patterns.
+            $glob_prefix = strtr( $dir_path . '/' . $filename, array( '[' => '[[]', ']' => '[]]', '?' => '[?]', '*' => '[*]' ) );
             foreach ( array( 'jpg', 'jpeg', 'png', 'webp' ) as $extension ) {
-                $matches = glob( $dir_path . '/' . $filename . '-pdf*.' . $extension );
+                $matches = glob( $glob_prefix . '-pdf*.' . $extension );
                 if ( empty( $matches ) ) {
                     continue;
                 }
@@ -3262,7 +3403,10 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 <?php wp_print_styles( array( 'pdf-thumbnail-viewer' ) ); ?>
             </head>
             <body>
-                <main id="viewer" aria-label="<?php echo esc_attr__( 'PDF preview', 'pdf-thumbnail-inserter' ); ?>"></main>
+                <main id="viewer" aria-label="<?php echo esc_attr__( 'PDF preview', 'pdf-thumbnail-inserter' ); ?>"
+                    <?php /* translators: 1: current PDF page, 2: total PDF pages. */ ?>
+                    data-page-label="<?php echo esc_attr__( 'Page %1$d of %2$d', 'pdf-thumbnail-inserter' ); ?>"
+                    data-error-label="<?php echo esc_attr__( 'The PDF preview could not be loaded.', 'pdf-thumbnail-inserter' ); ?>"></main>
                 <div id="status" role="status" aria-live="polite"><?php echo esc_html__( 'Loading PDF preview...', 'pdf-thumbnail-inserter' ); ?></div>
                 <?php wp_print_scripts( array( 'pdf-thumbnail-viewer' ) ); ?>
             </body>

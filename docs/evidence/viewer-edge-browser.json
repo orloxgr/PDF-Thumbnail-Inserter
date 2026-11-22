@@ -1,0 +1,32 @@
+{
+  "thumbnail": {
+    "canvases": 1,
+    "loaded": "loaded",
+    "pages": 1,
+    "statusDisplay": "none"
+  },
+  "tall": {
+    "canvases": [
+      {
+        "height": 2000,
+        "width": 1
+      }
+    ],
+    "state": "loaded"
+  },
+  "wide": {
+    "canvases": [
+      {
+        "height": 1,
+        "width": 1200
+      }
+    ],
+    "state": "loaded"
+  },
+  "broken": {
+    "canvases": 0,
+    "error": "The PDF preview could not be loaded.",
+    "pages": 0,
+    "visible": true
+  }
+}

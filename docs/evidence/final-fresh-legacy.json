@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "phase": "legacy",
+  "wordpress": "7.1.5",
+  "php": "8.2.30",
+  "assertions": [
+    "The phase uses its existing disposable lifecycle state",
+    "The fixture identity still matches its original attachment path",
+    "The original PDF bytes are preserved",
+    "Stored legacy shortcode and dynamic block content are unchanged",
+    "Legacy migration runs with the target plugin active",
+    "Migration preserves the exact legacy option, including an unknown stored value",
+    "Migrated plugin settings are not autoloaded",
+    "The plugin publishes a real owned child preview before lifecycle transitions"
+  ]
+}

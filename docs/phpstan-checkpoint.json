@@ -1,122 +1,128 @@
 {
   "totals": {
     "errors": 0,
-    "file_errors": 17
+    "file_errors": 18
   },
   "files": {
     "pdf-thumbnail-inserter.php": {
-      "errors": 17,
+      "errors": 18,
       "messages": [
         {
-          "message": "Parameter #2 $args of function register_block_type expects array{api_version?: string, title?: string, category?: string|null, parent?: array<string>|null, ancestor?: array<string>|null, allowed_blocks?: array<string>|null, icon?: string|null, description?: string, ...}, array{api_version: 2|3, editor_script: 'pdf-thumbnail-block\u2026', style: 'pdf-thumbnail\u2026', editor_style: 'pdf-thumbnail-block\u2026', render_callback: array{$this(PDF_Thumbnail_Inserter), 'render_block'}} given.",
-          "line": 398,
+          "message": "Parameter #2 $args of function register_block_type expects array{api_version?: string, title?: string, category?: string|null, parent?: array<string>|null, ancestor?: array<string>|null, allowed_blocks?: array<string>|null, icon?: string|null, description?: string, ...}, array{api_version: 2|3, editor_script: 'pdf-thumbnail-block…', style: 'pdf-thumbnail…', editor_style: 'pdf-thumbnail-block…', render_callback: array{$this(PDF_Thumbnail_Inserter), 'render_block'}} given.",
+          "line": 404,
           "ignorable": true,
           "tip": "Offset 'api_version' (string) does not accept type int.",
           "identifier": "argument.type"
         },
         {
           "message": "Call to function is_wp_error() with array will always evaluate to false.",
-          "line": 1195,
+          "line": 1220,
           "ignorable": true,
           "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
           "identifier": "function.impossibleType"
         },
         {
           "message": "Call to function is_array() with array will always evaluate to true.",
-          "line": 1243,
-          "ignorable": true,
-          "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
-          "identifier": "function.alreadyNarrowedType"
-        },
-        {
-          "message": "Call to function is_array() with array will always evaluate to true.",
-          "line": 1589,
-          "ignorable": true,
-          "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
-          "identifier": "function.alreadyNarrowedType"
-        },
-        {
-          "message": "Call to function method_exists() with Imagick and 'setImageAlphaChannel' will always evaluate to true.",
-          "line": 1687,
-          "ignorable": true,
-          "identifier": "function.alreadyNarrowedType"
-        },
-        {
-          "message": "Call to function method_exists() with Imagick and 'mergeImageLayers' will always evaluate to true.",
-          "line": 1691,
-          "ignorable": true,
-          "identifier": "function.alreadyNarrowedType"
-        },
-        {
-          "message": "Negated boolean expression is always false.",
-          "line": 1764,
-          "ignorable": true,
-          "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
-          "identifier": "booleanNot.alwaysFalse"
-        },
-        {
-          "message": "Right side of && is always true.",
-          "line": 1834,
-          "ignorable": true,
-          "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
-          "identifier": "booleanAnd.rightAlwaysTrue"
-        },
-        {
-          "message": "Call to function is_array() with array will always evaluate to true.",
-          "line": 2901,
+          "line": 1268,
           "ignorable": true,
           "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
           "identifier": "function.alreadyNarrowedType"
         },
         {
           "message": "Left side of && is always true.",
-          "line": 4028,
+          "line": 1672,
+          "ignorable": true,
+          "identifier": "booleanAnd.leftAlwaysTrue"
+        },
+        {
+          "message": "Call to function is_array() with array will always evaluate to true.",
+          "line": 1679,
+          "ignorable": true,
+          "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
+          "identifier": "function.alreadyNarrowedType"
+        },
+        {
+          "message": "Call to function method_exists() with Imagick and 'setImageAlphaChannel' will always evaluate to true.",
+          "line": 1826,
+          "ignorable": true,
+          "identifier": "function.alreadyNarrowedType"
+        },
+        {
+          "message": "Call to function method_exists() with Imagick and 'mergeImageLayers' will always evaluate to true.",
+          "line": 1830,
+          "ignorable": true,
+          "identifier": "function.alreadyNarrowedType"
+        },
+        {
+          "message": "Negated boolean expression is always false.",
+          "line": 1903,
+          "ignorable": true,
+          "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
+          "identifier": "booleanNot.alwaysFalse"
+        },
+        {
+          "message": "Right side of && is always true.",
+          "line": 1973,
+          "ignorable": true,
+          "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
+          "identifier": "booleanAnd.rightAlwaysTrue"
+        },
+        {
+          "message": "Call to function is_array() with array will always evaluate to true.",
+          "line": 3040,
+          "ignorable": true,
+          "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
+          "identifier": "function.alreadyNarrowedType"
+        },
+        {
+          "message": "Left side of && is always true.",
+          "line": 4172,
           "ignorable": true,
           "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
           "identifier": "booleanAnd.leftAlwaysTrue"
         },
         {
           "message": "Static property Elementor\\Plugin::$instance (Elementor\\Plugin) in isset() is not nullable.",
-          "line": 4048,
+          "line": 4192,
           "ignorable": true,
           "identifier": "isset.property"
         },
         {
           "message": "Property Elementor\\Plugin::$editor (Elementor\\Core\\Editor\\Editor) in isset() is not nullable.",
-          "line": 4052,
+          "line": 4196,
           "ignorable": true,
           "identifier": "isset.property"
         },
         {
           "message": "Right side of && is always true.",
-          "line": 4053,
+          "line": 4197,
           "ignorable": true,
           "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
           "identifier": "booleanAnd.rightAlwaysTrue"
         },
         {
           "message": "Call to function method_exists() with Elementor\\Core\\Editor\\Editor and 'is_edit_mode' will always evaluate to true.",
-          "line": 4054,
+          "line": 4198,
           "ignorable": true,
           "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
           "identifier": "function.alreadyNarrowedType"
         },
         {
           "message": "Property Elementor\\Plugin::$preview (Elementor\\Preview) in isset() is not nullable.",
-          "line": 4061,
+          "line": 4205,
           "ignorable": true,
           "identifier": "isset.property"
         },
         {
           "message": "Right side of && is always true.",
-          "line": 4062,
+          "line": 4206,
           "ignorable": true,
           "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
           "identifier": "booleanAnd.rightAlwaysTrue"
         },
         {
           "message": "Call to function method_exists() with Elementor\\Preview and 'is_preview_mode' will always evaluate to true.",
-          "line": 4063,
+          "line": 4207,
           "ignorable": true,
           "tip": "Because the type is coming from a PHPDoc, you can turn off this check by setting treatPhpDocTypesAsCertain: false in your %configurationFile%.",
           "identifier": "function.alreadyNarrowedType"

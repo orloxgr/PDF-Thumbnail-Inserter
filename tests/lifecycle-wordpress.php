@@ -85,7 +85,7 @@ if ( 'init' === $phase ) {
             if ( 'uninstalled' === $phase ) lifecycle_assert( ! is_file( WP_PLUGIN_DIR . '/' . $plugin_file ), 'WordPress uninstall actually removed the plugin files' );
         } else {
             lifecycle_assert( is_plugin_active( $plugin_file ) && class_exists( 'PDF_Thumbnail_Inserter' ), 'Reinstalled/upgraded plugin is active in a fresh request' );
-            $version = 'upgraded' === $phase && ! empty( $argv[3] ) ? $argv[3] : $state['plugin_version'];
+            $version = in_array( $phase, array( 'upgraded', 'cleanup' ), true ) && ! empty( $argv[3] ) ? $argv[3] : $state['plugin_version'];
             $header = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_file, false, false );
             lifecycle_assert( $version === PDF_Thumbnail_Inserter::VERSION && $version === $header['Version'], 'Installed header and runtime constant match the expected lifecycle version' );
             $preview = lifecycle_private( 'get_pdf_preview_data', $state['pdf_id'], 'full', false );
