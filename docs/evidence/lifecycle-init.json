@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "phase": "init",
+  "wordpress": "7.1.5",
+  "php": "8.2.30",
+  "assertions": [
+    "A genuinely fresh site has no target plugin or previous lifecycle fixture",
+    "Fresh installation has neither current nor legacy settings",
+    "Synthetic existing PDF and legacy/block content exist before plugin installation"
+  ]
+}

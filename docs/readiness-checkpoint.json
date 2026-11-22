@@ -9,7 +9,7 @@
     "published": false,
     "files": 229,
     "sha256": "7b699966072dd8d67209afcfc46c9550abc589faecb27e3ecab84b96575d9045",
-    "verification_status": "CHECKED_AUDIT_CANDIDATE; final new-version ZIP still required"
+    "verification_status": "CHECKED_RUNTIME_CODE_AT_60d3dfc; README development documentation advanced afterward; final new-version ZIP still required"
   },
   "native_cases": [
     {
@@ -42,10 +42,11 @@
     }
   ],
   "syntax": {
-    "individual_files": 29,
-    "php_files": 10,
-    "javascript_files": 19,
-    "status": "PASS"
+    "individual_files": 32,
+    "php_files": 11,
+    "javascript_files": 21,
+    "status": "PASS",
+    "command": "python scripts/check_syntax.py --php C:/wamp64/bin/php/php7.4.27/php.exe"
   },
   "php_compatibility": {
     "range": "7.4-8.4",
@@ -163,5 +164,17 @@
     "file_errors": 17,
     "status": "FINDINGS_REVIEWED; raw output and exact dispositions retained",
     "no_baseline_or_ignores": true
+  },
+  "lifecycle": {
+    "wordpress": "7.1.5",
+    "php": "8.2.30",
+    "sqlite_integration": "3.1.3",
+    "native_assertions": 47,
+    "published_baseline_assertions": 14,
+    "status": "PARTIAL; final new-version upgrade remains",
+    "baseline_version": "1.11.48",
+    "baseline_zip_sha256": "e710ba256c98784dbe3fd50d70b6472ca2548e47e6f53369cd025ee38b748fc4",
+    "http_server_started": false,
+    "fixture_retained_for_final_upgrade": true
   }
 }

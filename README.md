@@ -103,11 +103,13 @@ Supported attributes:
 - Generated preview images are saved as child image attachments of the original PDF.
 - `thumbnail`, `title`, and `url` overrides are intended for single-PDF usage. When multiple PDFs are rendered, the plugin ignores single-item overrides that would otherwise apply the same custom data to every card.
 - `[pdf_thumbnail]` remains available as a legacy alias for existing content; new inserts use `[pdf_thumbnail_inserter]`.
+- Deactivation and uninstall preserve settings, PDFs, generated image attachments and stored post content. Reinstallation reuses those previews and settings. Deleting an original PDF while the plugin is active removes its own generated child preview; unrelated media are preserved.
 
 ## Development checks
 
 ```sh
 php -l pdf-thumbnail-inserter.php
+python scripts/check_syntax.py
 php tests/preview-regression.php
 php tests/security-regression.php
 php tests/readiness-regression.php
@@ -123,6 +125,8 @@ node tests/server-maintenance-regression.cjs
 `tests/readiness-wordpress.php` exercises actual settings, block rendering, preview publication/rollback, local-file failures and optional Imagick/Ghostscript conversion. Its header describes the explicit disposable-site constants; run it directly with PHP so frontend filters are exercised. The site must have environment type `local` and cron disabled. `tests/preview-lock-concurrency.php` and `tests/preview-discovery-queries.php` take the disposable WordPress root as a CLI argument and require the environment variable `PTI_TEST_DISPOSABLE=true`. These checks create and remove synthetic fixtures and must never run against a live site.
 
 `tests/server-maintenance-wordpress.php` tests real resumable jobs, failures, concurrent deletion/new uploads, lock contention and bounded discovery on a disposable site with Imagick. `tests/server-maintenance-http.php` requires an owned loopback HTTP server with Imagick; it tests actual authenticated form/AJAX requests, CSRF and object permissions, multipart image saving/replay and media-model refresh. Both take the disposable WordPress root as their argument and require `PTI_TEST_DISPOSABLE=true`; fixtures and sessions are removed afterward.
+
+`tests/lifecycle-wordpress.php` must start on a **fresh disposable local site without this plugin or its options**. Set `PTI_TEST_DISPOSABLE=true`. Each phase is a separate PHP process: `php tests/lifecycle-wordpress.php /path/to/wp PHASE`. Run `init`, install/activate the ZIP with WordPress/WP-CLI, run `fresh` and `legacy`, deactivate the plugin, run `inactive`, uninstall through WordPress (including removal of its files), run `uninstalled`, reinstall/activate the ZIP, and run `reinstalled`. The synthetic PDF, child preview, settings and stored content are retained for an upgrade check. To establish an actual published starting version, install that release ZIP and run `baseline ZIP_PATH`; then install/activate the new version and run `upgraded VERSION` followed by `cleanup`. Never run these commands on production. An additional HTTP server or browser is not required for these native lifecycle checks.
 
 `python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt`.
 
