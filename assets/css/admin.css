@@ -18,6 +18,10 @@
     margin-top: 0.75rem;
 }
 
+.pti-browser-preview-progress[hidden] {
+    display: none;
+}
+
 .pti-browser-preview-status {
     display: block;
     margin-top: 0.75rem;

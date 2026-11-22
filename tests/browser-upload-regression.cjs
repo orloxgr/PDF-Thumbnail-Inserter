@@ -121,7 +121,7 @@ async function testRendererCleanup() {
         return output;
     } };
     const script = source('browser-preview.js')
-        .replace("import * as pdfjsLib from '../pdfjs/pdf.min.js';", 'const pdfjsLib = globalThis.__ptiPdfMock;')
+        .replace("import { getPdfLibrary } from './pdf-runtime.js';", 'const getPdfLibrary = async () => globalThis.__ptiPdfMock;')
         .replaceAll('import.meta.url', JSON.stringify('https://example.test/assets/js/browser-preview.js'));
     try {
         const { renderPdfToBlob } = await import('data:text/javascript;base64,' + Buffer.from(script).toString('base64'));

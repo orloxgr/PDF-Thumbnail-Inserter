@@ -1,3 +1,12 @@
 ﻿PDF.js 6.3.289
 Source: https://www.npmjs.com/package/pdfjs-dist/v/6.3.289
+Corresponding source: https://github.com/mozilla/pdf.js/tree/v6.3.289
+Build instructions: https://github.com/mozilla/pdf.js/blob/v6.3.289/README.md#building-pdfjs
+The official build/pdf.min.mjs and build/pdf.worker.min.mjs are distributed
+as pdf.min.js and pdf.worker.min.js; resource files retain their upstream paths.
 License: Apache-2.0 (see LICENSE)
+Bundled font, image decoder and sandbox notices retain their individual licenses.
+The 6.3.289 package omitted the QuickJS MIT notices (upstream issue #22143).
+wasm/LICENSE_QUICKJS and wasm/LICENSE_PDFJS_QUICKJS are supplied verbatim from
+https://github.com/mozilla/pdf.js/tree/v6.5.438/external/quickjs
+No runtime library files were upgraded when adding these notices.

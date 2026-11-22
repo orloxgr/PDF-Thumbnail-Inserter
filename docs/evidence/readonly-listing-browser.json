@@ -1,0 +1,22 @@
+[
+  {
+    "canvases": [],
+    "images": 1,
+    "post": "http://127.0.0.1:9411/?p=137"
+  },
+  {
+    "canvases": [],
+    "images": 1,
+    "post": "http://127.0.0.1:9411/?p=131"
+  },
+  {
+    "canvases": [
+      {
+        "loaded": true,
+        "pdf": "http://127.0.0.1:9411/wp-content/uploads/2026/11/one-page-12.pdf"
+      }
+    ],
+    "images": 0,
+    "post": "http://127.0.0.1:9411/?p=133"
+  }
+]

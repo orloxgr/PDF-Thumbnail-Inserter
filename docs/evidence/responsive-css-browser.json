@@ -1,0 +1,27 @@
+{
+  "viewports": [
+    400,
+    1000,
+    1300,
+    1700
+  ],
+  "scope": "Actual plugin markup and unmodified CSS in srcdoc viewports; no theme integration assertion",
+  "results": [
+    {
+      "columns": 1,
+      "width": "369px"
+    },
+    {
+      "columns": 2,
+      "width": "984px"
+    },
+    {
+      "columns": 3,
+      "width": "1284px"
+    },
+    {
+      "columns": 4,
+      "width": "1684px"
+    }
+  ]
+}

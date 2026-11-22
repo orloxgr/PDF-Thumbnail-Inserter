@@ -1,0 +1,15 @@
+{
+  "scope": "Actual plugin markup and stylesheet in srcdoc, without theme CSS",
+  "normal": {
+    "buttonBackground": "rgb(35, 69, 103)",
+    "buttonColor": "rgb(171, 205, 239)",
+    "buttonSize": "15px",
+    "titleColor": "rgb(18, 52, 86)",
+    "titleSize": "19.2px",
+    "width": "288px"
+  },
+  "focus": {
+    "focusBackground": "rgb(52, 86, 120)",
+    "focused": true
+  }
+}

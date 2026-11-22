@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "wordpress": "7.1.5",
+  "php": "8.2.30",
+  "requests": 3,
+  "assertions": [
+    "The fixture administrator can manage this disposable site",
+    "A large job yields before the full library is processed",
+    "The first request respects decoder and scan limits",
+    "The server issues a fresh unguessable job identity",
+    "The saved job resumes successfully",
+    "Continuation respects decoder and scan limits",
+    "The saved job resumes successfully",
+    "Continuation respects decoder and scan limits",
+    "The resumable job finishes",
+    "One broken PDF is reported and all remaining valid PDFs are generated despite a concurrent deletion",
+    "The high-water mark excludes uploads arriving after the job started",
+    "Replaying a completed request cannot generate or count PDFs twice",
+    "A stale or different job token is rejected",
+    "Two requests cannot mutate the same administrator cursor simultaneously",
+    "A subscriber cannot run or resume an administrator job",
+    "All missing files are reported without aborting later batches",
+    "The persistent error log stays bounded even for a wholly broken library",
+    "An empty PDF library completes without attempting a decode",
+    "Rejected progress writes fail explicitly instead of pretending to advance",
+    "No maintenance query requests an unbounded PDF ID list"
+  ]
+}

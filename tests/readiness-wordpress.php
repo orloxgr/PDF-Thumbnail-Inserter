@@ -64,6 +64,31 @@ try {
     $expected_api = version_compare( get_bloginfo( 'version' ), '6.3', '>=' ) ? 3 : 2;
     pti_audit_assert( $block && $expected_api === $block->api_version, 'Block API matches supported WordPress version' );
 
+    // GitHub ZIP users can supply plugin-local translations, outside wordpress.org language packs.
+    require_once ABSPATH . WPINC . '/pomo/mo.php';
+    $language_dir = WP_PLUGIN_DIR . '/pdf-thumbnail-inserter/languages';
+    $language_dir_existed = is_dir( $language_dir );
+    wp_mkdir_p( $language_dir );
+    $language_path = $language_dir . '/pdf-thumbnail-inserter-el.mo';
+    if ( is_file( $language_path ) ) throw new RuntimeException( 'Refusing to replace an existing translation fixture' );
+    $catalogue = new MO();
+    $catalogue->set_headers( array( 'Content-Type' => 'text/plain; charset=UTF-8', 'Language' => 'el' ) );
+    $catalogue->add_entry( new Translation_Entry( array( 'singular' => 'Download PDF', 'translations' => array( 'Λήψη PDF ελέγχου' ) ) ) );
+    $catalogue->export_to_file( $language_path );
+    $greek_locale = function () { return 'el'; };
+    add_filter( 'locale', $greek_locale, 100 );
+    try {
+        unload_textdomain( 'pdf-thumbnail-inserter', true );
+        $pti->load_textdomain();
+        pti_audit_assert( 'Λήψη PDF ελέγχου' === __( 'Download PDF', 'pdf-thumbnail-inserter' ), 'Plugin-local MO translations load on an installation without wordpress.org language packs' );
+    } finally {
+        remove_filter( 'locale', $greek_locale, 100 );
+        unload_textdomain( 'pdf-thumbnail-inserter', true );
+        $pti->load_textdomain();
+        wp_delete_file( $language_path );
+        if ( ! $language_dir_existed ) rmdir( $language_dir );
+    }
+
     // File-like values inside HTML attributes must never be rewritten as prose URLs.
     $cover_markup = '<img src="https://example.org/?cover=1&amp;file=https%3A%2F%2Fexample.org%2Fdocument.pdf&amp;title=Report" alt="Report">';
     pti_audit_assert( $cover_markup === pti_audit_private( 'strip_attachment_sources_from_content', $cover_markup ), 'Listing cleanup preserves image attributes containing PDF URLs' );
@@ -98,6 +123,12 @@ try {
     $file_data = pti_audit_private( 'get_valid_local_pdf_attachment_file', $pdf_id );
     pti_audit_assert( ! is_wp_error( $file_data ), 'Greek PDF with ampersand resolves inside uploads' );
     pti_audit_assert( '' !== pti_audit_private( 'get_local_upload_pdf_path', $pdf_url ), 'Unencoded Greek attachment URL maps to the original local file' );
+    pti_audit_assert( $pdf_id === pti_audit_private( 'get_attachment_id_from_file_url', $pdf_url . '?download=1&version=2' ), 'Real WordPress metadata lookup resolves a Greek URL with query parameters' );
+    $filename_reference = pathinfo( basename( $pti_pdf_path ), PATHINFO_FILENAME );
+    $exact_reference = pti_audit_private( 'get_pdf_file_data_from_reference_title', $filename_reference );
+    pti_audit_assert( ! empty( $exact_reference['attachment_id'] ) && $pdf_id === $exact_reference['attachment_id'], 'Legacy filename reference resolves the correct PDF through real metadata queries' );
+    $loose_reference = pti_audit_private( 'get_pdf_file_data_from_loose_reference_title', $filename_reference );
+    pti_audit_assert( ! empty( $loose_reference['attachment_id'] ) && $pdf_id === $loose_reference['attachment_id'], 'Loose title tokens resolve the correct Greek PDF through real bounded candidate queries' );
     $pti->register_settings();
     $defaults = pti_audit_private( 'get_defaults' );
 
@@ -155,6 +186,118 @@ try {
     $block_html = render_block( array( 'blockName' => 'pdf-thumbnail-inserter/pdf-thumbnail', 'attrs' => array( 'id' => $pdf_id, 'className' => 'pti-custom-a pti-custom-b', 'class' => 'pti-legacy-class' ), 'innerBlocks' => array(), 'innerHTML' => '', 'innerContent' => array() ) );
     pti_audit_assert( false !== strpos( $block_html, 'wp-block-pdf-thumbnail-inserter-pdf-thumbnail' ) && false !== strpos( $block_html, 'pti-custom-a pti-custom-b' ), 'Dynamic block preserves WordPress wrapper and Advanced CSS classes' );
     pti_audit_assert( false !== strpos( $block_html, 'pti-legacy-class' ), 'Dynamic block retains legacy custom class attribute' );
+
+    // Verify saved options at their final output, not only sanitizer return values.
+    $custom_url = 'https://example.org/Ελλάδα?x=1&y=2';
+    foreach ( array( 'file', 'attachment', 'custom', 'none' ) as $mode ) {
+        for ( $mask = 0; $mask < 8; $mask++ ) {
+            $show_title = (bool) ( $mask & 1 );
+            $show_button = (bool) ( $mask & 2 );
+            $new_tab = (bool) ( $mask & 4 );
+            update_option( PDF_Thumbnail_Inserter::OPTION_NAME, array_merge( $defaults, array(
+                'default_link_to' => $mode, 'default_show_title' => (int) $show_title,
+                'default_show_button' => (int) $show_button, 'default_new_tab' => (int) $new_tab,
+                'button_text' => 'Λήψη & ανάγνωση',
+            ) ), false );
+            $html = $pti->render_shortcode( array( 'id' => $pdf_id, 'url' => $custom_url ) );
+            $dom = new DOMDocument();
+            @$dom->loadHTML( '<?xml encoding="utf-8" ?>' . $html );
+            $xpath = new DOMXPath( $dom );
+            $links = $xpath->query( '//a' );
+            $captions = $xpath->query( '//figcaption' );
+            $buttons = $xpath->query( '//a[contains(@class,"pti-card__button")]' );
+            pti_audit_assert( ( $show_title ? 1 : 0 ) === $captions->length && ( $show_button && 'none' !== $mode ? 1 : 0 ) === $buttons->length,
+                'Saved title/button options reach final cards: ' . $mode . '/' . $mask );
+            $expected_url = array( 'file' => $pdf_url, 'attachment' => get_attachment_link( $pdf_id ), 'custom' => $custom_url, 'none' => '' )[ $mode ];
+            $expected_url = html_entity_decode( esc_url( $expected_url ), ENT_QUOTES, 'UTF-8' );
+            pti_audit_assert( 'none' === $mode ? 0 === $links->length : $links->length >= 1, 'Saved link mode controls actual links: ' . $mode . '/' . $mask );
+            foreach ( $links as $link ) {
+                pti_audit_assert( $expected_url === $link->getAttribute( 'href' ) && ( $new_tab ? '_blank' : '' ) === $link->getAttribute( 'target' )
+                    && ( ! $new_tab || ( false !== strpos( $link->getAttribute( 'rel' ), 'noopener' ) && false !== strpos( $link->getAttribute( 'rel' ), 'noreferrer' ) ) ),
+                    'Correct target, query string and tab protection: ' . $mode . '/' . $mask );
+            }
+            if ( $buttons->length ) pti_audit_assert( 'Λήψη & ανάγνωση' === trim( $buttons->item( 0 )->textContent ), 'Saved Greek button label is rendered as text' );
+        }
+    }
+    $visuals = array( 'thumbnail_width' => '18rem', 'title_color' => '#123456', 'title_size' => '1.2em',
+        'button_color' => '#234567', 'button_hover_color' => '#345678', 'button_text_color' => '#abcdef', 'button_text_size' => '15px' );
+    $properties = array( 'thumbnail_width' => 'thumbnail-width', 'title_color' => 'title-color', 'title_size' => 'title-size',
+        'button_color' => 'button-bg', 'button_hover_color' => 'button-bg-hover', 'button_text_color' => 'button-color', 'button_text_size' => 'button-size' );
+    update_option( PDF_Thumbnail_Inserter::OPTION_NAME, array_merge( $defaults, $visuals ), false );
+    wp_cache_delete( PDF_Thumbnail_Inserter::OPTION_NAME, 'options' );
+    $styled = $pti->render_shortcode( array( 'id' => $pdf_id ) );
+    foreach ( $visuals as $key => $value ) {
+        pti_audit_assert( $value === get_option( PDF_Thumbnail_Inserter::OPTION_NAME )[ $key ] && false !== strpos( $styled, '--pti-' . $properties[ $key ] . ':' . $value ),
+            'Saved/reloaded visual option reaches card CSS: ' . $key );
+        $override = $pti->render_shortcode( array( 'id' => $pdf_id, $key => 'thumbnail_width' === $key || false !== strpos( $key, 'size' ) ? '21px' : '#fedcba' ) );
+        pti_audit_assert( false !== strpos( $override, '--pti-' . $properties[ $key ] . ':' . ( 'thumbnail_width' === $key || false !== strpos( $key, 'size' ) ? '21px' : '#fedcba' ) ),
+            'Explicit shortcode visual option overrides the saved default: ' . $key );
+    }
+    $custom = $pti->render_shortcode( array( 'id' => $pdf_id, 'title' => '<b>Τίτλος & δοκιμή</b>', 'thumbnail' => 'https://example.org/custom.png',
+        'button_text' => 'Άνοιγμα', 'class' => 'alpha beta', 'rel' => 'nofollow', 'new_tab' => 'yes' ) );
+    pti_audit_assert( false !== strpos( $custom, 'alpha beta' ) && false !== strpos( $custom, 'https://example.org/custom.png' )
+        && false !== strpos( $custom, 'Τίτλος &amp; δοκιμή' ) && false === strpos( $custom, '<b>' )
+        && false !== strpos( $custom, '>Άνοιγμα</a>' ) && false !== strpos( $custom, 'nofollow noopener noreferrer' ), 'Explicit title, thumbnail, button, classes and rel survive safely' );
+    foreach ( array( 'doc', 'docx' ) as $extension ) {
+        $url = 'https://example.org/Δοκιμή.' . $extension . '?download=1&v=2';
+        $html = '<div class="wp-block-file"><a href="' . esc_url( $url ) . '">Έγγραφο &amp; δοκιμή</a></div>';
+        foreach ( array( 0, 1 ) as $enabled ) {
+            update_option( PDF_Thumbnail_Inserter::OPTION_NAME, array_merge( $defaults, array( 'convert_gutenberg_doc_links_to_cards' => $enabled ) ), false );
+            $output = render_block( array( 'blockName' => 'core/file', 'attrs' => array( 'href' => $url ), 'innerBlocks' => array(), 'innerHTML' => $html, 'innerContent' => array( $html ) ) );
+            pti_audit_assert( $enabled ? false !== strpos( $output, 'doc-placeholder.png' ) && false !== strpos( $output, 'pti-card' ) : $html === $output,
+                'Actual core/file DOC conversion ' . $extension . '=' . $enabled );
+        }
+    }
+    update_option( PDF_Thumbnail_Inserter::OPTION_NAME, $defaults, false );
+
+    $read_only_post = wp_insert_post( array( 'post_type' => 'post', 'post_title' => 'Read-only PDF listing', 'post_status' => 'publish', 'post_content' => '[pdf_thumbnail_inserter id="' . $pdf_id . '"]' ) );
+    $pti_created_ids[] = $read_only_post;
+    $read_only = $pti->resolve_first_pdf_for_post( $read_only_post, 'large', false );
+    $listing_data = pti_audit_private( 'get_pdf_featured_image_fallback_data', $read_only_post, 'large' );
+    $render_path = dirname( $pti_pdf_path ) . '/' . pathinfo( $pti_pdf_path, PATHINFO_FILENAME ) . '-pdf-preview.jpg';
+    $pti_created_paths[] = $render_path;
+    pti_audit_assert( ! empty( $read_only['pdf_url'] ) && ! empty( $listing_data['pdf_url'] )
+        && empty( $read_only['preview_url'] ) && ! file_exists( $render_path )
+        && ! get_post_meta( $pdf_id, PDF_Thumbnail_Inserter::META_PREVIEW_ID, true )
+        && ! get_post_meta( $pdf_id, PDF_Thumbnail_Inserter::META_PREVIEW_ERROR, true ), 'Normal cards, core/file rendering and listing resolution do not decode PDFs or write generated previews/error metadata' );
+    if ( class_exists( 'Imagick' ) ) {
+        $legacy_generation = $pti->resolve_first_pdf_for_post( $read_only_post, 'large' );
+        pti_audit_assert( ! empty( $legacy_generation['preview_url'] ) && is_file( $render_path ), 'The public resolver keeps its existing generation default and does not reuse a read-only cache entry' );
+        $refreshed_listing = pti_audit_private( 'get_pdf_featured_image_fallback_data', $read_only_post, 'large' );
+        pti_audit_assert( ! empty( $refreshed_listing['url'] ), 'Publishing a preview invalidates an earlier missing-preview listing cache within the same request' );
+    }
+
+    if ( class_exists( '\\Elementor\\Plugin' ) ) {
+        $previous_query = isset( $GLOBALS['wp_query'] ) ? $GLOBALS['wp_query'] : null;
+        $previous_post = isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null;
+        $GLOBALS['wp_query'] = new WP_Query();
+        $GLOBALS['wp_query']->is_category = true;
+        $GLOBALS['post'] = get_post( $read_only_post );
+        update_option( PDF_Thumbnail_Inserter::OPTION_NAME, array_merge( $defaults, array( 'use_first_pdf_preview_as_featured_image' => 1 ) ), false );
+        try {
+            pti_audit_assert( pti_audit_private( 'is_attachment_list_render_context' )
+                && null === \Elementor\Plugin::instance()->documents->get_current()
+                && false === $pti->should_suppress_elementor_post_content( $read_only_post ), 'An actual Elementor manager without a current document cannot crash archive rendering' );
+        } finally {
+            $GLOBALS['wp_query'] = $previous_query;
+            $GLOBALS['post'] = $previous_post;
+            update_option( PDF_Thumbnail_Inserter::OPTION_NAME, $defaults, false );
+        }
+    }
+
+    $previous_user = get_current_user_id();
+    $upload_was_enqueued = wp_script_is( 'pdf-thumbnail-browser-upload', 'enqueued' );
+    wp_set_current_user( 1 );
+    foreach ( array( 0, 1 ) as $enabled ) {
+        wp_dequeue_script( 'pdf-thumbnail-browser-upload' );
+        update_option( PDF_Thumbnail_Inserter::OPTION_NAME, array_merge( $defaults, array( 'auto_browser_preview_on_upload' => $enabled ) ), false );
+        $pti->enqueue_browser_upload_assets();
+        pti_audit_assert( (bool) $enabled === wp_script_is( 'pdf-thumbnail-browser-upload', 'enqueued' ), 'Real WordPress conditionally enqueues upload listeners when auto preview=' . $enabled );
+    }
+    wp_dequeue_script( 'pdf-thumbnail-browser-upload' );
+    if ( $upload_was_enqueued ) wp_enqueue_script( 'pdf-thumbnail-browser-upload' );
+    wp_set_current_user( $previous_user );
+    update_option( PDF_Thumbnail_Inserter::OPTION_NAME, $defaults, false );
 
     // A nested lock attempt is rejected; an exception does not leave a stale OS lock.
     $locked = pti_audit_private( 'with_pdf_preview_lock', $pti_pdf_path, function () use ( $pti_pdf_path ) {
@@ -216,6 +359,24 @@ try {
     $after_children = get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_parent' => $pdf_id, 'numberposts' => -1, 'fields' => 'ids' ) );
     pti_audit_assert( is_wp_error( $failed ) && ! file_exists( $broken_path ) && $before_children === $after_children, 'Metadata exception rolls back uploaded file and attachment' );
     pti_audit_assert( $preview_id === (int) get_post_meta( $pdf_id, PDF_Thumbnail_Inserter::META_PREVIEW_ID, true ) && get_post( $preview_id ), 'Metadata failure preserves existing preview' );
+
+    $metadata_error_filter = function ( $metadata, $id ) use ( $pdf_id ) {
+        return (int) get_post( $id )->post_parent === $pdf_id ? new WP_Error( 'fixture_metadata_error', 'Injected metadata error' ) : $metadata;
+    };
+    $metadata_error_path = pti_audit_image( 'metadata-error' );
+    add_filter( 'wp_generate_attachment_metadata', $metadata_error_filter, 100, 2 );
+    try {
+        $metadata_error = pti_audit_private( 'create_pdf_preview_attachment', $pdf_id, $metadata_error_path, 'image/png', 'Metadata error' );
+    } finally {
+        remove_filter( 'wp_generate_attachment_metadata', $metadata_error_filter, 100 );
+    }
+    pti_audit_assert( is_wp_error( $metadata_error ) && ! glob( substr( $metadata_error_path, 0, -4 ) . '*' )
+        && $preview_id === (int) get_post_meta( $pdf_id, PDF_Thumbnail_Inserter::META_PREVIEW_ID, true ), 'A filtered WP_Error metadata result rolls back new images and preserves the existing preview' );
+    foreach ( array( 'corrupt serialized metadata', array( 'sizes' => 'corrupt sizes' ) ) as $malformed_metadata ) {
+        update_post_meta( $pdf_id, '_wp_attachment_metadata', $malformed_metadata );
+        pti_audit_assert( '' === pti_audit_private( 'get_wordpress_pdf_preview_url', $pdf_id, 'medium' ), 'Malformed stored metadata cannot become a WordPress preview' );
+    }
+    delete_post_meta( $pdf_id, '_wp_attachment_metadata' );
 
     // Stored metadata alone does not prove that a preview image is still readable.
     $image_metadata = wp_get_attachment_metadata( $preview_id );
@@ -295,7 +456,10 @@ try {
 
     echo wp_json_encode( array( 'status' => 'PASS', 'wp' => get_bloginfo( 'version' ), 'php' => PHP_VERSION, 'imagick_cases' => $imagick_required, 'assertions' => $pti_assertions ), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) . "\n";
 } finally {
-    foreach ( $pti_created_ids as $id ) wp_delete_attachment( $id, true );
+    foreach ( $pti_created_ids as $id ) {
+        if ( 'attachment' === get_post_type( $id ) ) wp_delete_attachment( $id, true );
+        else wp_delete_post( $id, true );
+    }
     foreach ( $pti_created_paths as $path ) if ( is_file( $path ) ) wp_delete_file( $path );
     if ( false === $pti_original_settings ) {
         delete_option( PDF_Thumbnail_Inserter::OPTION_NAME );

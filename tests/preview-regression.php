@@ -61,6 +61,7 @@ function get_term( $id, $taxonomy ) { return 7 === $id ? (object) array( 'term_i
 function is_wp_error( $value ) { return $value instanceof WP_Error; }
 function status_header( $status ) { fwrite( STDERR, 'HTTP_STATUS=' . $status . "\n" ); }
 function current_user_can( $capability, ...$args ) { return $GLOBALS['capabilities'][ $capability ] ?? true; }
+function get_current_user_id() { return 1; }
 function get_posts( $args ) { return isset( $GLOBALS['query_posts'] ) ? call_user_func( $GLOBALS['query_posts'], $args ) : array(); }
 function _prime_post_caches( $ids, $terms = true, $meta = true ) {}
 function get_transient( $key ) { return false; }
@@ -185,8 +186,8 @@ check( '' === $no_pdf['url'] && '' === $no_pdf['pdf_url'], 'Posts without a PDF 
 $resolver = new ReflectionProperty( $plugin, 'first_pdf_resolver_cache' );
 $resolver->setAccessible( true );
 $resolver->setValue( $plugin, array(
-    '1001:' . md5( wp_json_encode( 'large' ) ) => array( 'pdf_url' => $base_url . 'sample.pdf', 'attachment_id' => 42, 'preview_url' => '', 'preview_id' => 0 ),
-    '1002:' . md5( wp_json_encode( 'large' ) ) => array( 'pdf_url' => $base_url . 'sample.pdf', 'attachment_id' => 42, 'preview_url' => $base_url . 'actual-preview.jpg', 'preview_id' => 42 ),
+    '1001:' . md5( wp_json_encode( 'large' ) ) . ':0' => array( 'pdf_url' => $base_url . 'sample.pdf', 'attachment_id' => 42, 'preview_url' => '', 'preview_id' => 0 ),
+    '1002:' . md5( wp_json_encode( 'large' ) ) . ':0' => array( 'pdf_url' => $base_url . 'sample.pdf', 'attachment_id' => 42, 'preview_url' => $base_url . 'actual-preview.jpg', 'preview_id' => 42 ),
 ) );
 $fallback_cover = call_private( 'get_pdf_featured_image_fallback_data', 1001, 'large' );
 parse_str( parse_url( $fallback_cover['url'], PHP_URL_QUERY ), $cover_query );

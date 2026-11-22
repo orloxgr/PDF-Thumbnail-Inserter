@@ -1,0 +1,313 @@
+{
+  "status": "FAIL",
+  "purpose": "Unreleased audit checkpoint; final new-version ZIP still required",
+  "candidate_version": "1.11.48",
+  "candidate_sha256": "7b699966072dd8d67209afcfc46c9550abc589faecb27e3ecab84b96575d9045",
+  "tool": "Plugin Check 2.2.0",
+  "counts": {
+    "ERROR": 1,
+    "WARNING": 27
+  },
+  "runtime_coverage": {
+    "early_runner": true,
+    "checks": [
+      "i18n_usage",
+      "php_error_reporting",
+      "code_obfuscation",
+      "plugin_content",
+      "file_type",
+      "plugin_header_fields",
+      "late_escaping",
+      "safe_redirect",
+      "plugin_updater",
+      "plugin_uninstall",
+      "plugin_review_phpcs",
+      "direct_db_queries",
+      "performant_wp_query_params",
+      "enqueued_scripts_in_footer",
+      "enqueued_resources",
+      "plugin_readme",
+      "localhost",
+      "no_unfiltered_uploads",
+      "trademarks",
+      "offloading_files",
+      "write_file",
+      "setting_sanitization",
+      "prefixing",
+      "direct_db",
+      "minified_files",
+      "direct_file_access",
+      "external_admin_menu_links",
+      "menu_image_icon",
+      "wp_functions_compatibility",
+      "ai_provider",
+      "react_usage",
+      "enqueued_scripts_size",
+      "enqueued_styles_size",
+      "enqueued_styles_scope",
+      "enqueued_scripts_scope",
+      "non_blocking_scripts"
+    ],
+    "runtime_checks": [
+      "enqueued_scripts_size",
+      "enqueued_styles_size",
+      "enqueued_styles_scope",
+      "enqueued_scripts_scope",
+      "non_blocking_scripts"
+    ]
+  },
+  "findings": [
+    {
+      "line": 0,
+      "column": 0,
+      "type": "ERROR",
+      "code": "outdated_tested_upto_header",
+      "message": "Tested up to: 7.0 < 7.1. The \"Tested up to\" value in your plugin is not set to the current version of WordPress. This means your plugin will not show up in searches, as we require plugins to be compatible and documented as tested up to the most recent version of WordPress.",
+      "docs": "https://developer.wordpress.org/plugins/wordpress-org/how-your-readme-txt-works/#readme-header-information",
+      "file": "readme.txt"
+    },
+    {
+      "line": 117,
+      "column": 13,
+      "type": "WARNING",
+      "code": "PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound",
+      "message": "load_plugin_textdomain() has been discouraged since WordPress version 4.6. When your plugin is hosted on WordPress.org, you no longer need to manually include this function call for translations under your plugin slug. WordPress will automatically load the translations for you as needed.",
+      "docs": "https://make.wordpress.org/core/2016/07/06/i18n-improvements-in-4-6/",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 2410,
+      "column": 25,
+      "type": "WARNING",
+      "code": "WordPress.DB.SlowDBQuery.slow_db_query_meta_key",
+      "message": "Detected usage of meta_key, possible slow query.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 2411,
+      "column": 25,
+      "type": "WARNING",
+      "code": "WordPress.DB.SlowDBQuery.slow_db_query_meta_value",
+      "message": "Detected usage of meta_value, possible slow query.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 2733,
+      "column": 65,
+      "type": "WARNING",
+      "code": "WordPress.DB.SlowDBQuery.slow_db_query_meta_value",
+      "message": "Detected usage of meta_value, possible slow query.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 2744,
+      "column": 33,
+      "type": "WARNING",
+      "code": "WordPress.DB.SlowDBQuery.slow_db_query_meta_key",
+      "message": "Detected usage of meta_key, possible slow query.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 2829,
+      "column": 25,
+      "type": "WARNING",
+      "code": "WordPress.DB.SlowDBQuery.slow_db_query_meta_key",
+      "message": "Detected usage of meta_key, possible slow query.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 2830,
+      "column": 25,
+      "type": "WARNING",
+      "code": "WordPress.DB.SlowDBQuery.slow_db_query_meta_value",
+      "message": "Detected usage of meta_value, possible slow query.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3227,
+      "column": 40,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3227,
+      "column": 88,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3228,
+      "column": 52,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3235,
+      "column": 32,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3235,
+      "column": 62,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3235,
+      "column": 105,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3546,
+      "column": 27,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3549,
+      "column": 37,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3549,
+      "column": 98,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3550,
+      "column": 31,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3550,
+      "column": 61,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3550,
+      "column": 104,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3551,
+      "column": 29,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3551,
+      "column": 60,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3551,
+      "column": 112,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3552,
+      "column": 29,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3552,
+      "column": 60,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 3552,
+      "column": 105,
+      "type": "WARNING",
+      "code": "WordPress.Security.NonceVerification.Recommended",
+      "message": "Processing form data without nonce verification.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 4139,
+      "column": 52,
+      "type": "WARNING",
+      "code": "WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound",
+      "message": "Hook names invoked by a theme/plugin should start with the theme/plugin prefix. Found: &quot;excerpt_length&quot;.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    },
+    {
+      "line": 4140,
+      "column": 55,
+      "type": "WARNING",
+      "code": "WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound",
+      "message": "Hook names invoked by a theme/plugin should start with the theme/plugin prefix. Found: &quot;excerpt_more&quot;.",
+      "docs": "",
+      "file": "pdf-thumbnail-inserter.php"
+    }
+  ]
+}

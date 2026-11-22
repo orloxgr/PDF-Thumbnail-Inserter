@@ -8,7 +8,7 @@
 
 PDF Thumbnail Inserter generates and reuses thumbnail previews for PDF attachments and lets you insert them with a shortcode, a Gutenberg block, or a Classic Editor media button.
 
-The plugin first reuses any preview WordPress already provides. If no preview exists, it attempts to generate one from the first page of the PDF using Imagick. Administrators can also generate missing previews in the browser with the bundled PDF.js runtime when the server cannot render PDFs. Generated previews are stored as image attachments so they can be reused later.
+The plugin first reuses any preview WordPress already provides. On PDF upload, it attempts to generate a missing preview from the first page using Imagick. Administrators can generate previews for older PDFs through server maintenance or in the browser with the bundled PDF.js runtime. Generated upload/maintenance previews are stored for reuse. Normal frontend rendering reuses existing images or displays the configured cover/browser canvas fallback, so visiting a listing does not start a batch of server-side PDF conversions.
 
 It supports rendering one PDF or multiple PDFs in a responsive grid with separate column controls for widescreen, desktop, tablet, and mobile.
 
@@ -99,6 +99,7 @@ Supported attributes:
 - Configure **Additional listing pages** with this site's page IDs or slugs. Category archives and the WordPress posts page are included automatically. The initial `nea` value preserves existing installations.
 - If Imagick or WordPress PDF preview support is unavailable, the plugin still works; administrators can generate missing previews from the settings page with the browser-based PDF.js fallback.
 - The server maintenance button is disabled automatically when the server cannot generate PDF previews, but the browser PDF.js maintenance button remains available.
+- Server maintenance saves progress in small batches. Keep settings open to continue automatically, or return to resume an interrupted job. Without JavaScript, submit **Continue Generating Previews on Server** after each batch. Files uploaded after a job starts are handled by the next job; individual failures do not stop the remaining files.
 - Generated preview images are saved as child image attachments of the original PDF.
 - `thumbnail`, `title`, and `url` overrides are intended for single-PDF usage. When multiple PDFs are rendered, the plugin ignores single-item overrides that would otherwise apply the same custom data to every card.
 - `[pdf_thumbnail]` remains available as a legacy alias for existing content; new inserts use `[pdf_thumbnail_inserter]`.
@@ -114,11 +115,16 @@ node tests/editor-regression.cjs
 node tests/browser-upload-regression.cjs
 node tests/browser-maintenance-regression.cjs
 node tests/preview-renderer-regression.cjs
+node tests/server-maintenance-regression.cjs
 ```
 
 `tests/wordpress-integration.php` installs the ZIP and checks real WordPress APIs on an explicitly disposable site. It requires `PTI_TEST_DISPOSABLE=true`; see its header for the install and verification phases. The test creates attachments and changes settings, so use a fresh test database.
 
 `tests/readiness-wordpress.php` exercises actual settings, block rendering, preview publication/rollback, local-file failures and optional Imagick/Ghostscript conversion. Its header describes the explicit disposable-site constants; run it directly with PHP so frontend filters are exercised. The site must have environment type `local` and cron disabled. `tests/preview-lock-concurrency.php` and `tests/preview-discovery-queries.php` take the disposable WordPress root as a CLI argument and require the environment variable `PTI_TEST_DISPOSABLE=true`. These checks create and remove synthetic fixtures and must never run against a live site.
+
+`tests/server-maintenance-wordpress.php` tests real resumable jobs, failures, concurrent deletion/new uploads, lock contention and bounded discovery on a disposable site with Imagick. `tests/server-maintenance-http.php` requires an owned loopback HTTP server with Imagick; it tests actual authenticated form/AJAX requests, CSRF and object permissions, multipart image saving/replay and media-model refresh. Both take the disposable WordPress root as their argument and require `PTI_TEST_DISPOSABLE=true`; fixtures and sessions are removed afterward.
+
+`python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt`.
 
 Build the installable ZIP with `python scripts/package.py`. This preserves the existing `pdf-thumbnail-inserter/` archive layout and includes only plugin root files and Git-tracked assets/blocks. The script checks version consistency, archive integrity, its runtime-only manifest, and every packaged byte against the source. Output goes to `dist/`; tests, development scripts, agent skills, Git metadata and local archives are excluded. Stage new runtime assets before building.
 
