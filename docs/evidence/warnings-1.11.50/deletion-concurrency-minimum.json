@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "wordpress": "6.0",
+  "php": "7.4.27",
+  "assertions": [
+    "A real owned preview is prepared before testing deletion",
+    "A child-image veto preserves both original PDF and preview",
+    "A rejected child deletion retains its parent linkage",
+    "A veto releases the temporary deletion lock",
+    "An independent preview writer owns the live OS lock",
+    "A second process cannot delete the PDF while preview generation owns its lock",
+    "The preview writer finishes and releases its lock normally",
+    "Retry deletion holds the lock through core deletion and releases it after file cleanup",
+    "Successful core deletion removes the owned preview without orphaned attachment/file",
+    "An unowned child image survives deletion of the PDF",
+    "A writer with an obsolete validated path cannot publish after deletion",
+    "Publication with a deleted parent rolls back its new image file"
+  ]
+}

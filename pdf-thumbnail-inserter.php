@@ -3,7 +3,7 @@
  * Plugin Name:       PDF Thumbnail Inserter
  * Plugin URI:        https://github.com/orloxgr/PDF-Thumbnail-Inserter
  * Description:       Generates and reuses PDF thumbnails, provides a shortcode and Gutenberg block, and adds editor helpers for inserting PDF thumbnail cards.
- * Version:           1.11.49
+ * Version:           1.11.50
  * Author:            Byron Iniotakis
  * Author URI:        https://github.com/orloxgr
  * License:           GPL-3.0-or-later
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
     final class PDF_Thumbnail_Inserter {
-        const VERSION = '1.11.49';
+        const VERSION = '1.11.50';
         const TRANSIENT_REGEN_REPORT = 'pdf_thumbnail_inserter_regen_report';
         const TRANSIENT_SERVER_JOB = 'pdf_thumbnail_inserter_server_job';
         const SERVER_SCAN_LIMIT = 100;
@@ -64,6 +64,15 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
         /** @var array<int,array{path:string,lock:resource}> Locks held through core attachment deletion. */
         private $attachment_delete_locks = array();
 
+        /** @var array<string,string> Validated public read-only request parameters. */
+        private $public_preview_request = array();
+
+        /** @var string[] Legacy parameters introduced by this plugin, not other routes. */
+        private $preview_query_vars = array();
+
+        /** @var array<WP_Post|null> Nested core excerpt contexts. */
+        private $excerpt_posts = array();
+
         /**
          * @return PDF_Thumbnail_Inserter
          */
@@ -81,6 +90,12 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             define( 'PDF_THUMBNAIL_INSERTER_URL', plugin_dir_url( __FILE__ ) );
 
             add_action( 'init', array( $this, 'load_textdomain' ) );
+            add_action( 'change_locale', array( $this, 'load_textdomain' ) );
+            add_filter( 'query_vars', array( $this, 'register_preview_query_vars' ), PHP_INT_MAX );
+            add_filter( 'request', array( $this, 'parse_public_preview_request' ) );
+            add_action( 'added_post_meta', array( $this, 'invalidate_attachment_lookup_metadata' ), 10, 3 );
+            add_action( 'updated_post_meta', array( $this, 'invalidate_attachment_lookup_metadata' ), 10, 3 );
+            add_action( 'deleted_post_meta', array( $this, 'invalidate_attachment_lookup_metadata' ), 10, 3 );
             add_action( 'init', array( $this, 'register_block' ) );
             add_action( 'admin_menu', array( $this, 'add_settings_menu' ) );
             add_action( 'admin_init', array( $this, 'register_settings' ) );
@@ -106,7 +121,9 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             add_filter( 'has_post_thumbnail', array( $this, 'has_first_pdf_preview_as_featured_image' ), 20, 3 );
             add_filter( 'post_thumbnail_id', array( $this, 'use_first_pdf_preview_as_featured_image' ), 20, 2 );
             add_filter( 'post_thumbnail_html', array( $this, 'render_first_pdf_preview_as_featured_image' ), 20, 5 );
-            add_filter( 'get_the_excerpt', array( $this, 'filter_list_excerpt_attachment_text' ), 99, 2 );
+            add_filter( 'get_the_excerpt', array( $this, 'begin_excerpt_context' ), PHP_INT_MIN, 2 );
+            add_filter( 'get_the_excerpt', array( $this, 'end_excerpt_context' ), PHP_INT_MAX );
+            add_filter( 'the_content', array( $this, 'filter_excerpt_attachment_source' ), 1 );
             add_filter( 'the_excerpt', array( $this, 'filter_category_archive_excerpt_output' ), 99 );
             add_filter( 'the_content', array( $this, 'filter_category_archive_content' ), 99 );
             add_action( 'template_redirect', array( $this, 'maybe_render_pdfjs_viewer' ), 0 );
@@ -120,7 +137,43 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
         }
 
         public function load_textdomain() {
-            load_plugin_textdomain( 'pdf-thumbnail-inserter', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+            global $wp_textdomain_registry;
+            if ( $wp_textdomain_registry instanceof WP_Textdomain_Registry ) {
+                // Modern core loads the catalogue just in time and handles locale switching.
+                $wp_textdomain_registry->set_custom_path( 'pdf-thumbnail-inserter', __DIR__ . '/languages' );
+                return;
+            }
+            // WP 6.0 JIT knows only WP_LANG_DIR; retain GitHub-local catalogues on that core.
+            get_translations_for_domain( 'pdf-thumbnail-inserter' );
+            if ( ! is_textdomain_loaded( 'pdf-thumbnail-inserter' ) ) {
+                $locale = determine_locale();
+                if ( preg_match( '/^[A-Za-z0-9_-]+$/D', $locale ) ) {
+                    $language_pack = WP_LANG_DIR . '/plugins/pdf-thumbnail-inserter-' . $locale . '.mo';
+                    if ( is_readable( $language_pack ) && load_textdomain( 'pdf-thumbnail-inserter', $language_pack ) ) return;
+                    $catalogue = __DIR__ . '/languages/pdf-thumbnail-inserter-' . $locale . '.mo';
+                    if ( is_readable( $catalogue ) ) load_textdomain( 'pdf-thumbnail-inserter', $catalogue );
+                }
+            }
+        }
+
+        public function register_preview_query_vars( $query_vars ) {
+            $this->preview_query_vars = array_diff( array( 'file', 'title', 'shape' ), $query_vars );
+            return array_unique( array_merge( $query_vars, array( self::VIEWER_QUERY_VAR, self::COVER_QUERY_VAR, 'file', 'title', 'shape' ) ) );
+        }
+
+        /** Route public GET resources through WordPress parsing, without changing the content query. */
+        public function parse_public_preview_request( $query_vars ) {
+            $this->public_preview_request = array();
+            $this->public_preview_request['cover_requested'] = isset( $query_vars[ self::COVER_QUERY_VAR ] ) ? '1' : '';
+            foreach ( array( self::VIEWER_QUERY_VAR, self::COVER_QUERY_VAR, 'file', 'title', 'shape' ) as $key ) {
+                $value = isset( $query_vars[ $key ] ) && is_scalar( $query_vars[ $key ] ) ? wp_unslash( (string) $query_vars[ $key ] ) : '';
+                if ( 'file' === $key ) $value = esc_url_raw( $value );
+                elseif ( 'shape' === $key ) $value = sanitize_key( $value );
+                else $value = sanitize_text_field( $value );
+                $this->public_preview_request[ $key ] = $value;
+            }
+            foreach ( $this->preview_query_vars as $key ) unset( $query_vars[ $key ] );
+            return $query_vars;
         }
 
         private function invalidate_preview_caches() {
@@ -1666,10 +1719,9 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             $published = false;
             $metadata = array();
             $failure = '';
-            $defer_writes = true;
-            $defer_metadata = function ( $check, $id, $key ) use ( $attachment_id, &$defer_writes ) {
+            $defer_metadata = function ( $check, $id, $key ) use ( $attachment_id ) {
                 // Core builds sub-size metadata in memory; publish once after every size is ready.
-                return $defer_writes && (int) $id === $attachment_id && '_wp_attachment_metadata' === $key ? false : $check;
+                return (int) $id === $attachment_id && '_wp_attachment_metadata' === $key ? false : $check;
             };
             add_filter( 'wp_update_attachment_metadata', $capture_metadata, PHP_INT_MIN, 2 );
             add_filter( 'update_post_metadata', $defer_metadata, PHP_INT_MAX, 3 );
@@ -1677,7 +1729,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             try {
                 $metadata = wp_generate_attachment_metadata( $attachment_id, $file_path );
                 if ( is_array( $metadata ) ) {
-                    $defer_writes = false;
+                    remove_filter( 'update_post_metadata', $defer_metadata, PHP_INT_MAX );
                     wp_update_attachment_metadata( $attachment_id, $metadata );
                     wp_cache_delete( $attachment_id, 'post_meta' );
                     $stored = wp_get_attachment_metadata( $attachment_id, true );
@@ -1823,11 +1875,11 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 $imagick->setImageFormat( 'jpeg' );
                 $imagick->setImageBackgroundColor( 'white' );
 
-                if ( method_exists( $imagick, 'setImageAlphaChannel' ) && defined( 'Imagick::ALPHACHANNEL_REMOVE' ) ) {
+                if ( defined( 'Imagick::ALPHACHANNEL_REMOVE' ) ) {
                     $imagick->setImageAlphaChannel( Imagick::ALPHACHANNEL_REMOVE );
                 }
 
-                if ( method_exists( $imagick, 'mergeImageLayers' ) && defined( 'Imagick::LAYERMETHOD_FLATTEN' ) ) {
+                if ( defined( 'Imagick::LAYERMETHOD_FLATTEN' ) ) {
                     $flattened = $imagick->mergeImageLayers( Imagick::LAYERMETHOD_FLATTEN );
                     $imagick->clear();
                     $imagick->destroy();
@@ -2519,7 +2571,94 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             return $this->get_url_path( $file_url );
         }
 
+        public function invalidate_attachment_lookup_metadata( $meta_id, $post_id, $meta_key ) {
+            if ( '_wp_attached_file' === $meta_key ) wp_cache_set( 'last_changed', microtime(), 'pdf-thumbnail-inserter-lookup' );
+        }
+
+        private function get_attachment_lookup_cache_key( $values ) {
+            return md5( wp_json_encode( $values ) . wp_cache_get_last_changed( 'posts' ) . wp_cache_get_last_changed( 'pdf-thumbnail-inserter-lookup' ) );
+        }
+
+        /**
+         * One ranked, cached batch replaces a WP_Query/meta join for every filename/token.
+         * A cold substring search still examines attachment metadata; batching removes repeated
+         * joins/scans and cache invalidation prevents repeating it for every referring post.
+         *
+         * @param string[] $needles At most six literal relative paths or filename fragments.
+         * @param string   $mode    exact, filename or reference (also search the display title).
+         * @return int[]
+         */
+        private function find_attachment_filename_candidates( $needles, $mode = 'filename' ) {
+            global $wpdb;
+            $needles = array_slice( array_values( array_unique( array_filter( $needles, static function ( $needle ) { return '' !== $needle; } ) ) ), 0, 6 );
+            if ( ! $needles ) return array();
+            $key = $this->get_attachment_lookup_cache_key( array( $mode, $needles ) );
+            $cached = wp_cache_get( $key, 'pdf-thumbnail-inserter-lookup' );
+            if ( is_array( $cached ) ) return $cached;
+            $values = array_pad( $needles, 6, '' );
+            if ( 'exact' === $mode ) {
+                $condition = $wpdb->prepare( "pti_lookup_file.meta_value <> '' AND pti_lookup_file.meta_value IN (%s,%s,%s,%s,%s,%s)",
+                    $values[0], $values[1], $values[2], $values[3], $values[4], $values[5] );
+                $score = $wpdb->prepare( 'CASE pti_lookup_file.meta_value WHEN %s THEN 6 WHEN %s THEN 5 WHEN %s THEN 4 WHEN %s THEN 3 WHEN %s THEN 2 WHEN %s THEN 1 ELSE 0 END',
+                    $values[0], $values[1], $values[2], $values[3], $values[4], $values[5] );
+            } else {
+                $arguments = array();
+                foreach ( $values as $value ) {
+                    $pattern = '%' . $wpdb->esc_like( $value ) . '%';
+                    $arguments[] = $value;
+                    $arguments[] = 'reference' === $mode ? 1 : 0;
+                    $arguments[] = $pattern;
+                    $arguments[] = $pattern;
+                }
+                $score = $wpdb->prepare(
+                    "(CASE WHEN %s <> '' AND ((%d = 1 AND {$wpdb->posts}.post_title LIKE %s) OR pti_lookup_file.meta_value LIKE %s) THEN 1 ELSE 0 END) +
+                    (CASE WHEN %s <> '' AND ((%d = 1 AND {$wpdb->posts}.post_title LIKE %s) OR pti_lookup_file.meta_value LIKE %s) THEN 1 ELSE 0 END) +
+                    (CASE WHEN %s <> '' AND ((%d = 1 AND {$wpdb->posts}.post_title LIKE %s) OR pti_lookup_file.meta_value LIKE %s) THEN 1 ELSE 0 END) +
+                    (CASE WHEN %s <> '' AND ((%d = 1 AND {$wpdb->posts}.post_title LIKE %s) OR pti_lookup_file.meta_value LIKE %s) THEN 1 ELSE 0 END) +
+                    (CASE WHEN %s <> '' AND ((%d = 1 AND {$wpdb->posts}.post_title LIKE %s) OR pti_lookup_file.meta_value LIKE %s) THEN 1 ELSE 0 END) +
+                    (CASE WHEN %s <> '' AND ((%d = 1 AND {$wpdb->posts}.post_title LIKE %s) OR pti_lookup_file.meta_value LIKE %s) THEN 1 ELSE 0 END)",
+                    $arguments[0], $arguments[1], $arguments[2], $arguments[3], $arguments[4], $arguments[5], $arguments[6], $arguments[7],
+                    $arguments[8], $arguments[9], $arguments[10], $arguments[11], $arguments[12], $arguments[13], $arguments[14], $arguments[15],
+                    $arguments[16], $arguments[17], $arguments[18], $arguments[19], $arguments[20], $arguments[21], $arguments[22], $arguments[23]
+                );
+                $condition = '(' . $score . ') > 0';
+            }
+            $query = new WP_Query();
+            $clauses_filter = static function ( $clauses, $current_query ) use ( $query, $condition, $score, $wpdb ) {
+                if ( $current_query !== $query ) return $clauses;
+                $clauses['join'] .= " INNER JOIN {$wpdb->postmeta} pti_lookup_file ON {$wpdb->posts}.ID = pti_lookup_file.post_id";
+                $clauses['where'] .= " AND pti_lookup_file.meta_key = '_wp_attached_file' AND (" . $condition . ')';
+                $clauses['groupby'] = "{$wpdb->posts}.ID, {$wpdb->posts}.post_date";
+                $clauses['orderby'] = ( '' !== $score ? 'MAX(' . $score . ') DESC, ' : '' ) . "{$wpdb->posts}.post_date DESC, {$wpdb->posts}.ID DESC";
+                return $clauses;
+            };
+            add_filter( 'posts_clauses', $clauses_filter, 10, 2 );
+            try {
+                $ids = $query->query( array( 'post_type' => 'attachment', 'post_status' => 'inherit',
+                    'posts_per_page' => 20, 'fields' => 'ids', 'no_found_rows' => true ) );
+            } finally {
+                remove_filter( 'posts_clauses', $clauses_filter, 10 );
+            }
+            $ids = array_map( 'absint', $ids );
+            if ( $ids ) {
+                // Prime full posts and metadata together before candidate validation/scoring.
+                get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post__in' => $ids,
+                    'posts_per_page' => 20, 'orderby' => 'post__in', 'no_found_rows' => true ) );
+            }
+            wp_cache_set( $key, $ids, 'pdf-thumbnail-inserter-lookup', 300 );
+            return $ids;
+        }
+
         private function get_attachment_id_from_file_url( $file_url ) {
+            $key = $this->get_attachment_lookup_cache_key( array( 'url', $file_url ) );
+            $cached = wp_cache_get( $key, 'pdf-thumbnail-inserter-lookup' );
+            if ( false !== $cached ) return absint( $cached );
+            $id = $this->resolve_attachment_id_from_file_url( $file_url );
+            wp_cache_set( $key, $id, 'pdf-thumbnail-inserter-lookup', 300 );
+            return $id;
+        }
+
+        private function resolve_attachment_id_from_file_url( $file_url ) {
             $attachment_id = absint( attachment_url_to_postid( $file_url ) );
             if ( $attachment_id ) {
                 return $attachment_id;
@@ -2538,26 +2677,14 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 return 0;
             }
 
-            $attachment_ids = array();
-            foreach ( $this->get_relative_upload_file_variants( $relative_file ) as $relative_variant ) {
-                $attachment_ids = get_posts(
-                    array(
-                        'post_type'      => 'attachment',
-                        'post_status'    => 'inherit',
-                        'posts_per_page' => 1,
-                        'fields'         => 'ids',
-                        'meta_key'       => '_wp_attached_file',
-                        'meta_value'     => $relative_variant,
-                        'no_found_rows'  => true,
-                    )
-                );
-
-                if ( ! empty( $attachment_ids ) ) {
-                    break;
+            $variants = $this->get_relative_upload_file_variants( $relative_file );
+            $attachment_ids = $this->find_attachment_filename_candidates( $variants, 'exact' );
+            foreach ( $variants as $variant ) {
+                foreach ( $attachment_ids as $id ) {
+                    if ( get_post_meta( $id, '_wp_attached_file', true ) === $variant ) return $id;
                 }
             }
-
-            return ! empty( $attachment_ids ) ? absint( $attachment_ids[0] ) : 0;
+            return $attachment_ids ? $attachment_ids[0] : 0;
         }
 
         private function get_file_url_from_block_markup( $markup ) {
@@ -2867,31 +2994,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 return array();
             }
 
-            $attachment_ids = array();
-            foreach ( array_slice( $tokens, 0, 6 ) as $token ) {
-                foreach ( array( array( 's' => $token ), array( 'meta_value' => $token ) ) as $query_args ) {
-                    $found_ids = get_posts(
-                        array_merge(
-                            array(
-                                'post_type'      => 'attachment',
-                                'post_status'    => 'inherit',
-                                'posts_per_page' => 20,
-                                'fields'         => 'ids',
-                                'no_found_rows'  => true,
-                            ),
-                            isset( $query_args['meta_value'] ) ? array(
-                                'meta_key'     => '_wp_attached_file',
-                                'meta_compare' => 'LIKE',
-                            ) : array(),
-                            $query_args
-                        )
-                    );
-
-                    if ( ! empty( $found_ids ) ) {
-                        $attachment_ids = array_merge( $attachment_ids, array_map( 'absint', $found_ids ) );
-                    }
-                }
-            }
+            $attachment_ids = $this->find_attachment_filename_candidates( array_slice( $tokens, 0, 6 ), 'reference' );
 
             $best_data  = array();
             $best_score = 0;
@@ -2958,24 +3061,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 )
             );
 
-            foreach ( $file_variants as $file_variant ) {
-                $found_ids = get_posts(
-                    array(
-                        'post_type'      => 'attachment',
-                        'post_status'    => 'inherit',
-                        'posts_per_page' => 10,
-                        'fields'         => 'ids',
-                        'meta_key'       => '_wp_attached_file',
-                        'meta_value'     => $file_variant,
-                        'meta_compare'   => 'LIKE',
-                        'no_found_rows'  => true,
-                    )
-                );
-
-                if ( ! empty( $found_ids ) ) {
-                    $attachment_ids = array_merge( $attachment_ids, array_map( 'absint', $found_ids ) );
-                }
-            }
+            $attachment_ids = array_merge( $attachment_ids, $this->find_attachment_filename_candidates( $file_variants ) );
 
             foreach ( array_values( array_unique( array_filter( $attachment_ids ) ) ) as $attachment_id ) {
                 $file_data = $this->get_pdf_file_data_from_attachment_id( $attachment_id );
@@ -3365,15 +3451,13 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
         }
 
         public function maybe_render_pdfjs_viewer() {
-            $viewer_requested = isset( $_GET[ self::VIEWER_QUERY_VAR ] ) && is_scalar( $_GET[ self::VIEWER_QUERY_VAR ] )
-                ? sanitize_text_field( wp_unslash( $_GET[ self::VIEWER_QUERY_VAR ] ) )
-                : '';
+            $viewer_requested = $this->public_preview_request[ self::VIEWER_QUERY_VAR ] ?? '';
 
             if ( '' === $viewer_requested ) {
                 return;
             }
 
-            $raw_file = isset( $_GET['file'] ) && is_scalar( $_GET['file'] ) ? esc_url_raw( wp_unslash( $_GET['file'] ) ) : '';
+            $raw_file = $this->public_preview_request['file'] ?? '';
             $pdf_url  = $this->get_local_pdf_viewer_file_url( $raw_file );
 
             if ( '' === $pdf_url ) {
@@ -3386,6 +3470,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 );
             }
 
+            status_header( 200 );
             nocache_headers();
             header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
             header( 'X-Content-Type-Options: nosniff' );
@@ -3687,13 +3772,13 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
         }
 
         public function maybe_render_document_cover() {
-            if ( ! isset( $_GET[ self::COVER_QUERY_VAR ] ) ) {
+            if ( empty( $this->public_preview_request['cover_requested'] ) ) {
                 return;
             }
-            $requested = is_scalar( $_GET[ self::COVER_QUERY_VAR ] ) ? sanitize_key( wp_unslash( $_GET[ self::COVER_QUERY_VAR ] ) ) : '';
-            $pdf_url = isset( $_GET['file'] ) && is_scalar( $_GET['file'] ) ? esc_url_raw( wp_unslash( $_GET['file'] ) ) : '';
-            $title = isset( $_GET['title'] ) && is_scalar( $_GET['title'] ) ? sanitize_text_field( wp_unslash( $_GET['title'] ) ) : '';
-            $shape = isset( $_GET['shape'] ) && is_scalar( $_GET['shape'] ) ? sanitize_key( wp_unslash( $_GET['shape'] ) ) : '';
+            $requested = $this->public_preview_request[ self::COVER_QUERY_VAR ];
+            $pdf_url = $this->public_preview_request['file'];
+            $title = $this->public_preview_request['title'];
+            $shape = $this->public_preview_request['shape'];
             $shape = 'portrait' === $shape ? 'portrait' : 'landscape';
             if ( '1' !== $requested || '' === $this->get_document_cover_url( $pdf_url, $title, $shape ) ) {
                 status_header( 404 );
@@ -4194,8 +4279,6 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
 
                 if (
                     isset( $elementor->editor )
-                    && is_object( $elementor->editor )
-                    && method_exists( $elementor->editor, 'is_edit_mode' )
                     && $elementor->editor->is_edit_mode()
                 ) {
                     return true;
@@ -4203,8 +4286,6 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
 
                 if (
                     isset( $elementor->preview )
-                    && is_object( $elementor->preview )
-                    && method_exists( $elementor->preview, 'is_preview_mode' )
                     && $elementor->preview->is_preview_mode()
                 ) {
                     return true;
@@ -4254,6 +4335,25 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             return trim( (string) $content );
         }
 
+        public function begin_excerpt_context( $excerpt, $post ) {
+            $this->excerpt_posts[] = get_post( $post );
+            return $excerpt;
+        }
+
+        public function end_excerpt_context( $excerpt ) {
+            array_pop( $this->excerpt_posts );
+            return $excerpt;
+        }
+
+        /** Clean source before core trims once, preserving its filters and content pipeline. */
+        public function filter_excerpt_attachment_source( $content ) {
+            if ( ! doing_filter( 'get_the_excerpt' ) || ! $this->is_news_or_category_list_context() ) return $content;
+            $post = end( $this->excerpt_posts );
+            if ( ! $post || 'post' !== $post->post_type || '' !== trim( (string) $post->post_excerpt ) ) return $content;
+            return $this->strip_attachment_sources_from_content( $content );
+        }
+
+        /** Legacy public callback retained for callers explicitly invoking the old adapter. */
         public function filter_list_excerpt_attachment_text( $excerpt, $post ) {
             if ( ! $this->is_news_or_category_list_context() ) {
                 return $excerpt;
@@ -4280,10 +4380,9 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 return '';
             }
 
-            $excerpt_length = (int) apply_filters( 'excerpt_length', 55 );
-            $excerpt_more   = (string) apply_filters( 'excerpt_more', ' [&hellip;]' );
-
-            return wp_trim_words( $clean_content, $excerpt_length, $excerpt_more );
+            $excerpt_post = clone $post;
+            $excerpt_post->post_content = $clean_content;
+            return wp_trim_excerpt( '', $excerpt_post );
         }
 
         public function filter_category_archive_excerpt_output( $excerpt ) {

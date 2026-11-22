@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "phase": "fresh",
+  "wordpress": "7.1.5",
+  "php": "8.2.30",
+  "assertions": [
+    "The phase uses its existing disposable lifecycle state",
+    "The fixture identity still matches its original attachment path",
+    "The original PDF bytes are preserved",
+    "Stored legacy shortcode and dynamic block content are unchanged",
+    "Fresh installed plugin is active in a new WordPress request",
+    "A clean installation exposes all documented defaults",
+    "The dynamic block registers after fresh activation",
+    "Existing legacy content renders after fresh installation"
+  ]
+}

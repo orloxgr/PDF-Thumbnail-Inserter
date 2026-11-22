@@ -1,0 +1,13 @@
+includes:
+    - ../../dist/readiness/tooling/vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+    level: 5
+    phpVersion: 70400
+    paths:
+        - ../../pdf-thumbnail-inserter.php
+    scanDirectories:
+        - ../../dist/readiness/integrations/elementor
+        - ../../dist/readiness/integrations/elementor-pro
+    stubFiles:
+        - runtime-contracts.stub
+    tmpDir: ../../dist/readiness/tooling/phpstan-cache

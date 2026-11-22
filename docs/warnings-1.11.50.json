@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "version": "1.11.50",
+  "sha256": "506df36dad8d57287ddf32aab99a77db2fc3ac1a8c83407234bceed2ba2cccbf",
+  "baseline": "Published v1.11.49 / 4f467960c5a107074f07c417cf377e54b1955f91",
+  "plugin_check": {
+    "before_warnings": 27,
+    "errors": 0,
+    "warnings": 0,
+    "checks": 36,
+    "runtime_checks": 5
+  },
+  "phpstan": {
+    "before_findings": 18,
+    "errors": 0,
+    "level": 5,
+    "phpVersion": 70400,
+    "config": "tools/phpstan/phpstan.neon",
+    "corrected_contracts": "tools/phpstan/runtime-contracts.md",
+    "baseline_or_ignores": false,
+    "negative_argument_probe": {
+      "status": "PASS",
+      "expected_rejected_arguments": 7,
+      "actual_rejected_arguments": 7,
+      "identifiers": [
+        "argument.type",
+        "argument.type",
+        "argument.type",
+        "argument.type",
+        "argument.type",
+        "argument.type",
+        "argument.type"
+      ]
+    }
+  },
+  "syntax_files": 41,
+  "native_readiness_assertions": 1102,
+  "fresh_lifecycle_assertions": 59,
+  "all_native_http_and_node_records": "evidence/warnings-1.11.50/tests.json",
+  "runtime_asset_changes": [],
+  "new_suppressions_or_skip_flags": false,
+  "limits": [
+    "A cold substring filename query still examines metadata: this is not claimed to be indexed.",
+    "Prior real browser evidence is reused only for unchanged JS/CSS assets; new routing/excerpt/server paths have real HTTP/WordPress coverage.",
+    "The previously accepted Gutenberg 7.1 visual iframe limitation remains.",
+    "Only PHP 7.4.27 and 8.2.30 were executed; PHPCompatibilityWP 7.4–8.4 is static."
+  ]
+}

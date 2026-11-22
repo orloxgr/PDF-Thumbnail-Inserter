@@ -4,7 +4,7 @@ Tags: pdf, thumbnail, media, shortcode, gutenberg
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.11.49
+Stable tag: 1.11.50
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -64,6 +64,11 @@ The older [pdf_thumbnail] shortcode remains available as a legacy alias for exis
 Yes. Use `link_to="attachment"`, `link_to="custom"` with `url="..."`, or `link_to="none"`.
 
 == Changelog ==
+
+= 1.11.50 =
+* Resolve Plugin Check warnings through WordPress request routing, core excerpt/translation APIs and measured batched/cached attachment lookup.
+* Preserve legacy URLs, excerpt hooks, translations, settings and content; add real HTTP, locale-switch and query-budget regressions.
+* Simplify metadata deferral and correct source-backed static-analysis contracts without ignores or baselines.
 
 = 1.11.49 =
 * Serialize preview publication and PDF deletion; preserve old previews and roll back failed files/metadata.

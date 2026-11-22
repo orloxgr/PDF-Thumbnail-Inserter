@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "mode": "baseline",
+  "wordpress": "6.0",
+  "php": "7.4.27",
+  "cold_queries": 15,
+  "warm_queries": 12,
+  "cold_metadata_like_scans": 6,
+  "invalidation": "PASS"
+}

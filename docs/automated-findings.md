@@ -1,4 +1,6 @@
-# Automated findings — release candidate 1.11.49
+# Historical automated findings — 1.11.49
+
+**Current 1.11.50: Plugin Check 0 errors / 0 warnings; PHPStan 0 findings.** See the [corrections, tests and source-backed type contracts](warnings-1.11.50.md). The following is preserved historical evidence for 1.11.49; its counts and line numbers do not describe the current code.
 
 The exact 229-file candidate ZIP SHA-256 is `ad067fd7ea7c6def25abc8f298c3cfd940c43bdc2473363b625f848f5fec59c8`. It is a new version; the published 1.11.48 artifact is unchanged. All errors/warnings remain visible. No check exclusions, reduced thresholds, PHPStan baseline or ignore rules were added.
 

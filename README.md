@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.49
+**Version:** 1.11.50
 **Author:** Byron Iniotakis
 **License:** GPL-3.0-or-later
 
@@ -129,6 +129,8 @@ node tests/viewer-regression.cjs
 
 `tests/deletion-concurrency.php` checks actual cross-process writer/deletion contention, ownership, third-party deletion vetoes and stale publication paths. `tests/upload-http.php` checks actual REST PDF uploads and conditional Media Add New assets with automatic previews on and off. Both require the same disposable-site root and environment variable; the HTTP test additionally needs its owned loopback server. `tests/viewer-regression.cjs` covers lazy page batches, viewport rendering, pixel bounds, cancellation and worker disposal using explicit browser/PDF mocks.
 
+With the same disposable-site root and `PTI_TEST_DISPOSABLE=true`, `tests/reference-lookup-wordpress.php` checks cold/warm query budgets and filename cache invalidation; `tests/warnings-wordpress.php` verifies real excerpt hooks, routing isolation and literal SQL patterns. `tests/translations-wordpress.php` uses fresh processes and temporary MO fixtures to verify language-pack priority, local fallback, missing translations and repeated locale switching. It refuses to replace existing translation files. `tests/public-resources-http.php` requires the owned loopback server and checks actual anonymous viewer/cover responses, malformed inputs and absence of data mutations. The pinned PHPStan configuration and source-backed runtime contracts are in `tools/phpstan/`; they add no ignores or baseline and are excluded from the ZIP.
+
 `tests/lifecycle-wordpress.php` must start on a **fresh disposable local site without this plugin or its options**. Set `PTI_TEST_DISPOSABLE=true`. Each phase is a separate PHP process: `php tests/lifecycle-wordpress.php /path/to/wp PHASE`. Run `init`, install/activate the ZIP with WordPress/WP-CLI, run `fresh` and `legacy`, deactivate the plugin, run `inactive`, uninstall through WordPress (including removal of its files), run `uninstalled`, reinstall/activate the ZIP, and run `reinstalled`. The synthetic PDF, child preview, settings and stored content are retained for an upgrade check. To establish an actual published starting version, install that release ZIP and run `baseline ZIP_PATH`; then install/activate the new version and run `upgraded VERSION` followed by `cleanup VERSION`. Never run these commands on production. An additional HTTP server or browser is not required for these native lifecycle checks.
 
 `python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt`.
@@ -138,6 +140,14 @@ Build the installable ZIP with `python scripts/package.py`. This preserves the e
 The [readiness audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/main/docs/readiness-audit.md) records the complete requirement matrix, fixes, tool findings and verification limits.
 
 ## Changelog
+
+### 1.11.50
+
+- Route public viewer/cover parameters through declared WordPress query variables, preserving old URLs and input validation without raw GET access or session-dependent nonces.
+- Use core excerpt generation to preserve existing excerpt customization; use modern just-in-time translation loading with a tested WordPress 6.0 fallback and locale switching.
+- Batch and cache legacy filename/token searches, prime candidates together and invalidate matches/misses when attachments change. Measured filename-only lookup: 15 to 5 cold queries, 6 to 1 metadata searches, and 12 to 0 warm queries on WordPress 6.0.
+- Simplify temporary metadata deferral and established capability checks while preserving rollback and initialization guards. Correct source-verified analysis contracts instead of suppressing findings.
+- Add native and real HTTP regressions for all warning corrections. Detailed clean Plugin Check/PHPStan results and verification limits are recorded in the repository audit.
 
 ### 1.11.49
 

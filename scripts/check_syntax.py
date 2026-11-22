@@ -10,12 +10,14 @@ parser.add_argument("--report", type=Path, help="Optional JSON evidence file")
 args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 php_files = [root / "pdf-thumbnail-inserter.php", *sorted((root / "tests").glob("*.php"))]
+php_files += sorted(file for file in (root / "tools/phpstan").glob("*")
+                    if file.is_file() and file.suffix in (".php", ".stub"))
 js_files = sorted(file for directory in ("assets", "blocks") for file in (root / directory).rglob("*")
                   if file.is_file() and file.suffix in (".js", ".mjs"))
 js_files += sorted((root / "tests").glob("*.cjs"))
 results = []
 for file in php_files + js_files:
-    command = [args.php, "-d", "xdebug.mode=off", "-l", str(file)] if file.suffix == ".php" else ["node", "--check", str(file)]
+    command = [args.php, "-d", "xdebug.mode=off", "-l", str(file)] if file in php_files else ["node", "--check", str(file)]
     result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace")
     results.append({"file": file.relative_to(root).as_posix(), "status": "PASS" if result.returncode == 0 else "FAIL",
                     "exit": result.returncode, "diagnostic": (result.stdout + result.stderr)[:2000] if result.returncode else ""})

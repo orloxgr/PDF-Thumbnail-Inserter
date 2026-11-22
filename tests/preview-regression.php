@@ -265,6 +265,8 @@ if ( in_array( '--cover', $argv, true ) || in_array( '--cover-disabled', $argv, 
     if ( ( $argv[2] ?? '' ) !== 'missing' ) $_GET['file'] = $base_url . ( $argv[2] ?? 'sample.pdf' );
     $_GET['title'] = $argv[3] ?? 'Πρόσκληση συνεδρίασης Δημοτικού Συμβουλίου';
     $_GET['shape'] = $argv[4] ?? 'landscape';
+    $plugin->register_preview_query_vars( array() );
+    $plugin->parse_public_preview_request( $_GET );
     $plugin->maybe_render_document_cover();
 } elseif ( in_array( '--grid', $argv, true ) ) {
     echo '<!doctype html><meta charset="utf-8"><title>Responsive columns QA</title>';

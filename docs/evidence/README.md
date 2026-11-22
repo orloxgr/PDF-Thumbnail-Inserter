@@ -1,5 +1,7 @@
 # Executed audit evidence
 
+The current 1.11.50 follow-up is in [warnings-1.11.50/](warnings-1.11.50/): full native/HTTP/Node reruns, measured before/after lookup, real locale switches, source-contract negative probe and exact-ZIP lifecycle/upgrade. Its clean tool reports are in [plugin-check-1.11.50.json](../plugin-check-1.11.50.json) and [phpstan-1.11.50.json](../phpstan-1.11.50.json). The records outside that folder retain the historical 1.11.49 checkpoint.
+
 These records and screenshots contain synthetic fixtures from disposable local sites. They are development evidence and are excluded from the installable ZIP. Repository paths in JSON messages are normalized to `<repository>`; credentials, session tokens, nonces and commercial integration files are not included.
 
 - `readiness-expanded-*.json`: actual WordPress API/server regressions, WP 6.0/PHP 7.4.27 and WP 7.1.5/PHP 8.2.30, without/with real Imagick. Latest totals are 268/282 and 269/283, respectively. Only the latest site has Elementor/Pro 4.4.1 installed; its extra assertion covers an actual null current-document state.

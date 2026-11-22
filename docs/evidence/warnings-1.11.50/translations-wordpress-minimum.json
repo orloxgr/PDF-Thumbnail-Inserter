@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "wordpress": "6.0",
+  "php": "7.4.27",
+  "modes": {
+    "language-pack-priority": {
+      "status": "PASS",
+      "assertions": [
+        "Initial English catalogue state is correct",
+        "Greek catalogue selection and translation are correct",
+        "Restoring the locale restores English without a stale catalogue",
+        "Greek catalogue selection and translation are correct",
+        "Restoring the locale restores English without a stale catalogue"
+      ]
+    },
+    "local-fallback": {
+      "status": "PASS",
+      "assertions": [
+        "Initial English catalogue state is correct",
+        "Greek catalogue selection and translation are correct",
+        "Restoring the locale restores English without a stale catalogue",
+        "Greek catalogue selection and translation are correct",
+        "Restoring the locale restores English without a stale catalogue"
+      ]
+    },
+    "missing-catalogue": {
+      "status": "PASS",
+      "assertions": [
+        "Initial English catalogue state is correct",
+        "Greek catalogue selection and translation are correct",
+        "Restoring the locale restores English without a stale catalogue",
+        "Greek catalogue selection and translation are correct",
+        "Restoring the locale restores English without a stale catalogue"
+      ]
+    }
+  }
+}

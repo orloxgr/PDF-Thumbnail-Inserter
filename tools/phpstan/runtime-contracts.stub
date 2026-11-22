@@ -1,0 +1,89 @@
+<?php
+/** Analysis-only contracts; never execute/include this file at runtime.
+ * See runtime-contracts.md for actual core/integration source evidence.
+ */
+namespace {
+    /**
+     * Registers a block type. The recommended way is to register a block type using
+     * the metadata stored in the `block.json` file.
+     *
+     * @since 5.0.0
+     * @since 5.8.0 First parameter now accepts a path to the `block.json` file.
+     *
+     * @param string|WP_Block_Type $block_type Block type name including namespace, or alternatively
+     *                                         a path to the JSON file with metadata definition for the block,
+     *                                         or a path to the folder where the `block.json` file is located,
+     *                                         or a complete WP_Block_Type instance.
+     *                                         In case a WP_Block_Type is provided, the $args parameter will be ignored.
+     * @param array                $args       Optional. Array of block type arguments. Accepts any public property
+     *                                         of `WP_Block_Type`. See WP_Block_Type::__construct() for information
+     *                                         on accepted arguments. Default empty array.
+     *
+     * @return WP_Block_Type|false The registered block type on success, or false on failure.
+     * @phpstan-param array{
+     *   api_version?: int,
+     *   title?: string,
+     *   category?: string|null,
+     *   parent?: string[]|null,
+     *   ancestor?: string[]|null,
+     *   allowed_blocks?: string[]|null,
+     *   icon?: string|null,
+     *   description?: string,
+     *   keywords?: string[],
+     *   textdomain?: string|null,
+     *   styles?: array[],
+     *   variations?: array[],
+     *   selectors?: array,
+     *   supports?: array|null,
+     *   example?: array|null,
+     *   render_callback?: callable|null,
+     *   variation_callback?: callable|null,
+     *   attributes?: array|null,
+     *   uses_context?: string[],
+     *   provides_context?: string[]|null,
+     *   block_hooks?: string[],
+     *   editor_script_handles?: string[],
+     *   script_handles?: string[],
+     *   view_script_handles?: string[],
+     *   editor_style_handles?: string[],
+     *   style_handles?: string[],
+     *   view_style_handles?: string[],
+     * } $args See WP_Block_Type::__construct()
+     */
+    function register_block_type($block_type, $args = array())
+    {
+    }
+    /**
+     * @param int $attachment_id
+     * @param string $file
+     * @return mixed Filterable core result.
+     */
+    function wp_generate_attachment_metadata($attachment_id, $file) {}
+    /**
+     * @param int $attachment_id
+     * @param bool $unfiltered
+     * @return mixed Stored metadata is not schema-constrained.
+     */
+    function wp_get_attachment_metadata($attachment_id = 0, $unfiltered = false) {}
+    /**
+     * @param string $text
+     * @return array<string|int,string>|string WordPress 6.0 can return a string.
+     */
+    function shortcode_parse_atts($text) {}
+}
+namespace Elementor {
+    class Plugin {
+        /** @var Plugin|null */
+        public static $instance;
+        /** @var \Elementor\Core\Editor\Editor|null */
+        public $editor;
+        /** @var \Elementor\Preview|null */
+        public $preview;
+    }
+}
+namespace Elementor\Core {
+    class Documents_Manager {
+        /** @return \Elementor\Core\Base\Document|null */
+        public function get_current() {}
+    }
+}
