@@ -56,12 +56,12 @@ function wp_html_excerpt( $value, $count, $more = null ) {
     $chars = preg_split( '//u', $value, -1, PREG_SPLIT_NO_EMPTY );
     return count( $chars ) > $count ? implode( '', array_slice( $chars, 0, $count ) ) . $more : $value;
 }
-function get_post( $id ) { return (object) array( 'ID' => $id, 'post_type' => 'post', 'post_content' => '' ); }
+function get_post( $id ) { return $GLOBALS['posts'][ $id ] ?? (object) array( 'ID' => $id, 'post_type' => 'post', 'post_content' => '' ); }
 function get_term( $id, $taxonomy ) { return 7 === $id ? (object) array( 'term_id' => 7, 'name' => 'Προσκλήσεις Δημοτικού Συμβουλίου' ) : null; }
-function is_wp_error( $value ) { return false; }
+function is_wp_error( $value ) { return $value instanceof WP_Error; }
 function status_header( $status ) { fwrite( STDERR, 'HTTP_STATUS=' . $status . "\n" ); }
 function current_user_can( $capability, ...$args ) { return $GLOBALS['capabilities'][ $capability ] ?? true; }
-function get_posts( $args ) { return array(); }
+function get_posts( $args ) { return isset( $GLOBALS['query_posts'] ) ? call_user_func( $GLOBALS['query_posts'], $args ) : array(); }
 function get_transient( $key ) { return false; }
 function settings_fields( $group ) {}
 function selected( $value, $expected ) { if ( $value === $expected ) echo 'selected'; }
@@ -80,12 +80,12 @@ function get_post_type( $id ) { return 'post'; }
 function get_post_meta( $id, $key, $single = false ) { return '_thumbnail_id' === $key ? ( $GLOBALS['featured'][ $id ] ?? 0 ) : ( $GLOBALS['metadata'][ $id ][ $key ] ?? 0 ); }
 function get_post_mime_type( $id ) { return $GLOBALS['mime_types'][ $id ] ?? 'application/pdf'; }
 function wp_get_attachment_image_src( $id, $size ) { return isset( $GLOBALS['images'][ $id ] ) ? array( $GLOBALS['images'][ $id ], 600, 850, true ) : false; }
-function wp_get_attachment_url( $id ) { return $GLOBALS['base_url'] . 'sample.pdf'; }
+function wp_get_attachment_url( $id ) { return $GLOBALS['attachment_urls'][ $id ] ?? $GLOBALS['base_url'] . 'sample.pdf'; }
 function get_attachment_link( $id ) { return $GLOBALS['base_url'] . 'attachment/' . $id; }
 function wp_get_attachment_image_url( $id, $size ) { return $GLOBALS['images'][ $id ] ?? false; }
 function wp_get_attachment_metadata( $id, $unfiltered = false ) { return array(); }
-function get_attached_file( $id, $unfiltered = false ) { return ''; }
-function wp_get_upload_dir() { return array(); }
+function get_attached_file( $id, $unfiltered = false ) { return $GLOBALS['attachment_files'][ $id ] ?? ''; }
+function wp_get_upload_dir() { return $GLOBALS['uploads'] ?? array(); }
 
 require getenv( 'PTI_TEST_PLUGIN' ) ?: dirname( __DIR__ ) . '/pdf-thumbnail-inserter.php';
 $plugin = PDF_Thumbnail_Inserter::instance();

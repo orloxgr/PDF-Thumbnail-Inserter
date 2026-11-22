@@ -98,12 +98,22 @@ function initBrowserMaintenance() {
         }
 
         try {
-            const list = await postForm({
-                action: 'pdf_thumbnail_inserter_list_missing_previews',
-                nonce: config.nonce,
-            });
-            const items = Array.isArray(list.items) ? list.items : [];
-            skipped += Number(list.skipped || 0);
+            const items = [];
+            let page = 1;
+            do {
+                const list = await postForm({
+                    action: 'pdf_thumbnail_inserter_list_missing_previews',
+                    nonce: config.nonce,
+                    page,
+                });
+                items.push(...(Array.isArray(list.items) ? list.items : []));
+                skipped += Number(list.skipped || 0);
+                const nextPage = Number(list.next_page || 0);
+                if (nextPage && (!Number.isInteger(nextPage) || nextPage <= page)) {
+                    throw new Error(label('unknownError', 'Unknown error.'));
+                }
+                page = nextPage;
+            } while (page);
 
             if (!items.length) {
                 if (status) {

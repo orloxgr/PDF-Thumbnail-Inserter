@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.47
+**Version:** 1.11.48
 **Author:** Byron Iniotakis
 **License:** GPL-3.0-or-later
 
@@ -108,11 +108,27 @@ Supported attributes:
 ```sh
 php -l pdf-thumbnail-inserter.php
 php tests/preview-regression.php
+php tests/security-regression.php
 node tests/editor-regression.cjs
 node tests/browser-upload-regression.cjs
+node tests/browser-maintenance-regression.cjs
 ```
 
+`tests/wordpress-integration.php` installs the ZIP and checks real WordPress APIs on an explicitly disposable site. It requires `PTI_TEST_DISPOSABLE=true`; see its header for the install and verification phases. The test creates attachments and changes settings, so use a fresh test database.
+
+Build the installable ZIP with `python scripts/package.py`. This preserves the existing `pdf-thumbnail-inserter/` archive layout and includes only plugin root files and Git-tracked assets/blocks. The script checks version consistency, archive integrity, its runtime-only manifest, and every packaged byte against the source. Output goes to `dist/`; tests, development scripts, agent skills, Git metadata and local archives are excluded. Stage new runtime assets before building.
+
+The [1.11.48 audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/v1.11.48/docs/audit-1.11.48.md) records findings, verification and remaining environment limits.
+
 ## Changelog
+
+### 1.11.48
+- Restricts local PDF preview lookup and the bundled viewer to readable PDF files inside uploads; rejects traversal, foreign origins and symlinks outside uploads.
+- Preserves complete PDF URLs with nested query parameters in viewer links and leaves unsupported file-block embeds unchanged.
+- Deletes generated preview images only when their type, attachment parent and ownership metadata match the original PDF; installs browser replacements before cleaning up old images.
+- Scans missing browser previews in batches of 100 without triggering server rendering during discovery. Legacy unpaged AJAX discovery remains available.
+- Releases the PDF.js viewer worker on success and failure, restores the upload hook after metadata exceptions, and removes orphan preview files if attachment insertion fails.
+- Adds security, maintenance and real WordPress integration regressions plus a reproducible, verified release packager.
 
 ### 1.11.47
 - Corrects default-cover eligibility: only PDFs without preview images receive a fake cover. Posts without PDFs are unchanged.

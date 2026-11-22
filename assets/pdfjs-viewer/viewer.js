@@ -66,8 +66,9 @@ async function loadPdf() {
         return;
     }
 
+    let loadingTask;
     try {
-        const loadingTask = pdfjsLib.getDocument({
+        loadingTask = pdfjsLib.getDocument({
             url: fileUrl,
             cMapUrl: assetUrl('../pdfjs/cmaps/'),
             cMapPacked: true,
@@ -90,6 +91,10 @@ async function loadPdf() {
         console.error('PDF preview error:', error);
         viewer.replaceChildren();
         showError();
+    } finally {
+        if (loadingTask) {
+            await loadingTask.destroy().catch(() => {});
+        }
     }
 }
 

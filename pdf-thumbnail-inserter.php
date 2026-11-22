@@ -3,7 +3,7 @@
  * Plugin Name:       PDF Thumbnail Inserter
  * Plugin URI:        https://github.com/orloxgr/PDF-Thumbnail-Inserter
  * Description:       Generates and reuses PDF thumbnails, provides a shortcode and Gutenberg block, and adds editor helpers for inserting PDF thumbnail cards.
- * Version:           1.11.47
+ * Version:           1.11.48
  * Author:            Byron Iniotakis
  * Author URI:        https://github.com/orloxgr
  * License:           GPL-3.0-or-later
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
     final class PDF_Thumbnail_Inserter {
-        const VERSION = '1.11.47';
+        const VERSION = '1.11.48';
         const TRANSIENT_REGEN_REPORT = 'pdf_thumbnail_inserter_regen_report';
         const OPTION_NAME = 'pdf_thumbnail_inserter_defaults';
         const LEGACY_OPTION_NAME = 'pdf_thumbnail_defaults';
@@ -834,7 +834,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             }
 
             $file_realpath = realpath( $file_path );
-            if ( ! $file_realpath || ! is_readable( $file_realpath ) ) {
+            if ( ! $file_realpath || ! is_file( $file_realpath ) || ! is_readable( $file_realpath ) ) {
                 return new WP_Error( 'unreadable_file', __( 'Original PDF file is not readable.', 'pdf-thumbnail-inserter' ) );
             }
 
@@ -850,7 +850,8 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
 
             $uploads_prefix = trailingslashit( wp_normalize_path( $uploads_basedir ) );
             $file_normalized = wp_normalize_path( $file_realpath );
-            if ( 0 !== strpos( strtolower( $file_normalized ), strtolower( $uploads_prefix ) ) ) {
+            $inside_uploads = '\\' === DIRECTORY_SEPARATOR ? 0 === stripos( $file_normalized, $uploads_prefix ) : 0 === strpos( $file_normalized, $uploads_prefix );
+            if ( ! $inside_uploads ) {
                 return new WP_Error( 'outside_uploads', __( 'PDF file is outside the uploads directory.', 'pdf-thumbnail-inserter' ) );
             }
 
@@ -875,12 +876,15 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'pdf-thumbnail-inserter' ) ), 403 );
             }
 
+            // The browser opts into bounded discovery; keep the legacy unpaged response available.
+            $page = isset( $_POST['page'] ) && is_scalar( $_POST['page'] ) ? max( 1, absint( wp_unslash( $_POST['page'] ) ) ) : 0;
             $pdf_ids = get_posts(
                 array(
                     'post_type'      => 'attachment',
                     'post_mime_type' => 'application/pdf',
                     'post_status'    => 'inherit',
-                    'posts_per_page' => -1,
+                    'posts_per_page' => $page ? 100 : -1,
+                    'paged'          => $page ? $page : 1,
                     'fields'         => 'ids',
                     'orderby'        => 'ID',
                     'order'          => 'ASC',
@@ -892,7 +896,8 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
 
             foreach ( $pdf_ids as $pdf_id ) {
                 $pdf_id = absint( $pdf_id );
-                $preview_data = $this->get_pdf_preview_data( $pdf_id, 'full' );
+                // Discovery must not start expensive server-side rendering for every PDF.
+                $preview_data = $this->get_pdf_preview_data( $pdf_id, 'full', false );
                 if ( 'placeholder' !== $preview_data['preview_source'] ) {
                     continue;
                 }
@@ -915,6 +920,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                     'items'   => $items,
                     'total'   => count( $items ),
                     'skipped' => $skipped,
+                    'next_page' => $page && 100 === count( $pdf_ids ) ? $page + 1 : 0,
                 )
             );
         }
@@ -947,7 +953,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 wp_send_json_error( array( 'message' => $file_data->get_error_message() ), 400 );
             }
 
-            $current_preview = $this->get_pdf_preview_data( $attachment_id, 'full' );
+            $current_preview = $this->get_pdf_preview_data( $attachment_id, 'full', false );
             if ( 'placeholder' !== $current_preview['preview_source'] ) {
                 wp_send_json_success(
                     array(
@@ -1011,9 +1017,6 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             }
 
             $old_preview_id = absint( get_post_meta( $attachment_id, self::META_PREVIEW_ID, true ) );
-            if ( $old_preview_id && get_post_meta( $old_preview_id, self::META_PARENT_PDF, true ) ) {
-                wp_delete_attachment( $old_preview_id, true );
-            }
 
             $preview_attachment = array(
                 'post_mime_type' => $upload['type'],
@@ -1038,6 +1041,11 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             update_post_meta( $attachment_id, self::META_PREVIEW_ID, $preview_id );
             update_post_meta( $attachment_id, self::META_PREVIEW_GENERATED_AT, time() );
             delete_post_meta( $attachment_id, self::META_PREVIEW_ERROR );
+
+            // Publish the replacement before removing the old, plugin-owned image.
+            if ( $this->is_owned_pdf_preview( $old_preview_id, $attachment_id ) ) {
+                wp_delete_attachment( $old_preview_id, true );
+            }
 
             wp_send_json_success(
                 array(
@@ -1122,13 +1130,25 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             return $metadata;
         }
 
+        private function is_owned_pdf_preview( $preview_id, $attachment_id ) {
+            $preview_id = absint( $preview_id );
+            $attachment_id = absint( $attachment_id );
+            $preview = $preview_id ? get_post( $preview_id ) : null;
+
+            return $preview && $preview_id !== $attachment_id
+                && 'attachment' === $preview->post_type
+                && 0 === strpos( (string) get_post_mime_type( $preview_id ), 'image/' )
+                && $attachment_id === absint( $preview->post_parent )
+                && $attachment_id === absint( get_post_meta( $preview_id, self::META_PARENT_PDF, true ) );
+        }
+
         public function cleanup_generated_preview( $attachment_id ) {
             if ( 'application/pdf' !== get_post_mime_type( $attachment_id ) ) {
                 return;
             }
 
             $preview_id = absint( get_post_meta( $attachment_id, self::META_PREVIEW_ID, true ) );
-            if ( $preview_id && get_post_meta( $preview_id, self::META_PARENT_PDF, true ) ) {
+            if ( $this->is_owned_pdf_preview( $preview_id, $attachment_id ) ) {
                 delete_post_meta( $attachment_id, self::META_PREVIEW_ID );
                 wp_delete_attachment( $preview_id, true );
             }
@@ -1255,8 +1275,11 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             require_once ABSPATH . 'wp-admin/includes/image.php';
 
             remove_filter( 'wp_generate_attachment_metadata', array( $this, 'maybe_generate_pdf_preview_on_upload' ), 20 );
-            $metadata = wp_generate_attachment_metadata( $attachment_id, $file_path );
-            add_filter( 'wp_generate_attachment_metadata', array( $this, 'maybe_generate_pdf_preview_on_upload' ), 20, 3 );
+            try {
+                $metadata = wp_generate_attachment_metadata( $attachment_id, $file_path );
+            } finally {
+                add_filter( 'wp_generate_attachment_metadata', array( $this, 'maybe_generate_pdf_preview_on_upload' ), 20, 3 );
+            }
 
             if ( ! is_array( $metadata ) ) {
                 $metadata = array();
@@ -1376,6 +1399,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
 
             $preview_id = wp_insert_attachment( $preview_attachment, $preview_path, $attachment_id, true );
             if ( is_wp_error( $preview_id ) ) {
+                wp_delete_file( $preview_path );
                 update_post_meta( $attachment_id, self::META_PREVIEW_ERROR, $preview_id->get_error_message() );
                 return $preview_id;
             }
@@ -1543,7 +1567,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             return '';
         }
 
-        private function get_pdf_preview_data( $attachment_id, $size = 'medium' ) {
+        private function get_pdf_preview_data( $attachment_id, $size = 'medium', $generate_if_missing = true ) {
             $attachment_id = absint( $attachment_id );
             $title = get_the_title( $attachment_id );
             $file_url = wp_get_attachment_url( $attachment_id );
@@ -1574,7 +1598,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             }
 
             if ( ! $thumbnail_url && $file_url ) {
-                $standalone_preview = $this->get_pdf_preview_url_from_file_url( $file_url, true );
+                $standalone_preview = $this->get_pdf_preview_url_from_file_url( $file_url, $generate_if_missing );
                 if ( $standalone_preview ) {
                     $thumbnail_url = $standalone_preview;
                     $source        = 'standalone';
@@ -2737,34 +2761,55 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             return array();
         }
 
+        /** Resolve only real PDF files within this site's uploads, never decoded traversal or symlinks outside it. */
+        private function get_local_upload_pdf_path( $file_url ) {
+            $uploads = wp_get_upload_dir();
+            if ( ! empty( $uploads['error'] ) || empty( $uploads['basedir'] ) || empty( $uploads['baseurl'] ) ) {
+                return '';
+            }
+
+            $file_host = wp_parse_url( $file_url, PHP_URL_HOST );
+            $base_host = wp_parse_url( $uploads['baseurl'], PHP_URL_HOST );
+            $scheme = wp_parse_url( $file_url, PHP_URL_SCHEME );
+            if ( ! $file_host || ! $base_host || strtolower( $file_host ) !== strtolower( $base_host )
+                || ! in_array( strtolower( (string) $scheme ), array( 'http', 'https' ), true )
+                || wp_parse_url( $file_url, PHP_URL_PORT ) !== wp_parse_url( $uploads['baseurl'], PHP_URL_PORT )
+                || wp_parse_url( $file_url, PHP_URL_USER ) || wp_parse_url( $file_url, PHP_URL_PASS ) ) {
+                return '';
+            }
+
+            $file_path = $this->get_file_url_identity( $file_url );
+            $base_path = trailingslashit( $this->get_file_url_identity( $uploads['baseurl'] ) );
+            if ( 0 !== strpos( $file_path, $base_path ) || 'pdf' !== strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) )
+                || false !== strpos( $file_path, "\0" ) || false !== strpos( $file_path, '\\' ) ) {
+                return '';
+            }
+            $relative_file = substr( $file_path, strlen( $base_path ) );
+            foreach ( explode( '/', $relative_file ) as $segment ) {
+                if ( '.' === $segment || '..' === $segment ) {
+                    return '';
+                }
+            }
+
+            $real_uploads = realpath( $uploads['basedir'] );
+            $real_file = realpath( trailingslashit( $uploads['basedir'] ) . $relative_file );
+            if ( ! $real_uploads || ! $real_file || ! is_file( $real_file ) || ! is_readable( $real_file ) ) {
+                return '';
+            }
+            $prefix = trailingslashit( wp_normalize_path( $real_uploads ) );
+            $path = wp_normalize_path( $real_file );
+            $inside = '\\' === DIRECTORY_SEPARATOR ? 0 === stripos( $path, $prefix ) : 0 === strpos( $path, $prefix );
+            return $inside && 'pdf' === strtolower( pathinfo( $path, PATHINFO_EXTENSION ) ) ? $path : '';
+        }
+
         private function get_pdf_preview_url_from_file_url( $file_url, $generate_if_missing = false ) {
             $file_url = esc_url_raw( $file_url );
-            if ( '' === $file_url ) {
+            $pdf_path = $this->get_local_upload_pdf_path( $file_url );
+            if ( '' === $pdf_path ) {
                 return '';
             }
 
             $uploads = wp_get_upload_dir();
-            if ( empty( $uploads['basedir'] ) || empty( $uploads['baseurl'] ) ) {
-                return '';
-            }
-
-            $uploads_url_path = $this->get_file_url_identity( $uploads['baseurl'] );
-            $file_url_path    = $this->get_file_url_identity( $file_url );
-            $uploads_prefix   = trailingslashit( $uploads_url_path );
-
-            if ( '' === $uploads_url_path || '' === $file_url_path || 0 !== strpos( $file_url_path, $uploads_prefix ) ) {
-                return '';
-            }
-
-            $relative_file = ltrim( substr( $file_url_path, strlen( $uploads_prefix ) ), '/' );
-            if ( '' === $relative_file ) {
-                return '';
-            }
-
-            $pdf_path = wp_normalize_path( trailingslashit( $uploads['basedir'] ) . $relative_file );
-            if ( ! file_exists( $pdf_path ) ) {
-                return '';
-            }
 
             $path_info = pathinfo( $pdf_path );
             $dir_path  = ! empty( $path_info['dirname'] ) ? wp_normalize_path( $path_info['dirname'] ) : '';
@@ -2817,10 +2862,15 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 return '';
             }
 
-            $preview_path = $candidate_paths[0];
+            $preview_path = '';
             $largest_area = 0;
+            $uploads_basedir = trailingslashit( wp_normalize_path( realpath( $uploads['basedir'] ) ) );
 
             foreach ( $candidate_paths as $candidate_path ) {
+                $candidate_realpath = realpath( $candidate_path );
+                if ( ! $candidate_realpath || 0 !== strpos( wp_normalize_path( $candidate_realpath ), $uploads_basedir ) ) {
+                    continue;
+                }
                 $image_size = wp_getimagesize( $candidate_path );
                 if ( ! is_array( $image_size ) || empty( $image_size[0] ) || empty( $image_size[1] ) ) {
                     continue;
@@ -2833,45 +2883,21 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 }
             }
 
-            $uploads_basedir = wp_normalize_path( $uploads['basedir'] );
-            if ( 0 !== strpos( $preview_path, trailingslashit( $uploads_basedir ) ) ) {
+            if ( '' === $preview_path ) {
                 return '';
             }
 
-            $relative_preview = ltrim( substr( $preview_path, strlen( trailingslashit( $uploads_basedir ) ) ), '/' );
+            $relative_preview = ltrim( substr( $preview_path, strlen( $uploads_basedir ) ), '/' );
             if ( '' === $relative_preview ) {
                 return '';
             }
 
-            return esc_url_raw( trailingslashit( $uploads['baseurl'] ) . $relative_preview );
+            return esc_url_raw( trailingslashit( $uploads['baseurl'] ) . $this->encode_url_path_segments( $relative_preview ) );
         }
 
         private function get_local_pdf_viewer_file_url( $pdf_url ) {
-            $file_data = $this->get_pdf_file_data_from_url( $pdf_url );
-            if ( empty( $file_data['is_pdf'] ) || empty( $file_data['file_url'] ) ) {
-                return '';
-            }
-
-            $pdf_url = esc_url_raw( $file_data['file_url'] );
-            if ( '' === $pdf_url ) {
-                return '';
-            }
-
-            $uploads = wp_get_upload_dir();
-            if ( ! empty( $uploads['error'] ) || empty( $uploads['baseurl'] ) ) {
-                return '';
-            }
-
-            $file_host = wp_parse_url( $pdf_url, PHP_URL_HOST );
-            $base_host = wp_parse_url( $uploads['baseurl'], PHP_URL_HOST );
-            $file_path = $this->get_file_url_identity( $pdf_url );
-            $base_path = trailingslashit( $this->get_file_url_identity( $uploads['baseurl'] ) );
-
-            if ( ! $file_host || ! $base_host || strtolower( $file_host ) !== strtolower( $base_host ) || 0 !== strpos( $file_path, $base_path ) ) {
-                return '';
-            }
-
-            return $pdf_url;
+            $pdf_url = esc_url_raw( $this->normalize_pdf_candidate_url( $pdf_url ) );
+            return '' !== $this->get_local_upload_pdf_path( $pdf_url ) ? $pdf_url : '';
         }
 
         private function get_pdfjs_viewer_url( $pdf_url ) {
@@ -2884,7 +2910,7 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
                 add_query_arg(
                     array(
                         self::VIEWER_QUERY_VAR => 1,
-                        'file'                 => $pdf_url,
+                        'file'                 => rawurlencode( $pdf_url ),
                     ),
                     home_url( '/' )
                 )
@@ -4045,6 +4071,9 @@ if ( ! class_exists( 'PDF_Thumbnail_Inserter' ) ) {
             $height       = $block_height > 0 ? min( $block_height, $max_height ) : $max_height;
 
             $viewer_url = $this->get_pdfjs_viewer_url( $file_data['file_url'] );
+            if ( '' === $viewer_url ) {
+                return $block_content;
+            }
 
             $iframe = sprintf(
                 '<iframe class="wp-block-file__embed" style="width: 100%%; height: %1$dpx; border: 0;" src="%2$s" title="%3$s" loading="lazy"></iframe>',
