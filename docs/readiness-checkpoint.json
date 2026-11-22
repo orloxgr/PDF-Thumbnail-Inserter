@@ -1,0 +1,98 @@
+{
+  "audit_status": "IN_PROGRESS",
+  "release_gate": "FAIL",
+  "baseline_commit": "695d8cfa3a72554b1f1ebac1391942e309c7dfa8",
+  "branch": "codex/full-readiness-audit",
+  "candidate": {
+    "version": "1.11.48",
+    "purpose": "Unreleased audit candidate; never replace the existing release",
+    "published": false,
+    "files": 227,
+    "sha256": "2195155daea3047f14270f49997c1e2d1de1e62cd15d5b2ee9701da6c562e127"
+  },
+  "native_cases": [
+    {
+      "wordpress": "6.0",
+      "php": "7.4.27",
+      "imagick": false,
+      "status": "PASS",
+      "assertions": 113
+    },
+    {
+      "wordpress": "7.1.5",
+      "php": "8.2.30",
+      "imagick": false,
+      "status": "PASS",
+      "assertions": 113
+    },
+    {
+      "wordpress": "6.0",
+      "php": "7.4.27",
+      "imagick": true,
+      "status": "PASS",
+      "assertions": 119
+    },
+    {
+      "wordpress": "7.1.5",
+      "php": "8.2.30",
+      "imagick": true,
+      "status": "PASS",
+      "assertions": 119
+    }
+  ],
+  "syntax": {
+    "individual_files": 26,
+    "php_files": 8,
+    "javascript_files": 18,
+    "status": "PASS"
+  },
+  "php_compatibility": {
+    "range": "7.4-8.4",
+    "errors": 0,
+    "warnings": 0
+  },
+  "query_budget": {
+    "wordpress": "6.0",
+    "cold_pdf_attachments": 100,
+    "before_queries": 201,
+    "after_queries": 3,
+    "budget": 10
+  },
+  "plugin_check": {
+    "version": "2.2.0",
+    "counts": {
+      "ERROR": 1,
+      "WARNING": 27
+    },
+    "rules": {
+      "outdated_tested_upto_header": 1,
+      "PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound": 1,
+      "WordPress.DB.SlowDBQuery.slow_db_query_meta_key": 3,
+      "WordPress.DB.SlowDBQuery.slow_db_query_meta_value": 3,
+      "WordPress.Security.NonceVerification.Recommended": 18,
+      "WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound": 2
+    },
+    "early_runtime_runner": true,
+    "selected_checks": 36,
+    "runtime_checks": [
+      "enqueued_scripts_size",
+      "enqueued_styles_size",
+      "enqueued_styles_scope",
+      "enqueued_scripts_scope",
+      "non_blocking_scripts"
+    ]
+  },
+  "verification_exception": {
+    "scope": "Visual WordPress 7.1 blob iframe in the available embedded browser",
+    "status": "NOT_VERIFIED",
+    "user_accepted_best_effort": true
+  },
+  "remaining": [
+    "Full requirements/source review",
+    "Bounded server maintenance",
+    "Remaining viewer/editor/lifecycle/authorization cases",
+    "Dependency provenance/security",
+    "PHPStan and warning dispositions",
+    "Final versioned ZIP and publication verification"
+  ]
+}

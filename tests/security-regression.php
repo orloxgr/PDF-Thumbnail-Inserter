@@ -110,6 +110,14 @@ try {
     unset( $_POST['page'] );
     ajax_call( 'ajax_list_missing_previews' );
     check( -1 === $queries[2]['posts_per_page'], 'Legacy unpaged discovery remains available' );
+    foreach ( array( 'ajax_fetch_pdf_data', 'ajax_save_browser_preview' ) as $method ) {
+        foreach ( array( array( 42 ), array( 'nested' => array( 42 ) ) ) as $invalid_id ) {
+            $_POST['attachment_id'] = $invalid_id;
+            $response = ajax_call( $method );
+            check( 400 === $response->status && 'Invalid attachment ID.' === $response->payload['data']['message'], 'Malformed attachment ID is rejected before object access: ' . $method );
+        }
+    }
+    unset( $_POST['attachment_id'] );
     $capabilities = array( 'manage_options' => false );
     check( 403 === ajax_call( 'ajax_list_missing_previews' )->status, 'Only administrators can scan the library' );
     $capabilities = array();

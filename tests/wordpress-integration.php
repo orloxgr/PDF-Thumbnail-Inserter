@@ -8,7 +8,9 @@
 if ( ! defined( 'PTI_TEST_DISPOSABLE' ) || true !== PTI_TEST_DISPOSABLE ) {
     exit( 'Requires an explicitly disposable WordPress installation.' );
 }
-require ( defined( 'PTI_TEST_WP_ROOT' ) ? PTI_TEST_WP_ROOT : '/wordpress' ) . '/wp-load.php';
+if ( ! function_exists( 'get_bloginfo' ) ) {
+    require_once ( defined( 'PTI_TEST_WP_ROOT' ) ? PTI_TEST_WP_ROOT : '/wordpress' ) . '/wp-load.php';
+}
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -41,6 +43,7 @@ if ( defined( 'PTI_TEST_INSTALL' ) && PTI_TEST_INSTALL ) {
 
 pti_assert( is_plugin_active( $plugin_file ), 'Plugin must be active at bootstrap' );
 $plugin = PDF_Thumbnail_Inserter::instance();
+$GLOBALS['plugin'] = $plugin; // WP-CLI eval-file includes this test in a local scope.
 function pti_private( $name, ...$args ) {
     $method = new ReflectionMethod( $GLOBALS['plugin'], $name );
     $method->setAccessible( true );

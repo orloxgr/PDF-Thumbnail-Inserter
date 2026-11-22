@@ -1,9 +1,8 @@
-import * as pdfjsLib from '../pdfjs/pdf.min.js';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('../pdfjs/pdf.worker.min.js', import.meta.url).href;
+import { getPdfLibrary } from './pdf-runtime.js';
 
 // Shared by automatic uploads and the manual maintenance tool.
 export async function renderPdfToBlob(fileUrl) {
+    const pdfjsLib = await getPdfLibrary();
     const assetUrl = path => new URL(path, import.meta.url).href;
     const task = pdfjsLib.getDocument({
         url: fileUrl,

@@ -36,7 +36,7 @@ assert.equal(insertClassic([{ id: 42 }, { id: 43 }, { id: 42 }]), '[pdf_thumbnai
 let block, variation;
 const createElement = (type, props, ...children) => ({ type, props: props || {}, children });
 const wp = {
-    element: { createElement }, i18n: { __: s => s },
+    element: { createElement, useRef: () => ({ current: null }), useState: value => [value, () => {}], useEffect: () => {} }, i18n: { __: s => s },
     blocks: {
         registerBlockType(name, definition) { block = definition; },
         registerBlockVariation(name, definition) { variation = definition; }
@@ -45,10 +45,11 @@ const wp = {
     components: Object.fromEntries(['PanelBody', 'Button', 'TextControl', 'SelectControl', 'ToggleControl', 'Notice', 'RangeControl'].map(name => [name, name])),
     serverSideRender: 'ServerSideRender'
 };
-vm.runInNewContext(source('blocks/pdf-thumbnail/index.js'), { window: { wp, pdfThumbnailBlock: { columns } } });
+const defaults = { show_title: 'no', show_button: 'no', new_tab: 'no', link_to: 'none' };
+vm.runInNewContext(source('blocks/pdf-thumbnail/index.js'), { window: { wp, pdfThumbnailBlock: { columns, defaults } } });
 assert.equal(variation.isDefault, true);
 assert.equal(JSON.stringify(variation.scope), '["inserter"]');
-assert.deepEqual(variation.attributes, columns);
+assert.deepEqual(JSON.parse(JSON.stringify(variation.attributes)), { ...columns, ...defaults });
 const schema = JSON.parse(source('blocks/pdf-thumbnail/block.json')).attributes;
 assert.equal(schema.columns_desktop.default, 3);
 assert.equal(schema.columns_laptop.default, 2);
@@ -67,4 +68,7 @@ function collect(node) {
 collect(tree);
 assert.equal(nodes.find(n => n.props.label === 'Widescreen columns').props.value, 5);
 assert.equal(nodes.find(n => n.type === 'ServerSideRender').props.attributes, oldAttributes);
+let inertAttribute;
+nodes.find(n => n.props.className === 'pti-block-editor-preview').props.ref({ setAttribute(name, value) { inertAttribute = [name, value]; } });
+assert.deepEqual(inertAttribute, ['inert', ''], 'Editor preview links are disabled for keyboard users as well as pointers');
 console.log('PASS: prompt-free Classic inserts, Gutenberg insertion defaults, and existing block layouts.');

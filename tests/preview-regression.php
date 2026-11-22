@@ -62,6 +62,7 @@ function is_wp_error( $value ) { return $value instanceof WP_Error; }
 function status_header( $status ) { fwrite( STDERR, 'HTTP_STATUS=' . $status . "\n" ); }
 function current_user_can( $capability, ...$args ) { return $GLOBALS['capabilities'][ $capability ] ?? true; }
 function get_posts( $args ) { return isset( $GLOBALS['query_posts'] ) ? call_user_func( $GLOBALS['query_posts'], $args ) : array(); }
+function _prime_post_caches( $ids, $terms = true, $meta = true ) {}
 function get_transient( $key ) { return false; }
 function settings_fields( $group ) {}
 function selected( $value, $expected ) { if ( $value === $expected ) echo 'selected'; }

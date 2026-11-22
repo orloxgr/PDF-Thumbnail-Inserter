@@ -109,12 +109,16 @@ Supported attributes:
 php -l pdf-thumbnail-inserter.php
 php tests/preview-regression.php
 php tests/security-regression.php
+php tests/readiness-regression.php
 node tests/editor-regression.cjs
 node tests/browser-upload-regression.cjs
 node tests/browser-maintenance-regression.cjs
+node tests/preview-renderer-regression.cjs
 ```
 
 `tests/wordpress-integration.php` installs the ZIP and checks real WordPress APIs on an explicitly disposable site. It requires `PTI_TEST_DISPOSABLE=true`; see its header for the install and verification phases. The test creates attachments and changes settings, so use a fresh test database.
+
+`tests/readiness-wordpress.php` exercises actual settings, block rendering, preview publication/rollback, local-file failures and optional Imagick/Ghostscript conversion. Its header describes the explicit disposable-site constants; run it directly with PHP so frontend filters are exercised. The site must have environment type `local` and cron disabled. `tests/preview-lock-concurrency.php` and `tests/preview-discovery-queries.php` take the disposable WordPress root as a CLI argument and require the environment variable `PTI_TEST_DISPOSABLE=true`. These checks create and remove synthetic fixtures and must never run against a live site.
 
 Build the installable ZIP with `python scripts/package.py`. This preserves the existing `pdf-thumbnail-inserter/` archive layout and includes only plugin root files and Git-tracked assets/blocks. The script checks version consistency, archive integrity, its runtime-only manifest, and every packaged byte against the source. Output goes to `dist/`; tests, development scripts, agent skills, Git metadata and local archives are excluded. Stage new runtime assets before building.
 

@@ -38,7 +38,24 @@
             const selectedIds = getSelectedIds(attributes);
             const hasPdf = selectedIds.length > 0;
             const isSingle = selectedIds.length === 1;
-            const blockProps = useBlockProps({ className: 'pti-block-editor-wrap' });
+            const previewRef = wp.element.useRef(null);
+            const [previewError, setPreviewError] = wp.element.useState(false);
+            const blockProps = useBlockProps({ className: 'pti-block-editor-wrap', ref: previewRef });
+            wp.element.useEffect(function () {
+                let cancelled = false;
+                let disconnect;
+                const rendererUrl = window.pdfThumbnailBlock && window.pdfThumbnailBlock.previewRendererUrl;
+                if (!rendererUrl) return;
+                import(rendererUrl).then(function (renderer) {
+                    if (!cancelled && previewRef.current) disconnect = renderer.watchPreviewRendering(previewRef.current);
+                }).catch(function () {
+                    if (!cancelled) setPreviewError(true);
+                });
+                return function () {
+                    cancelled = true;
+                    if (disconnect) disconnect();
+                };
+            }, []);
 
             function setBoolAttr(key, value) {
                 setAttributes({ [key]: value ? 'yes' : 'no' });
@@ -190,8 +207,15 @@
                 'div',
                 blockProps,
                 inspector,
+                previewError ? el(Notice, { status: 'error', isDismissible: false }, __('PDF preview could not be loaded.', 'pdf-thumbnail-inserter')) : null,
                 el(Notice, { status: 'info', isDismissible: false }, __('This block renders dynamically on the server and uses the generated or existing PDF previews. Click the block border to select it; preview links are disabled inside the editor.', 'pdf-thumbnail-inserter')),
-                el('div', { className: 'pti-block-editor-preview', 'aria-hidden': 'true' },
+                el('div', {
+                    className: 'pti-block-editor-preview',
+                    'aria-hidden': 'true',
+                    // Native inert also prevents keyboard activation; pointer-events
+                    // alone leaves the preview's hidden links in the tab order.
+                    ref: function (node) { if (node) node.setAttribute('inert', ''); }
+                },
                     el(ServerSideRender, {
                         block: 'pdf-thumbnail-inserter/pdf-thumbnail',
                         attributes: attributes
@@ -205,13 +229,16 @@
     });
 
     // Inserter defaults apply only when creating a block. Keep the schema defaults
-    // unchanged so loading an older block never rewrites its saved layout.
+    // unchanged so loading an older block never rewrites its saved choices.
     wp.blocks.registerBlockVariation('pdf-thumbnail-inserter/pdf-thumbnail', {
         name: 'site-column-defaults',
         isDefault: true,
         scope: ['inserter'],
-        attributes: (window.pdfThumbnailBlock && window.pdfThumbnailBlock.columns) || {
-            columns_widescreen: 4, columns_desktop: 3, columns_laptop: 2, columns_mobile: 1
-        }
+        attributes: Object.assign({},
+            (window.pdfThumbnailBlock && window.pdfThumbnailBlock.columns) || {
+                columns_widescreen: 4, columns_desktop: 3, columns_laptop: 2, columns_mobile: 1
+            },
+            (window.pdfThumbnailBlock && window.pdfThumbnailBlock.defaults) || {}
+        )
     });
 }(window.wp));
