@@ -4,7 +4,7 @@ Tags: pdf, thumbnail, media, shortcode, gutenberg
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.02.01
+Stable tag: 2.01.01
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

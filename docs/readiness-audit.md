@@ -1,11 +1,11 @@
 # PDF Thumbnail Inserter — current readiness
 
-## Version 1.02.01
+## Version 2.01.01
 
 **Plugin Check: 0 errors / 0 warnings.** Both readmes use only the requested plain-text development/changelog references. Source/build details are in development.txt, which is included alongside readme.txt and changelog.txt in the 230-file plugin ZIP. README.md remains outside the ZIP and its version/author/license banner is removed.
 
-- [Current layout, executed checks and limits](readme-1.02.01.md).
-- [Machine-readable scope/results](readme-1.02.01.json), [Plugin Check](plugin-check-1.02.01.json) and [manifest](release-manifest-1.02.01.json).
+- [Current layout, executed checks and limits](readme-2.01.01.md).
+- [Machine-readable scope/results](readme-2.01.01.json), [Plugin Check](plugin-check-2.01.01.json) and [manifest](release-manifest-2.01.01.json).
 
 ## Documentation separation 1.11.52
 

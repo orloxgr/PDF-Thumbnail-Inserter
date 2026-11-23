@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter — Changelog
 
-### 1.02.01
+### 2.01.01
 
 - Remove the version/author/license banner from the GitHub README.
 - Move source/build instructions from readme.txt into the included development.txt.

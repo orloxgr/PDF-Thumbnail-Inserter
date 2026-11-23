@@ -1,6 +1,6 @@
 {
-  "version": "1.02.01",
-  "sha256": "e028892e3a8da881416e2d204598de444d5465204a5275ab0c2f9fda9b60e651",
+  "version": "2.01.01",
+  "sha256": "af12a80fd0dded2fd78c026d6730cfe2538b7424f49ab3d60f19d30cd583cd66",
   "root_files": [
     "LICENSE",
     "changelog.txt",
@@ -915,19 +915,19 @@
     },
     {
       "file": "changelog.txt",
-      "sha256": "d187cb33b54fee5f7619e26480a21e1d5e2f80c49c7ecee8e8d51a30d574e1aa"
+      "sha256": "2437be17629c9a549f441fc59c8fe861fbfb3b733a6716b748e28e53245cf19d"
     },
     {
       "file": "development.txt",
-      "sha256": "cb1f1b8a741b8718502f7cdb21275fce9c4b9abfdef6737a925c78afb28d0e01"
+      "sha256": "a76a1a771b7b3da164590fed15c29c26e037c740a294f58add368b60d794ac9d"
     },
     {
       "file": "pdf-thumbnail-inserter.php",
-      "sha256": "c04151d741c7ea7c3d9d040fdecc4157fec82941f4ee86923055f898ebcfe9b5"
+      "sha256": "384f369028d70f1c4905195f3553770762a3ad94bce20cb0ab5c8e61b85baee9"
     },
     {
       "file": "readme.txt",
-      "sha256": "935f14557413b4c255e2705ee46caabb589d7e3cb0ddadc6cf92a3e712eb440f"
+      "sha256": "017b07c9147a45c85b78eac1632046539e248510cc4c74ed61126bacbb14f7ff"
     }
   ]
 }

@@ -1,6 +1,5 @@
-# 1.02.01 — requested readme layout
+# 2.01.01 — requested readme layout
 
-The release number is explicitly chosen by the owner. PHP version_compare treats 1.02.01 as lower than 1.11.52, so installations on the previous numbering require a manual ZIP installation rather than an automatic version upgrade.
 
 The GitHub README starts with the plugin description and has no version/author/license banner. Both readmes end with exactly these plain-text references, without Markdown links:
 
@@ -15,4 +14,4 @@ Executed on the exact ZIP: successful install/activation on disposable WordPress
 
 Only version strings change in PHP; all 225 assets/blocks match 1.11.52. No new browser or full minimum/Imagick matrix is claimed; prior functional evidence remains applicable. Secret scans cannot guarantee detection of every possible format.
 
-[Checks and scope](readme-1.02.01.json), [Plugin Check output](plugin-check-1.02.01.json), [manifest](release-manifest-1.02.01.json). The release verification asset records final remote/tag/download identity.
+[Checks and scope](readme-2.01.01.json), [Plugin Check output](plugin-check-2.01.01.json), [manifest](release-manifest-2.01.01.json). The release verification asset records final remote/tag/download identity.

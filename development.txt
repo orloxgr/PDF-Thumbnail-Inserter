@@ -39,7 +39,7 @@ The [readiness audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/mai
 The plugin's source code, tests and release packaging script are publicly maintained at:
 https://github.com/orloxgr/PDF-Thumbnail-Inserter
 
-For the source corresponding to this release, use the v1.02.01 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
+For the source corresponding to this release, use the v2.01.01 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
 
 The plugin bundles the official PDF.js 6.3.289 distribution under the Apache-2.0 license. Its minified module and worker retain their upstream contents; `build/pdf.min.mjs` and `build/pdf.worker.min.mjs` are named `pdf.min.js` and `pdf.worker.min.js` in this plugin.
 
