@@ -1,0 +1,35 @@
+# Development checks
+
+```sh
+php -l pdf-thumbnail-inserter.php
+python scripts/check_syntax.py
+php tests/preview-regression.php
+php tests/security-regression.php
+php tests/readiness-regression.php
+node tests/editor-regression.cjs
+node tests/browser-upload-regression.cjs
+node tests/browser-maintenance-regression.cjs
+node tests/preview-renderer-regression.cjs
+node tests/server-maintenance-regression.cjs
+node tests/viewer-regression.cjs
+```
+
+`tests/wordpress-integration.php` installs the ZIP and checks real WordPress APIs on an explicitly disposable site. It requires `PTI_TEST_DISPOSABLE=true`; see its header for the install and verification phases. The test creates attachments and changes settings, so use a fresh test database.
+
+`tests/readiness-wordpress.php` exercises actual settings, block rendering, preview publication/rollback, local-file failures and optional Imagick/Ghostscript conversion. Its header describes the explicit disposable-site constants; run it directly with PHP so frontend filters are exercised. The site must have environment type `local` and cron disabled. `tests/preview-lock-concurrency.php` and `tests/preview-discovery-queries.php` take the disposable WordPress root as a CLI argument and require the environment variable `PTI_TEST_DISPOSABLE=true`. These checks create and remove synthetic fixtures and must never run against a live site.
+
+`tests/server-maintenance-wordpress.php` tests real resumable jobs, failures, concurrent deletion/new uploads, lock contention and bounded discovery on a disposable site with Imagick. `tests/server-maintenance-http.php` requires an owned loopback HTTP server with Imagick; it tests actual authenticated form/AJAX requests, CSRF and object permissions, multipart image saving/replay and media-model refresh. Both take the disposable WordPress root as their argument and require `PTI_TEST_DISPOSABLE=true`; fixtures and sessions are removed afterward.
+
+`tests/deletion-concurrency.php` checks actual cross-process writer/deletion contention, ownership, third-party deletion vetoes and stale publication paths. `tests/upload-http.php` checks actual REST PDF uploads and conditional Media Add New assets with automatic previews on and off. Both require the same disposable-site root and environment variable; the HTTP test additionally needs its owned loopback server. `tests/viewer-regression.cjs` covers lazy page batches, viewport rendering, pixel bounds, cancellation and worker disposal using explicit browser/PDF mocks.
+
+With the same disposable-site root and `PTI_TEST_DISPOSABLE=true`, `tests/reference-lookup-wordpress.php` checks cold/warm query budgets and filename cache invalidation; `tests/warnings-wordpress.php` verifies real excerpt hooks, routing isolation and literal SQL patterns. `tests/translations-wordpress.php` uses fresh processes and temporary MO fixtures to verify language-pack priority, local fallback, missing translations and repeated locale switching. It refuses to replace existing translation files. `tests/public-resources-http.php` requires the owned loopback server and checks actual anonymous viewer/cover responses, malformed inputs and absence of data mutations. The pinned PHPStan configuration and source-backed runtime contracts are in `tools/phpstan/`; they add no ignores or baseline and are excluded from the ZIP.
+
+`tests/lifecycle-wordpress.php` must start on a **fresh disposable local site without this plugin or its options**. Set `PTI_TEST_DISPOSABLE=true`. Each phase is a separate PHP process: `php tests/lifecycle-wordpress.php /path/to/wp PHASE`. Run `init`, install/activate the ZIP with WordPress/WP-CLI, run `fresh` and `legacy`, deactivate the plugin, run `inactive`, uninstall through WordPress (including removal of its files), run `uninstalled`, reinstall/activate the ZIP, and run `reinstalled`. The synthetic PDF, child preview, settings and stored content are retained for an upgrade check. To establish an actual published starting version, install that release ZIP and run `baseline ZIP_PATH`; then install/activate the new version and run `upgraded VERSION` followed by `cleanup VERSION`. Never run these commands on production. An additional HTTP server or browser is not required for these native lifecycle checks.
+
+`python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt` and the **Source Code and Build Instructions** section of `readme.txt`.
+
+Build the installable ZIP with `python scripts/package.py`. The `pdf-thumbnail-inserter/` archive includes only `LICENSE`, `readme.txt`, `changelog.txt`, the plugin PHP entrypoint and Git-tracked assets/blocks. The script checks version consistency, archive integrity, its distribution manifest, and every packaged byte against the source. Output goes to `dist/`; README.md, development.txt, tests, development scripts, audit evidence, directory artwork, agent skills, Git metadata and local archives are excluded. Stage new runtime assets and the changelog before building.
+
+Before publication, scan the exact extracted ZIP and a snapshot of tracked files with Gitleaks; use its Git mode for the repository history. Keep reports redacted and review any detected locations without publishing secret values. Separately inspect for private endpoints and deployment paths: a clean secret scan does not identify every kind of private infrastructure detail. Retain upstream license/source notices and verify any library-origin finding against the corresponding official distribution.
+
+The [readiness audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/main/docs/readiness-audit.md) records the complete requirement matrix, fixes, tool findings and verification limits.

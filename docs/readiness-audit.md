@@ -1,6 +1,14 @@
 # PDF Thumbnail Inserter — current readiness
 
-## Version 1.11.51
+## Version 1.11.52
+
+**Plugin Check: 0 errors / 0 warnings.** Development checks and history now live in `development.txt` / `changelog.txt`. The WordPress.org ZIP excludes README.md and development documentation. Current tracked files, the exact ZIP and Git history have clean redacted Gitleaks scans plus manual endpoint/deployment review.
+
+- [Changes, privacy review, checks and limits](documentation-1.11.52.md).
+- [Exact installed-ZIP Plugin Check](plugin-check-1.11.52.json), [manifest](release-manifest-1.11.52.json) and [checkpoint](documentation-1.11.52.json).
+- [Secret-scan, source-provenance, syntax and analysis evidence](evidence/documentation-1.11.52/).
+
+## Directory preparation 1.11.51
 
 **Plugin Check: 0 errors / 0 warnings.** This documentation/artwork release adds direct source/build references to `readme.txt` and the selected WordPress.org text-document icon. Its PHP behavior and all distributed assets/blocks match the 1.11.50 functional baseline; only version metadata changes in PHP.
 

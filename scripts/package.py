@@ -1,6 +1,6 @@
 """Build the installable ZIP using the existing release's single-folder runtime layout.
 
-Only the four plugin root files and Git-tracked assets/blocks are shipped.
+Only the distributable root files and Git-tracked assets/blocks are shipped.
 Run from any directory: python scripts/package.py
 """
 from pathlib import Path
@@ -21,7 +21,9 @@ def build():
     readme = (ROOT / "readme.txt").read_text(encoding="utf-8")
     assert re.search(rf"^Stable tag:\s*{re.escape(version)}$", readme, re.M), "Stable tag mismatch"
     tracked = subprocess.check_output(["git", "ls-files", "-z", "--", "assets", "blocks"], cwd=ROOT)
-    files = sorted(["LICENSE", "README.md", "readme.txt", f"{SLUG}.php"] + tracked.decode("utf-8").strip("\0").split("\0"))
+    changelog = (ROOT / "changelog.txt").read_text(encoding="utf-8")
+    assert re.search(rf"^### {re.escape(version)}$", changelog, re.M), "Changelog version mismatch"
+    files = sorted(["LICENSE", "readme.txt", "changelog.txt", f"{SLUG}.php"] + tracked.decode("utf-8").strip("\0").split("\0"))
     assert len(files) == len(set(files)), "Duplicate archive entries"
     assert all(not any(part.startswith(".") or part in ("tests", "node_modules", "vendor") for part in Path(name).parts) for name in files)
     # Match canonical Git text bytes even in a Windows checkout with core.autocrlf.

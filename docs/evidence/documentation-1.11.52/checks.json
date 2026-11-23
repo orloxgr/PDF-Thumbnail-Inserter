@@ -1,0 +1,104 @@
+[
+  {
+    "name": "syntax",
+    "status": "PASS",
+    "command": [
+      "python",
+      "scripts/check_syntax.py",
+      "--php",
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "--report",
+      "<repo>\\dist\\documentation-1.11.52\\syntax.json"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "phpstan",
+    "status": "PASS",
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=1G",
+      "<repo>\\dist\\readiness\\tooling\\vendor\\phpstan\\phpstan\\phpstan",
+      "analyse",
+      "--configuration=tools/phpstan/phpstan.neon",
+      "--no-progress",
+      "--error-format=json"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "php-compatibility",
+    "status": "PASS",
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "<repo>\\dist\\release-preparation-1.11.51\\compatibility\\vendor\\squizlabs\\php_codesniffer\\bin\\phpcs",
+      "--standard=PHPCompatibilityWP",
+      "--runtime-set",
+      "testVersion",
+      "7.4-8.4",
+      "--report=json",
+      "pdf-thumbnail-inserter.php"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "install-exact-zip",
+    "status": "PASS",
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "install",
+      "dist/pdf-thumbnail-inserter-1.11.52.zip",
+      "--force",
+      "--activate",
+      "--path=<repo>\\dist\\readiness\\wp-7.1.5"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "plugin-active",
+    "status": "PASS",
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "is-active",
+      "pdf-thumbnail-inserter",
+      "--path=<repo>\\dist\\readiness\\wp-7.1.5"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "plugin-check",
+    "status": "PASS",
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "check",
+      "pdf-thumbnail-inserter",
+      "--path=<repo>\\dist\\readiness\\wp-7.1.5",
+      "--require=<repo>\\dist\\readiness\\runtime-proof.php",
+      "--format=json"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "package-rebuild",
+    "status": "PASS",
+    "command": [
+      "python",
+      "scripts/package.py"
+    ],
+    "exit": 0
+  }
+]

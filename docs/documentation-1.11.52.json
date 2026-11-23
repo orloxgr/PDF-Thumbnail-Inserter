@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "version": "1.11.52",
+  "sha256": "fa0b1bb839cc5c0ef75b100b01c12ebc00a920af56e00eddb968035acad89d53",
+  "zip_files": 229,
+  "root_files": [
+    "LICENSE",
+    "changelog.txt",
+    "pdf-thumbnail-inserter.php",
+    "readme.txt"
+  ],
+  "excluded_from_zip": [
+    "README.md",
+    "development.txt",
+    "tests",
+    "scripts",
+    "tools",
+    "docs",
+    ".agents",
+    ".git",
+    ".wordpress-org",
+    "local archives/configuration"
+  ],
+  "historical_changelog_versions_retained": 43,
+  "syntax_checks": 41,
+  "plugin_check": {
+    "errors": 0,
+    "warnings": 0,
+    "checks": 36,
+    "runtime_checks": 5
+  },
+  "secret_scanner": {
+    "tool": "Gitleaks 8.30.1",
+    "repository": 0,
+    "installable_zip": 0,
+    "git_history": 0
+  },
+  "reviewed_upstream_virtual_path_occurrences": 5,
+  "pdfjs_provenance_files": 208,
+  "php_behavior_changes": false,
+  "unchanged_assets_and_blocks": 225,
+  "verification_limits": [
+    "Secret-pattern scans and manual review do not guarantee detection of every possible secret format.",
+    "No new browser run or full native minimum/Imagick/concurrency matrix: behavior matches the previously verified baseline.",
+    "New checks cover packaging, real installed-ZIP Plugin Check runtime checks, syntax, PHPStan, static PHP compatibility, source provenance and publication safety."
+  ]
+}
