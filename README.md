@@ -1,9 +1,5 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.52
-**Author:** Byron Iniotakis
-**License:** GPL-3.0-or-later
-
 ## Description
 
 PDF Thumbnail Inserter generates and reuses thumbnail previews for PDF attachments and lets you insert them with a shortcode, a Gutenberg block, or a Classic Editor media button.
@@ -105,6 +101,6 @@ Supported attributes:
 - `[pdf_thumbnail]` remains available as a legacy alias for existing content; new inserts use `[pdf_thumbnail_inserter]`.
 - Deactivation and uninstall preserve settings, PDFs, generated image attachments and stored post content. Reinstallation reuses those previews and settings. Deleting an original PDF while the plugin is active removes its own generated child preview; unrelated media are preserved.
 
-For development checks see [development.txt](development.txt)
+For development checks see development.txt
 
-For changelog see [changelog.txt](changelog.txt)
+For changelog see changelog.txt

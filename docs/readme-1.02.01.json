@@ -1,0 +1,119 @@
+{
+  "status": "PASS",
+  "version": "1.02.01",
+  "sha256": "e028892e3a8da881416e2d204598de444d5465204a5275ab0c2f9fda9b60e651",
+  "files": 230,
+  "zip_root_files": [
+    "LICENSE",
+    "changelog.txt",
+    "development.txt",
+    "pdf-thumbnail-inserter.php",
+    "readme.txt"
+  ],
+  "plain_references": [
+    "For development checks see development.txt",
+    "For changelog see changelog.txt"
+  ],
+  "github_readme_banner_removed": true,
+  "source_build_documentation_preserved_in": "development.txt",
+  "development_file_in_zip": true,
+  "github_readme_in_zip": false,
+  "checks": [
+    {
+      "check": "syntax",
+      "status": "PASS",
+      "exit": 0
+    },
+    {
+      "check": "phpstan",
+      "status": "PASS",
+      "exit": 0
+    },
+    {
+      "check": "compatibility",
+      "status": "PASS",
+      "exit": 0
+    },
+    {
+      "check": "install",
+      "status": "PASS",
+      "exit": 0
+    },
+    {
+      "check": "active",
+      "status": "PASS",
+      "exit": 0
+    },
+    {
+      "check": "plugin-check",
+      "status": "PASS",
+      "exit": 0
+    },
+    {
+      "check": "reproducible-package",
+      "status": "PASS",
+      "exit": 0
+    }
+  ],
+  "syntax_checks": 41,
+  "phpstan": {
+    "totals": {
+      "errors": 0,
+      "file_errors": 0
+    },
+    "files": {},
+    "errors": []
+  },
+  "compatibility": {
+    "errors": 0,
+    "warnings": 0,
+    "fixable": 0
+  },
+  "secret_scans": [
+    {
+      "scope": "repository",
+      "findings": 0
+    },
+    {
+      "scope": "installable-zip",
+      "findings": 0
+    },
+    {
+      "scope": "git-history",
+      "findings": 0
+    }
+  ],
+  "reviewed_upstream_virtual_paths": [
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/image_decoders/pdf.image_decoders.min.mjs",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    },
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/image_decoders/pdf.image_decoders.mjs",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    },
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/image_decoders/pdf.image_decoders.mjs.map",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    },
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/pdf.worker.min.js",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    },
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/wasm/openjpeg_nowasm_fallback.js",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    }
+  ],
+  "php_behavior_changes": false,
+  "unchanged_assets_and_blocks": 225,
+  "limits": [
+    "No new browser or full native minimum/Imagick matrix; unchanged runtime uses prior functional evidence.",
+    "Secret scans and manual review cannot guarantee detection of every possible secret format."
+  ]
+}

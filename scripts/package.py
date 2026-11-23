@@ -17,13 +17,12 @@ def build():
     source = (ROOT / f"{SLUG}.php").read_text(encoding="utf-8")
     version = re.search(r"\* Version:\s+(\d+\.\d+\.\d+)", source).group(1)
     assert f"const VERSION = '{version}';" in source, "PHP version mismatch"
-    assert f"**Version:** {version}" in (ROOT / "README.md").read_text(encoding="utf-8")
     readme = (ROOT / "readme.txt").read_text(encoding="utf-8")
     assert re.search(rf"^Stable tag:\s*{re.escape(version)}$", readme, re.M), "Stable tag mismatch"
     tracked = subprocess.check_output(["git", "ls-files", "-z", "--", "assets", "blocks"], cwd=ROOT)
     changelog = (ROOT / "changelog.txt").read_text(encoding="utf-8")
     assert re.search(rf"^### {re.escape(version)}$", changelog, re.M), "Changelog version mismatch"
-    files = sorted(["LICENSE", "readme.txt", "changelog.txt", f"{SLUG}.php"] + tracked.decode("utf-8").strip("\0").split("\0"))
+    files = sorted(["LICENSE", "readme.txt", "development.txt", "changelog.txt", f"{SLUG}.php"] + tracked.decode("utf-8").strip("\0").split("\0"))
     assert len(files) == len(set(files)), "Duplicate archive entries"
     assert all(not any(part.startswith(".") or part in ("tests", "node_modules", "vendor") for part in Path(name).parts) for name in files)
     # Match canonical Git text bytes even in a Windows checkout with core.autocrlf.

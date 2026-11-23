@@ -4,7 +4,7 @@ Tags: pdf, thumbnail, media, shortcode, gutenberg
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.11.52
+Stable tag: 1.02.01
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -63,24 +63,6 @@ The older [pdf_thumbnail] shortcode remains available as a legacy alias for exis
 
 Yes. Use `link_to="attachment"`, `link_to="custom"` with `url="..."`, or `link_to="none"`.
 
-== Source Code and Build Instructions ==
+For development checks see development.txt
 
-The plugin's source code, tests and release packaging script are publicly maintained at:
-https://github.com/orloxgr/PDF-Thumbnail-Inserter
-
-For the source corresponding to this release, use the v1.11.52 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
-
-The plugin bundles the official PDF.js 6.3.289 distribution under the Apache-2.0 license. Its minified module and worker retain their upstream contents; `build/pdf.min.mjs` and `build/pdf.worker.min.mjs` are named `pdf.min.js` and `pdf.worker.min.js` in this plugin.
-
-* Corresponding readable PDF.js source: https://github.com/mozilla/pdf.js/tree/v6.3.289
-* Upstream build instructions and tools: https://github.com/mozilla/pdf.js/blob/v6.3.289/README.md#building-pdfjs
-* Official prebuilt distribution: https://www.npmjs.com/package/pdfjs-dist/v/6.3.289
-
-Individual font, decoder and sandbox licenses are included with their files. The two QuickJS MIT notices omitted from the upstream 6.3.289 package are supplied verbatim from Mozilla's v6.5.438 source; this notice repair does not upgrade the runtime:
-https://github.com/mozilla/pdf.js/tree/v6.5.438/external/quickjs
-
-Bundled-file provenance, module naming and license locations are recorded in `assets/pdfjs/VERSION.txt`. The repository's `python scripts/verify_pdfjs.py` check verifies upstream artifact integrity and the bundled files against these documented sources.
-
-For development checks see [development.txt](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/v1.11.52/development.txt)
-
-For changelog see [changelog.txt](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/v1.11.52/changelog.txt)
+For changelog see changelog.txt

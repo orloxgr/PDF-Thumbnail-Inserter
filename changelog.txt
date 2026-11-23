@@ -1,5 +1,12 @@
 # PDF Thumbnail Inserter — Changelog
 
+### 1.02.01
+
+- Remove the version/author/license banner from the GitHub README.
+- Move source/build instructions from readme.txt into the included development.txt.
+- Keep exactly the plain-text development and changelog references in both readmes.
+- Include development.txt, readme.txt and changelog.txt in the installable plugin; keep README.md outside it.
+
 ### 1.11.52
 
 - Move development checks and release history into development.txt and changelog.txt, leaving short references in the readmes.

@@ -26,10 +26,28 @@ With the same disposable-site root and `PTI_TEST_DISPOSABLE=true`, `tests/refere
 
 `tests/lifecycle-wordpress.php` must start on a **fresh disposable local site without this plugin or its options**. Set `PTI_TEST_DISPOSABLE=true`. Each phase is a separate PHP process: `php tests/lifecycle-wordpress.php /path/to/wp PHASE`. Run `init`, install/activate the ZIP with WordPress/WP-CLI, run `fresh` and `legacy`, deactivate the plugin, run `inactive`, uninstall through WordPress (including removal of its files), run `uninstalled`, reinstall/activate the ZIP, and run `reinstalled`. The synthetic PDF, child preview, settings and stored content are retained for an upgrade check. To establish an actual published starting version, install that release ZIP and run `baseline ZIP_PATH`; then install/activate the new version and run `upgraded VERSION` followed by `cleanup VERSION`. Never run these commands on production. An additional HTTP server or browser is not required for these native lifecycle checks.
 
-`python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt` and the **Source Code and Build Instructions** section of `readme.txt`.
+`python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt` and the **Source Code and Build Instructions** section below.
 
-Build the installable ZIP with `python scripts/package.py`. The `pdf-thumbnail-inserter/` archive includes only `LICENSE`, `readme.txt`, `changelog.txt`, the plugin PHP entrypoint and Git-tracked assets/blocks. The script checks version consistency, archive integrity, its distribution manifest, and every packaged byte against the source. Output goes to `dist/`; README.md, development.txt, tests, development scripts, audit evidence, directory artwork, agent skills, Git metadata and local archives are excluded. Stage new runtime assets and the changelog before building.
+Build the installable ZIP with `python scripts/package.py`. The `pdf-thumbnail-inserter/` archive includes only `LICENSE`, `readme.txt`, `development.txt`, `changelog.txt`, the plugin PHP entrypoint and Git-tracked assets/blocks. The script checks version consistency, archive integrity, its distribution manifest, and every packaged byte against the source. Output goes to `dist/`; README.md, tests, development scripts, audit evidence, directory artwork, agent skills, Git metadata and local archives are excluded. Stage new runtime assets and the changelog before building.
 
 Before publication, scan the exact extracted ZIP and a snapshot of tracked files with Gitleaks; use its Git mode for the repository history. Keep reports redacted and review any detected locations without publishing secret values. Separately inspect for private endpoints and deployment paths: a clean secret scan does not identify every kind of private infrastructure detail. Retain upstream license/source notices and verify any library-origin finding against the corresponding official distribution.
 
 The [readiness audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/main/docs/readiness-audit.md) records the complete requirement matrix, fixes, tool findings and verification limits.
+
+## Source Code and Build Instructions
+
+The plugin's source code, tests and release packaging script are publicly maintained at:
+https://github.com/orloxgr/PDF-Thumbnail-Inserter
+
+For the source corresponding to this release, use the v1.02.01 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
+
+The plugin bundles the official PDF.js 6.3.289 distribution under the Apache-2.0 license. Its minified module and worker retain their upstream contents; `build/pdf.min.mjs` and `build/pdf.worker.min.mjs` are named `pdf.min.js` and `pdf.worker.min.js` in this plugin.
+
+* Corresponding readable PDF.js source: https://github.com/mozilla/pdf.js/tree/v6.3.289
+* Upstream build instructions and tools: https://github.com/mozilla/pdf.js/blob/v6.3.289/README.md#building-pdfjs
+* Official prebuilt distribution: https://www.npmjs.com/package/pdfjs-dist/v/6.3.289
+
+Individual font, decoder and sandbox licenses are included with their files. The two QuickJS MIT notices omitted from the upstream 6.3.289 package are supplied verbatim from Mozilla's v6.5.438 source; this notice repair does not upgrade the runtime:
+https://github.com/mozilla/pdf.js/tree/v6.5.438/external/quickjs
+
+Bundled-file provenance, module naming and license locations are recorded in `assets/pdfjs/VERSION.txt`. The repository's `python scripts/verify_pdfjs.py` check verifies upstream artifact integrity and the bundled files against these documented sources.

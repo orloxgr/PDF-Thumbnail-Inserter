@@ -1,6 +1,13 @@
 # PDF Thumbnail Inserter — current readiness
 
-## Version 1.11.52
+## Version 1.02.01
+
+**Plugin Check: 0 errors / 0 warnings.** Both readmes use only the requested plain-text development/changelog references. Source/build details are in development.txt, which is included alongside readme.txt and changelog.txt in the 230-file plugin ZIP. README.md remains outside the ZIP and its version/author/license banner is removed.
+
+- [Current layout, executed checks and limits](readme-1.02.01.md).
+- [Machine-readable scope/results](readme-1.02.01.json), [Plugin Check](plugin-check-1.02.01.json) and [manifest](release-manifest-1.02.01.json).
+
+## Documentation separation 1.11.52
 
 **Plugin Check: 0 errors / 0 warnings.** Development checks and history now live in `development.txt` / `changelog.txt`. The WordPress.org ZIP excludes README.md and development documentation. Current tracked files, the exact ZIP and Git history have clean redacted Gitleaks scans plus manual endpoint/deployment review.
 
