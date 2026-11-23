@@ -1,12 +1,13 @@
 <?php
+require_once __DIR__ . '/component-access.php';
 /** Real WordPress writer/deleter contention. Only on an explicitly disposable local site. */
 if ( 'cli' !== PHP_SAPI || 'true' !== getenv( 'PTI_TEST_DISPOSABLE' ) || empty( $argv[1] ) ) exit( 'Requires CLI, PTI_TEST_DISPOSABLE=true and a disposable WordPress root.' );
 require_once rtrim( $argv[1], '/\\' ) . '/wp-load.php';
 if ( 'local' !== wp_get_environment_type() || ! defined( 'DISABLE_WP_CRON' ) || ! DISABLE_WP_CRON ) throw new RuntimeException( 'Local isolated site required' );
 function deletion_private( $name, ...$args ) {
-    $method = new ReflectionMethod( PDF_Thumbnail_Inserter::instance(), $name );
+    $method = new ReflectionMethod( pti_test_target( PDF_Thumbnail_Inserter::instance(), $name ), $name );
     $method->setAccessible( true );
-    return $method->invoke( PDF_Thumbnail_Inserter::instance(), ...$args );
+    return $method->invoke( pti_test_target( PDF_Thumbnail_Inserter::instance(), $method->getName() ), ...$args );
 }
 if ( isset( $argv[2] ) && 'hold' === $argv[2] ) {
     $result = deletion_private( 'with_pdf_preview_lock', $argv[3], function () use ( $argv ) {

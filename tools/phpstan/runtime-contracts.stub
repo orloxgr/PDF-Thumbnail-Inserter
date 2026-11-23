@@ -3,6 +3,7 @@
  * See runtime-contracts.md for actual core/integration source evidence.
  */
 namespace {
+    class WP_Block_Type {}
     /**
      * Registers a block type. The recommended way is to register a block type using
      * the metadata stored in the `block.json` file.
@@ -31,14 +32,14 @@ namespace {
      *   description?: string,
      *   keywords?: string[],
      *   textdomain?: string|null,
-     *   styles?: array[],
-     *   variations?: array[],
-     *   selectors?: array,
-     *   supports?: array|null,
-     *   example?: array|null,
+     *   styles?: array<array<string,mixed>>,
+     *   variations?: array<array<string,mixed>>,
+     *   selectors?: array<string,mixed>,
+     *   supports?: array<string,mixed>|null,
+     *   example?: array<string,mixed>|null,
      *   render_callback?: callable|null,
      *   variation_callback?: callable|null,
-     *   attributes?: array|null,
+     *   attributes?: array<string,mixed>|null,
      *   uses_context?: string[],
      *   provides_context?: string[]|null,
      *   block_hooks?: string[],
@@ -72,6 +73,7 @@ namespace {
     function shortcode_parse_atts($text) {}
 }
 namespace Elementor {
+    class Preview {}
     class Plugin {
         /** @var Plugin|null */
         public static $instance;
@@ -80,6 +82,12 @@ namespace Elementor {
         /** @var \Elementor\Preview|null */
         public $preview;
     }
+}
+namespace Elementor\Core\Editor {
+    class Editor {}
+}
+namespace Elementor\Core\Base {
+    class Document {}
 }
 namespace Elementor\Core {
     class Documents_Manager {

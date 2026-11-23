@@ -1,0 +1,24 @@
+{
+    "status": "PASS",
+    "wordpress": "7.1.5",
+    "php": "8.2.30",
+    "assertions": [
+        "WordPress explicitly registers every public preview request field",
+        "Preview-only parameters cannot change the main WordPress content query",
+        "Existing third-party query variables retain their routing semantics",
+        "Core excerpt generation retains both real excerpt_length and excerpt_more filters while removing attachment labels",
+        "Excerpt generation never mutates the real post object or its stored content",
+        "The real core excerpt pipeline removes attachment labels before applying length and more filters",
+        "Normal excerpt generation runs the core content and trim pipelines exactly once",
+        "A nested manual excerpt is preserved by the real core pipeline",
+        "Returning from a nested excerpt restores the outer source-cleaning context",
+        "Nested excerpt callbacks do not change the outer excerpt result",
+        "A manually written excerpt is not regenerated",
+        "Percent and underscore in filenames remain literal data, not SQL wildcards",
+        "A SQL-looking filename fragment cannot broaden the attachment query",
+        "Short needle lists are padded without manufacturing additional matches",
+        "Exact URL variants retain caller priority even when a lower-priority candidate is newer",
+        "Scoped filename query clauses are removed before unrelated WordPress queries",
+        "Attachment deletion invalidates a previously cached filename result"
+    ]
+}

@@ -1,0 +1,1 @@
+PASS: two concurrent decoders, bounded wide/tall canvases, dynamic SSR previews, duplicate events and worker cleanup.

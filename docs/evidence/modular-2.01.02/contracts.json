@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "expected_rejected_arguments": 7,
+  "actual_rejected_arguments": 7,
+  "identifiers": [
+    "argument.type",
+    "argument.type",
+    "argument.type",
+    "argument.type",
+    "argument.type",
+    "argument.type",
+    "argument.type"
+  ]
+}

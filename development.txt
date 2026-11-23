@@ -6,6 +6,7 @@ python scripts/check_syntax.py
 php tests/preview-regression.php
 php tests/security-regression.php
 php tests/readiness-regression.php
+php tests/architecture-regression.php
 node tests/editor-regression.cjs
 node tests/browser-upload-regression.cjs
 node tests/browser-maintenance-regression.cjs
@@ -13,6 +14,36 @@ node tests/preview-renderer-regression.cjs
 node tests/server-maintenance-regression.cjs
 node tests/viewer-regression.cjs
 ```
+
+## PHP architecture
+
+`pdf-thumbnail-inserter.php` contains the plugin header, direct-access guard, root path constants and bootstrap. `includes/class-plugin.php` preserves `PDF_Thumbnail_Inserter::instance()`, its public methods/constants and the ordered WordPress callbacks. It creates and wires the internal collaborators before registering hooks. Subsystems call their explicitly declared collaborators; no service locator, magic dispatch or external autoloader is used.
+
+| Runtime file under includes/ | Responsibility |
+| --- | --- |
+| class-settings.php | Defaults, validation and legacy option migration |
+| class-admin.php | Settings/media UI and environment status |
+| class-assets.php | Conditional script/style registration and loading |
+| class-translations.php | Language-pack and local catalogue loading |
+| class-blocks.php | Gutenberg registration and rendering integration |
+| class-media.php | Authenticated media/AJAX entry points and upload integration |
+| class-file-resolver.php | Local file validation and attachment URL lookup |
+| class-preview-storage.php | Locks, owned attachments, publication and deletion cleanup |
+| class-preview-generation.php | Core/server preview generation and failure cleanup |
+| class-previews.php | Available preview selection and fallbacks |
+| class-maintenance.php | Resumable bounded maintenance batches |
+| class-discovery.php | PDF discovery in stored content and blocks |
+| class-reference-lookup.php | Legacy reference/title matching |
+| class-cards.php | Shortcode/card rendering and attribute handling |
+| class-viewer.php | Public viewer and document-cover resources |
+| class-featured-images.php | Featured-image fallbacks and listing visuals |
+| class-listing-filters.php | Archive/excerpt/content output integration |
+| class-elementor.php | Optional Elementor dynamic tag and widget |
+| class-runtime-state.php | Shared request-local caches, locks and render contexts |
+
+The public facade remains the callback owner, including callbacks registered later by settings, block registration, output buffering and temporary metadata-hook removal. The internal components and their wiring methods are not extension APIs. This is an organizational refactor: option/meta names, persistent data, shortcode aliases and PHP 7.4 / WordPress 6.0 requirements are retained; no speed improvement is claimed.
+
+`tests/architecture-regression.php` compares public signatures/defaults/constants and the ordered hook registrations against a contract captured from the published 2.01.01 ZIP. It also checks root paths, callable callbacks, no bootstrap output and repeated loading. `tests/component-access.php` lets existing behavior tests reach the owning component without exposing test helpers in the distributed plugin; it also supports the old monolithic release for upgrade tests.
 
 `tests/wordpress-integration.php` installs the ZIP and checks real WordPress APIs on an explicitly disposable site. It requires `PTI_TEST_DISPOSABLE=true`; see its header for the install and verification phases. The test creates attachments and changes settings, so use a fresh test database.
 
@@ -28,7 +59,7 @@ With the same disposable-site root and `PTI_TEST_DISPOSABLE=true`, `tests/refere
 
 `python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt` and the **Source Code and Build Instructions** section below.
 
-Build the installable ZIP with `python scripts/package.py`. The `pdf-thumbnail-inserter/` archive includes only `LICENSE`, `readme.txt`, `development.txt`, `changelog.txt`, the plugin PHP entrypoint and Git-tracked assets/blocks. The script checks version consistency, archive integrity, its distribution manifest, and every packaged byte against the source. Output goes to `dist/`; README.md, tests, development scripts, audit evidence, directory artwork, agent skills, Git metadata and local archives are excluded. Stage new runtime assets and the changelog before building.
+Build the installable ZIP with `python scripts/package.py`. The `pdf-thumbnail-inserter/` archive includes only `LICENSE`, `readme.txt`, `development.txt`, `changelog.txt`, the plugin PHP entrypoint and Git-tracked includes/assets/blocks. The script checks version consistency, archive integrity, its distribution manifest, every packaged byte against the source and that every runtime PHP include is staged. Output goes to `dist/`; README.md, tests, development scripts, audit evidence, directory artwork, agent skills, Git metadata and local archives are excluded. Stage new runtime files and the changelog before building.
 
 Before publication, scan the exact extracted ZIP and a snapshot of tracked files with Gitleaks; use its Git mode for the repository history. Keep reports redacted and review any detected locations without publishing secret values. Separately inspect for private endpoints and deployment paths: a clean secret scan does not identify every kind of private infrastructure detail. Retain upstream license/source notices and verify any library-origin finding against the corresponding official distribution.
 
@@ -39,7 +70,7 @@ The [readiness audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/mai
 The plugin's source code, tests and release packaging script are publicly maintained at:
 https://github.com/orloxgr/PDF-Thumbnail-Inserter
 
-For the source corresponding to this release, use the v2.01.01 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
+For the source corresponding to this release, use the v2.01.02 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
 
 The plugin bundles the official PDF.js 6.3.289 distribution under the Apache-2.0 license. Its minified module and worker retain their upstream contents; `build/pdf.min.mjs` and `build/pdf.worker.min.mjs` are named `pdf.min.js` and `pdf.worker.min.js` in this plugin.
 

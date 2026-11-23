@@ -1,0 +1,788 @@
+{
+  "status": "PASS",
+  "baseline": "published v2.01.01 ZIP",
+  "method_bodies": 150,
+  "allowed_substitutions": [
+    "component ownership and private-to-internal-public visibility",
+    "shared request state",
+    "facade callback identity",
+    "qualified constants",
+    "root-relative translation directory"
+  ],
+  "body_proof": [
+    {
+      "method": "load_textdomain",
+      "file": "includes/class-translations.php",
+      "normalized_source_sha256": "d1443b0ca5205b8b42279d9587f7f41369490df5e2e38b7fd7f0d8879dd7c9a1"
+    },
+    {
+      "method": "register_preview_query_vars",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "31bc7314ce160462250d4a5fe71ff5417aa7e9d231066703cc103120868928ca"
+    },
+    {
+      "method": "parse_public_preview_request",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "58ad2a47219b94a312edaf193af8dac9703935929fa4662bc39817bd5374d689"
+    },
+    {
+      "method": "get_local_pdf_viewer_file_url",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "11f994261f736e90b5ea6f3bfc2545809338c0b59fae73278590d4b784ac59e3"
+    },
+    {
+      "method": "get_pdfjs_viewer_url",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "9acf6fb74dcb29aa439edd972907d9e8ff2c5abd2d7063094055400501636eeb"
+    },
+    {
+      "method": "maybe_render_pdfjs_viewer",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "83f54695b41b6b14a491a8b288282e61a76c6f2fdd14474e963557ed4af26c1f"
+    },
+    {
+      "method": "render_featured_pdf_frame",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "260f8d81179dd5f1c75c3d72466b575ca3931d8722c025ac28113e663b992cde"
+    },
+    {
+      "method": "render_pdf_canvas_preview",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "9a7c74c08553552e29df09a32a2eb2204802fd2130ffb6d0e774bc39077c2a44"
+    },
+    {
+      "method": "render_pdf_canvas_preview_for_post",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "82271704817efce0ff1f01921bacd8b45fafd4f7f7072cac32110f377990e47a"
+    },
+    {
+      "method": "get_document_cover_url",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "57f8888fdff260defabf388116d6943dd372363b21df7a005283d52f786a7108"
+    },
+    {
+      "method": "render_document_cover_svg",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "1c86e3e4e3523d62735025f6a10a66649276ba8879a52ea967ab4771c5427194"
+    },
+    {
+      "method": "maybe_render_document_cover",
+      "file": "includes/class-viewer.php",
+      "normalized_source_sha256": "beb04df960ae7178930f7069ddd19faf9ce80950eabfdd406099bcabf48b6625"
+    },
+    {
+      "method": "invalidate_preview_caches",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "5be4c5d48533b04f1db2837b2686b6840c7fbc814b6835a24577d7569ce39aaa"
+    },
+    {
+      "method": "get_pdf_featured_image_fallback_data",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "08ea7e65d987043001c8f61352c719c1f622b07d35513954825e5ba023e360d8"
+    },
+    {
+      "method": "get_pdf_featured_image_fallback_id",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "aaa6972bbc61164c73c9c9b409a84087c4d600a9c84fbabf96f488a2162c4a7b"
+    },
+    {
+      "method": "should_use_first_pdf_preview_as_featured_image",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "170b16a285b11bcc0b9d7ed25094db3bcb2870afbcc1b8aeb1d8cacb58c0d666"
+    },
+    {
+      "method": "category_visual_has_rendered",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "eb4d518900660e975ba81fb43b83d61562cd8e890ff5fa0b0c31f3e5fdf9caea"
+    },
+    {
+      "method": "mark_category_visual_rendered",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "b7e4052580d10c142d6e3163e2bdc6db61e80ffa7f79dd290deb002cfdcb4ff8"
+    },
+    {
+      "method": "has_real_featured_image_id",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "632ada9b061e1323855e740d0f3eabd571308e5d6f42ef431a79f00d0376fb0f"
+    },
+    {
+      "method": "use_first_pdf_preview_as_featured_image",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "d8a13811a051544416909aa7b061caeda8731bd1442a3edd850311a7a4eb7c06"
+    },
+    {
+      "method": "has_first_pdf_preview_as_featured_image",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "16ed9ded80a09fa1872faf7526aaaf3ee7c0708ef847e4b91f91473bfd259d13"
+    },
+    {
+      "method": "render_first_pdf_preview_as_featured_image",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "352238cc838222bef94a9b0b0d2ca8f59058fb5859e481c1a2aff3357b39fe57"
+    },
+    {
+      "method": "get_current_render_post_id",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "c1465fccbf778019afa34d3583d8c857ea0ae69bfde2e8d632560cd453613ab2"
+    },
+    {
+      "method": "render_listing_pdf_preview_media",
+      "file": "includes/class-featured-images.php",
+      "normalized_source_sha256": "b64583121d2ae7618de9992e0f9cbf777d47335c92d6dd4be92b1571e4fe2322"
+    },
+    {
+      "method": "add_plugin_action_links",
+      "file": "includes/class-admin.php",
+      "normalized_source_sha256": "df4915e20af4714d677c1428afb071ca91c391e6b4bf5434d7e8fe7d79b364a6"
+    },
+    {
+      "method": "add_settings_menu",
+      "file": "includes/class-admin.php",
+      "normalized_source_sha256": "3f29ad975c24190fe693b62b3e912115ca5891b567fc8a8ecd6d8cd6a1f308fe"
+    },
+    {
+      "method": "register_settings",
+      "file": "includes/class-admin.php",
+      "normalized_source_sha256": "114eff3f2a84d1641e0c468ca96f490970b648752ecf3a98a892a91442364021"
+    },
+    {
+      "method": "metadata_has_pdf_preview",
+      "file": "includes/class-admin.php",
+      "normalized_source_sha256": "4e858c6d6d28ca9f39c9d033373e75c7d7d288b5ad938e77b1ad4922ea0c7ff4"
+    },
+    {
+      "method": "get_pdf_preview_generation_status",
+      "file": "includes/class-admin.php",
+      "normalized_source_sha256": "8f19da9a1432d370cb5fa148cceda3b6d3c1bd49cbaec0e400558b8169d37215"
+    },
+    {
+      "method": "get_environment_status",
+      "file": "includes/class-admin.php",
+      "normalized_source_sha256": "5da1b71405f348adf82eaf9472b082f2d0d7ef295c756e93a53fc0a82350b870"
+    },
+    {
+      "method": "render_settings_page",
+      "file": "includes/class-admin.php",
+      "normalized_source_sha256": "5dbe7f080eff3cc85fee6fffc654aa4909685efe4787c9ba299b9e9e2631bdc2"
+    },
+    {
+      "method": "render_media_button",
+      "file": "includes/class-admin.php",
+      "normalized_source_sha256": "717d280e97f56431d64804093a5712be67b1a2466a22f148f99e14ee11ca7abb"
+    },
+    {
+      "method": "add_module_type_to_preview_renderer",
+      "file": "includes/class-assets.php",
+      "normalized_source_sha256": "feea17479ccca49dbb41b58f9d73be886a3df8c948623efb31b0396fd8b80fb3"
+    },
+    {
+      "method": "add_module_attributes_to_preview_renderer",
+      "file": "includes/class-assets.php",
+      "normalized_source_sha256": "d9bcee0ca899194b9db79cd8ad82cab87367a1a915da61078700d2aad90a7bb2"
+    },
+    {
+      "method": "enqueue_admin_assets",
+      "file": "includes/class-assets.php",
+      "normalized_source_sha256": "3b745a1c1deb2b3ceef0047adb50ffc438f3fe4af0246c229932573cb3e0ea55"
+    },
+    {
+      "method": "enqueue_browser_upload_assets",
+      "file": "includes/class-assets.php",
+      "normalized_source_sha256": "4e4f2b139d94a3fb8c4211ac30cf59c327e614976bcc85da4aa029a0bf51574f"
+    },
+    {
+      "method": "enqueue_block_editor_assets",
+      "file": "includes/class-assets.php",
+      "normalized_source_sha256": "bc58be721986c1f64f557d49f553237913db392f6730047fa13c2b97c6a228e6"
+    },
+    {
+      "method": "enqueue_frontend_listing_assets",
+      "file": "includes/class-assets.php",
+      "normalized_source_sha256": "ba0e780f12f7a277203dd102c405a2c18e2888b2cce6dce2772d27264a91d76a"
+    },
+    {
+      "method": "register_block",
+      "file": "includes/class-blocks.php",
+      "normalized_source_sha256": "6f0f5f83fad735948c204e1064f3899b73bb8c435ffd53271c0e964c8f57fc53"
+    },
+    {
+      "method": "replace_pdf_file_block_preview",
+      "file": "includes/class-blocks.php",
+      "normalized_source_sha256": "cb257d04e0c926ac106ab32c5f7f0e97c85278b6e77034e8fb36bf408d4cce3e"
+    },
+    {
+      "method": "render_block",
+      "file": "includes/class-blocks.php",
+      "normalized_source_sha256": "519f607c175cf173bbbdf5e6ded0def3542f30df2e9045ca4670da0a6dadb680"
+    },
+    {
+      "method": "get_defaults",
+      "file": "includes/class-settings.php",
+      "normalized_source_sha256": "ad31c2a5ae4bd501c9ae9d68b56e27f5a75d32b17f4f30a77b6189806929e5f9"
+    },
+    {
+      "method": "sanitize_settings",
+      "file": "includes/class-settings.php",
+      "normalized_source_sha256": "e72efa89812220ded6837ed2f9ddd615de4c0eedd79b363237e304c535df7483"
+    },
+    {
+      "method": "get_insert_column_defaults",
+      "file": "includes/class-settings.php",
+      "normalized_source_sha256": "e1a9b8e614d3465ea2b234c4754a25f24774b22c9e06b9308a6faf93f4df4f5e"
+    },
+    {
+      "method": "sanitize_hex_color_with_fallback",
+      "file": "includes/class-settings.php",
+      "normalized_source_sha256": "6b593116bc607c8a683443395baadeda212f741d0521a236575a1f040e29caa3"
+    },
+    {
+      "method": "sanitize_css_dimension",
+      "file": "includes/class-settings.php",
+      "normalized_source_sha256": "655c37e85e43f1324367b9b658ddb01e12ef524cbd4a188565a75ca8a467d3ae"
+    },
+    {
+      "method": "sanitize_link_to",
+      "file": "includes/class-settings.php",
+      "normalized_source_sha256": "3db9325d5964ed571dbbb6c7904faca83b9b8541d74aa1da13792d30e27e7c09"
+    },
+    {
+      "method": "get_settings",
+      "file": "includes/class-settings.php",
+      "normalized_source_sha256": "4036a1435a1928af69381a18f275b3e23f181814342485a2eb812462374b6cb2"
+    },
+    {
+      "method": "maybe_migrate_legacy_options",
+      "file": "includes/class-settings.php",
+      "normalized_source_sha256": "12a606734f634971ef907c9230e9065c361d8a1db102b518031a1f8087a999ff"
+    },
+    {
+      "method": "ajax_fetch_pdf_data",
+      "file": "includes/class-media.php",
+      "normalized_source_sha256": "a54144438a3c3708635b11d4c4336585ab218799fde79a2b68b24d201eb2abb5"
+    },
+    {
+      "method": "ajax_list_missing_previews",
+      "file": "includes/class-media.php",
+      "normalized_source_sha256": "696c8ed79ebbe6e00a7088a634e7fe0e25647b401995c1df7250eff84bab28c0"
+    },
+    {
+      "method": "can_save_browser_preview",
+      "file": "includes/class-media.php",
+      "normalized_source_sha256": "77dd76bea72e876bfd147333b6ebb26a9a79f7a38903d2d92055e217e13c8156"
+    },
+    {
+      "method": "ajax_save_browser_preview",
+      "file": "includes/class-media.php",
+      "normalized_source_sha256": "2ee520aa697416bb94522bf449606305c12c6ecb7fdc124c9c72dcee43c3f28f"
+    },
+    {
+      "method": "save_browser_preview",
+      "file": "includes/class-media.php",
+      "normalized_source_sha256": "d055e5abf48788a83c70d0267bf91e7d31ccb4f8d7cd8505d6f4c84b6727749e"
+    },
+    {
+      "method": "add_browser_preview_to_media_response",
+      "file": "includes/class-media.php",
+      "normalized_source_sha256": "a4d0076cf9c592a0253048c3a9c3ec9afc0557970e027fe079d206fd54a0fff5"
+    },
+    {
+      "method": "add_attachment_fields",
+      "file": "includes/class-media.php",
+      "normalized_source_sha256": "e432a87d032efe8f7f9f248e6bd819984d6ec71502bbffc26357a113bc265569"
+    },
+    {
+      "method": "maybe_generate_pdf_preview_on_upload",
+      "file": "includes/class-media.php",
+      "normalized_source_sha256": "6a74990421d76fe5bb42704c3902e4e1b016f93d39c531e6dbaae7444563c678"
+    },
+    {
+      "method": "get_valid_local_pdf_attachment_file",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "fbd345e314b200ab8358473a6f4b8d02e65c0012252c57412369720c4ddd5e8d"
+    },
+    {
+      "method": "get_url_path",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "b37901ee8f820f5404accb8fc87a63ac46e47ee50cee766f14b016a6de22b42b"
+    },
+    {
+      "method": "encode_url_path_segments",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "93949f5421089feb31f70bc2a9ff422fa56e5c5b6e46b98c719472d1bb0c6a1b"
+    },
+    {
+      "method": "get_relative_upload_file_variants",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "86df6adc793005c01fdfd0cabd4ad0117ae33424967aa0bc66d7b1ba189f1a3d"
+    },
+    {
+      "method": "get_file_url_identity",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "42ec570e09557197eee8958ca85f88dcb8c70d797d40ba2092db18632ea65dcc"
+    },
+    {
+      "method": "invalidate_attachment_lookup_metadata",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "68e9dc561bff574100656732c0f2e95c6a96051f166ec3c951691b4d97fae562"
+    },
+    {
+      "method": "get_attachment_lookup_cache_key",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "40ae3f0b90d979344193976e340bf9e3e1b1552746b6c2d0491420af36814efd"
+    },
+    {
+      "method": "find_attachment_filename_candidates",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "64efa4bae27d1fb808af12b005ac169f0d4bdc770dd1438dd9d2ef32d4c67666"
+    },
+    {
+      "method": "get_attachment_id_from_file_url",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "43c98e3a3a37c1603fe13f6a0d86da2b6387b12af471856a7ca46be621d34bcb"
+    },
+    {
+      "method": "resolve_attachment_id_from_file_url",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "a610c776f487cb706fc37ae33a247d46e872a010e78c04ba2f884fad364f0921"
+    },
+    {
+      "method": "normalize_pdf_candidate_url",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "4f5ec585a3443157e071309e3807af1a613e86d273f6c9981970682534941a3f"
+    },
+    {
+      "method": "get_local_upload_pdf_path",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "73fb87cb66357e7959500dbd31695acd34ed9c5c76ff4b005048670952c8ee36"
+    },
+    {
+      "method": "get_local_upload_file_path",
+      "file": "includes/class-file-resolver.php",
+      "normalized_source_sha256": "6622af19b022b842ea8641051e41e1353dddd53f0bed9a04e809871f2b65dd2b"
+    },
+    {
+      "method": "with_pdf_preview_lock",
+      "file": "includes/class-preview-storage.php",
+      "normalized_source_sha256": "80a181f0eb1b9b137aae9968f9ad52d4c1b25e27a3343fc53aa34abf4194a6aa"
+    },
+    {
+      "method": "with_preview_file_lock",
+      "file": "includes/class-preview-storage.php",
+      "normalized_source_sha256": "e96dfb86acec90ed9750c05f1bbc6643e28b7d8e8599794b62226dccc5388878"
+    },
+    {
+      "method": "acquire_preview_file_lock",
+      "file": "includes/class-preview-storage.php",
+      "normalized_source_sha256": "02ecd03b5f3326d3da8deaa0b02144038fdc34fa2356d70e963553303e254369"
+    },
+    {
+      "method": "create_pdf_preview_attachment",
+      "file": "includes/class-preview-storage.php",
+      "normalized_source_sha256": "d9952107359307a28064ba43daeb8fccb8b5435fe630aa79b0e4d54c75a7fab6"
+    },
+    {
+      "method": "is_owned_pdf_preview",
+      "file": "includes/class-preview-storage.php",
+      "normalized_source_sha256": "90d46af982cdb77b6899d64131f27c1bba14af3351bad30b1e8fae00e66b023d"
+    },
+    {
+      "method": "cleanup_generated_preview",
+      "file": "includes/class-preview-storage.php",
+      "normalized_source_sha256": "43cc557a8026324c76a4d78a83871fcd17b541c1ed50cbcd8f8bcc373b424140"
+    },
+    {
+      "method": "protect_pdf_attachment_deletion",
+      "file": "includes/class-preview-storage.php",
+      "normalized_source_sha256": "bc3527faf6e3dd104620b4c18228380a494dcd1274a9330cae03da54ca05aa75"
+    },
+    {
+      "method": "release_deleted_pdf_lock",
+      "file": "includes/class-preview-storage.php",
+      "normalized_source_sha256": "f34618bafdddb90f0a72c44a6d426c788df5cc4bbf5d91b98d9807b3f447b2e3"
+    },
+    {
+      "method": "release_pdf_deletion_locks",
+      "file": "includes/class-preview-storage.php",
+      "normalized_source_sha256": "b61f2248f852f52603e2c93a36f4e51635f63c143400789bfe54f9ea21a9efd4"
+    },
+    {
+      "method": "handle_regenerate_missing_previews",
+      "file": "includes/class-maintenance.php",
+      "normalized_source_sha256": "97c922d961b25099d2255fe9b1f163d4228fed242eb7c6e326533651ccf394bb"
+    },
+    {
+      "method": "get_server_maintenance_job_key",
+      "file": "includes/class-maintenance.php",
+      "normalized_source_sha256": "339c1f6fd9a335a29111875cb4d1d2ae0cf9239205a631629e589e14ebc3eeee"
+    },
+    {
+      "method": "get_server_maintenance_job",
+      "file": "includes/class-maintenance.php",
+      "normalized_source_sha256": "9a9591524895d6e1a34babf766ffb5f9c8a1f4162d467ee2274af9f30c56f608"
+    },
+    {
+      "method": "get_server_maintenance_ids",
+      "file": "includes/class-maintenance.php",
+      "normalized_source_sha256": "eb4280638b77dcb4cb781f0ca28bceafac1467711349a3abf1db68677bc0775f"
+    },
+    {
+      "method": "store_server_maintenance_job",
+      "file": "includes/class-maintenance.php",
+      "normalized_source_sha256": "c459f9c537b69b14ac8e533b260731839d1f2c5cc248011e6341f58f18372d2e"
+    },
+    {
+      "method": "run_server_maintenance_batch",
+      "file": "includes/class-maintenance.php",
+      "normalized_source_sha256": "a8958bd0150a50e55fc56b3b34b9ab31cb727179c5357056afa5d151d798970f"
+    },
+    {
+      "method": "process_server_maintenance_batch",
+      "file": "includes/class-maintenance.php",
+      "normalized_source_sha256": "ff18dd84f6fcab59086a9519de0cb4078ff3d95c4c1161e0354dc19009ccc934"
+    },
+    {
+      "method": "maybe_generate_core_pdf_preview",
+      "file": "includes/class-preview-generation.php",
+      "normalized_source_sha256": "a32ab32c527b838795d0ae81d3e7caded8228396eb78092d98df20974e08bd46"
+    },
+    {
+      "method": "get_core_preview_files",
+      "file": "includes/class-preview-generation.php",
+      "normalized_source_sha256": "576dc8f8f1b3af5b4216a8819ae792adbd5d61656a3bc912bc81740facd72935"
+    },
+    {
+      "method": "ensure_pdf_preview",
+      "file": "includes/class-preview-generation.php",
+      "normalized_source_sha256": "35fa9980325d9d05ea8405f99e064b4b80c79b1eb98e8f2415824ea89604eb17"
+    },
+    {
+      "method": "generate_pdf_attachment_preview",
+      "file": "includes/class-preview-generation.php",
+      "normalized_source_sha256": "c65d7dd42604936c5658c83ba373d394b0049a917a74f6aac17b8152caa62e7c"
+    },
+    {
+      "method": "generate_standalone_pdf_preview",
+      "file": "includes/class-preview-generation.php",
+      "normalized_source_sha256": "89f89e97ecc0a5aa36fb2761b18e35934221e9725d80e87c266c3b574269f236"
+    },
+    {
+      "method": "is_available_preview_url",
+      "file": "includes/class-previews.php",
+      "normalized_source_sha256": "775c8b9b1d8432a26230e6f9bc19ae2aae38b2a977261f984491b689b9f95028"
+    },
+    {
+      "method": "get_image_url_with_size_fallback",
+      "file": "includes/class-previews.php",
+      "normalized_source_sha256": "d01b0b94a0e9d6b211edc83e9f453633042b2b236f54176124a1ddb0b64b8bb6"
+    },
+    {
+      "method": "get_wordpress_pdf_preview_url",
+      "file": "includes/class-previews.php",
+      "normalized_source_sha256": "86a011feef777080a1743f26df2626986825ed8fd502ecb55d013c3147c1f9d3"
+    },
+    {
+      "method": "get_pdf_preview_data",
+      "file": "includes/class-previews.php",
+      "normalized_source_sha256": "761a5cdbf2a038c92c291b4524990b34696796d179bdbb147e09115d7afa6454"
+    },
+    {
+      "method": "get_pdf_preview_url_from_file_url",
+      "file": "includes/class-previews.php",
+      "normalized_source_sha256": "59930664811c4f42f881c34faa5b1da630282d7b477544ee5409a664696bac3b"
+    },
+    {
+      "method": "normalize_bool_attr",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "0b5d03e86bedc931a6a565824f01073c97dab866872b0bd7908676f441ab8c97"
+    },
+    {
+      "method": "build_link_data",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "378f295c83fa9fcc30f9cfe063b4fe8d90abeca26c1c9183960bc25d9b24ef41"
+    },
+    {
+      "method": "parse_attachment_ids",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "b2b8246f040870622a6dd63dbf947a5419bbea5452463845f13e62fe94c0a5d9"
+    },
+    {
+      "method": "clamp_columns",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "d94c40bbe1b8adc0219da02e8f1fd82a6b613b38e249787d68c567b6281c4818"
+    },
+    {
+      "method": "get_grid_style",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "aac7ea1197e72602435a9908c5fb8ab8c12987046e61c6c29a707155cadd653d"
+    },
+    {
+      "method": "render_card_thumbnail",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "3140e692179a8811b8efc606502f079c525325f423ae48673d33158f4e20c0d6"
+    },
+    {
+      "method": "render_pdf_card",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "3ecfd0ce26e325e8007f51a177862abfc5e9f6567f333780477a8b062ebe2eda"
+    },
+    {
+      "method": "render_legacy_url_card",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "6e798093c9ee156b46407995e4c3851885a5bf8be4bc7a0b8159f4da3aada98e"
+    },
+    {
+      "method": "get_shortcode_atts",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "66799e4e197aacf9466cd3dd1503c2864b28bef517f241b2d1b2f3c11f44c03e"
+    },
+    {
+      "method": "get_doc_placeholder_url",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "598f862ed127c008de84129614fae417b2d3fc3fa25900a5eb84c15a99d1e269"
+    },
+    {
+      "method": "render_gutenberg_file_card",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "8ec123864430b65fa34fc81dfa0ae673883e799dc69049d5d7374e849bf5f91f"
+    },
+    {
+      "method": "render_gutenberg_pdf_block_as_card",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "2d89dd5b10153c6f52e3cfa7bc2518f7f2bc2ac85132fc930598e17a68991e18"
+    },
+    {
+      "method": "render_gutenberg_doc_block_as_card",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "2daa02606bcb7001bbe3a0c8437a258be726936cc2db33f7620605d57cc96cbe"
+    },
+    {
+      "method": "render_shortcode",
+      "file": "includes/class-cards.php",
+      "normalized_source_sha256": "614c8536a10163df36c2f08c10832f1e2fac22211592941883f8c9dac46407c8"
+    },
+    {
+      "method": "is_word_document_mime",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "e2b08ea7f6678f68e21cf8913c0187857ad08aa8b50b74cc37063f45f6de42d5"
+    },
+    {
+      "method": "get_file_title_from_url",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "b29f08fd4f476109f5192ac542e63994de8dbc6e6279bc39ce0d9356d015ae4d"
+    },
+    {
+      "method": "get_gutenberg_file_block_title",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "08ac901e87ac02887f8a76b8cc524c4d6306633d25477bc994a3d495faca8a8c"
+    },
+    {
+      "method": "get_file_url_from_block_markup",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "5788f13e783ebfe5c86c7a18efe7c7e54e0fce89d8ed5c33d75056ee380a19ed"
+    },
+    {
+      "method": "get_gutenberg_file_block_markup",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "a1d575e714f69f9cf1190f2c5713bfd63ea11c07c8ca40286111e70baa3ccf06"
+    },
+    {
+      "method": "is_gutenberg_file_preview_markup",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "ba15190a9caf5a74764917fb5b21348396d30254239a61f8aa42d03bbd00a6ae"
+    },
+    {
+      "method": "get_gutenberg_file_block_data",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "101e3c4f4c45cfb66d7f19b7a500b7a807e7aeda4e631cd386e5b95735991a8e"
+    },
+    {
+      "method": "get_pdf_file_data_from_url",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "86b32242354455613b310831d0ab5fef28b5ac281ad5b7233104be89040dd0a3"
+    },
+    {
+      "method": "get_pdf_file_data_from_attachment_id",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "166366f30ee1bf042137439e992946097520f58aff198854252323f969be9df7"
+    },
+    {
+      "method": "find_first_pdf_in_post_content",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "351be1be0397eb7fbf034b9afa6ebd7db1f03b728361924541e489768c26f1cf"
+    },
+    {
+      "method": "find_first_preview_pdf_in_post_content",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "c1759c946c40b8d7cbefc07af279b94d5fa750f3a48dd8cb9ed5e8c7ff76def1"
+    },
+    {
+      "method": "find_first_pdf_block_data",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "50377dca56b9f76cd43448a06e2bed8bf82a6c3d7c997900d5e6cef77481dc35"
+    },
+    {
+      "method": "find_first_preview_pdf_block_data",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "8631868f4eec0de58ae997be43fec8000ec560a90cd4efa8768954d55bb7a6a4"
+    },
+    {
+      "method": "resolve_first_pdf_for_post",
+      "file": "includes/class-discovery.php",
+      "normalized_source_sha256": "3849f33230146648a2e021a14b21d7aaa6b379ddf8c62a4d33aff7a78b857f5f"
+    },
+    {
+      "method": "normalize_reference_pdf_title",
+      "file": "includes/class-reference-lookup.php",
+      "normalized_source_sha256": "2ac714b74cf76d2ea46aa9aa50a5e1ce85754f63c86814b8041c034e66813773"
+    },
+    {
+      "method": "normalize_reference_pdf_lookup_text",
+      "file": "includes/class-reference-lookup.php",
+      "normalized_source_sha256": "a49041e9eeafc499bebbcbe810375767514ae5da7fab0bf874432f6041d83fc9"
+    },
+    {
+      "method": "get_reference_pdf_title_tokens",
+      "file": "includes/class-reference-lookup.php",
+      "normalized_source_sha256": "872873e5bb11933a19c3b06c34344ce0c078651b4b36b3960b4ee1b869c49c6e"
+    },
+    {
+      "method": "score_reference_pdf_candidate",
+      "file": "includes/class-reference-lookup.php",
+      "normalized_source_sha256": "a59b0eda8b81a7d532a22d13e2ddd5f4c007ddd827d474e901612c4662609b9f"
+    },
+    {
+      "method": "get_pdf_file_data_from_loose_reference_title",
+      "file": "includes/class-reference-lookup.php",
+      "normalized_source_sha256": "c8e1980a42602c0f00d279a6a41fda94aca3df775e973e4dcdc0f658e56bc2bf"
+    },
+    {
+      "method": "get_pdf_file_data_from_reference_title",
+      "file": "includes/class-reference-lookup.php",
+      "normalized_source_sha256": "12ef2a01277c37bdc0acc1a96886b3745def09c5180674596510c389c5624b82"
+    },
+    {
+      "method": "get_first_pdf_from_reference_atts",
+      "file": "includes/class-reference-lookup.php",
+      "normalized_source_sha256": "84ce7a6fc86874f716cc64992f6487a135ed14f8a3fe6eb53cdcb84f24ac7be4"
+    },
+    {
+      "method": "get_elementor_featured_image_fallback_value",
+      "file": "includes/class-elementor.php",
+      "normalized_source_sha256": "b0079239a5007b598aa7a43f986c86b3cd57c2ac2f70dff019ba627ed46cc582"
+    },
+    {
+      "method": "get_elementor_featured_image_widget_value",
+      "file": "includes/class-elementor.php",
+      "normalized_source_sha256": "dfb101f77ade5be95029062d0c4c050f7e8fc9f09968d9835b2d18f7ceb33d9a"
+    },
+    {
+      "method": "register_elementor_featured_image_fallback_tag",
+      "file": "includes/class-elementor.php",
+      "normalized_source_sha256": "fe36aae6d760479b669ce70836388c9ac1c2a208b60cc207c4b3e00f85e448e2"
+    },
+    {
+      "method": "register_elementor_featured_image_fallback_widget",
+      "file": "includes/class-elementor.php",
+      "normalized_source_sha256": "a7e81ed57b3aa50b2f26634e47d600ace5647649d459e4c63aeff0c56e810802"
+    },
+    {
+      "method": "is_news_or_category_list_context",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "d3819a14a54c5af7b336dc9d0f37e974b55f03d257a00ff4e5dd7343dcbb3e87"
+    },
+    {
+      "method": "is_news_page_request",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "800ab449048ad71fa6498bdf9cb99b2bf0e8a2bad84cb0521b826daa780d0b95"
+    },
+    {
+      "method": "is_attachment_list_render_context",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "21a73c48afc3e7946987590f374512116502772edf417e63cc65a1b64f188486"
+    },
+    {
+      "method": "should_suppress_elementor_post_content",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "398eff7bb11b7081fc429f4c9e6e166e65e01e828483289497dbfe3998a1b084"
+    },
+    {
+      "method": "should_skip_frontend_list_filters",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "f198fe9202957411d7f8dbe1e6b7445260c61b1aacf60efdd27aa55293802d24"
+    },
+    {
+      "method": "strip_attachment_sources_from_content",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "3e623b569b154f204d761a4c80b6cd6b6de6cf1d09c885b7f7b2e833a768725f"
+    },
+    {
+      "method": "strip_rendered_attachment_markup",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "373978e05fd42f8b5bd2bf02848e0fe1ead2b39aa493a5972ab8f7d001eb0f55"
+    },
+    {
+      "method": "begin_excerpt_context",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "23a908987242ccf10e78c65fb3df9d58b6ee694b57d61b4cb7847fdce4617cb2"
+    },
+    {
+      "method": "end_excerpt_context",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "2732a10b30fd12acccf5634a21c83fbcb807fe5a97dfc0e197198232383d7585"
+    },
+    {
+      "method": "filter_excerpt_attachment_source",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "232b959e01cd749644e710e110cdc9e497619b20202270ce3a8480ff98c13c67"
+    },
+    {
+      "method": "filter_list_excerpt_attachment_text",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "1d210ccb938f25870c743ad92b1d787851b20038c12c160e69008aebc647cd21"
+    },
+    {
+      "method": "filter_category_archive_excerpt_output",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "b95de55205a40004e69a3f7a608851a9160a85ac7ad4760e1c03fc46b7c7a364"
+    },
+    {
+      "method": "filter_category_archive_content",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "40ec564b12adaf66aa15b127d4956f3195e8339b70e6bbb4fd8c7b4b701f74da"
+    },
+    {
+      "method": "start_listing_output_buffer",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "fc0a719ad3dd215b5dbdc74459c0fb2bf8607dcf1ec6c4a90812fecc42b5dc4a"
+    },
+    {
+      "method": "filter_listing_output",
+      "file": "includes/class-listing-filters.php",
+      "normalized_source_sha256": "37dd6bb6aeb0a3f50b0c339f9e6ace0c4d549878d0b65eca409ec8e689e381f5"
+    }
+  ],
+  "unchanged_asset_block_files": 225,
+  "direct_access_guards": [
+    "pdf-thumbnail-inserter.php",
+    "includes/class-admin.php",
+    "includes/class-assets.php",
+    "includes/class-blocks.php",
+    "includes/class-cards.php",
+    "includes/class-discovery.php",
+    "includes/class-elementor.php",
+    "includes/class-featured-images.php",
+    "includes/class-file-resolver.php",
+    "includes/class-listing-filters.php",
+    "includes/class-maintenance.php",
+    "includes/class-media.php",
+    "includes/class-plugin.php",
+    "includes/class-preview-generation.php",
+    "includes/class-preview-storage.php",
+    "includes/class-previews.php",
+    "includes/class-reference-lookup.php",
+    "includes/class-runtime-state.php",
+    "includes/class-settings.php",
+    "includes/class-translations.php",
+    "includes/class-viewer.php"
+  ]
+}

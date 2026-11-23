@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/component-access.php';
 /**
  * Real WordPress audit regressions. Use only on an explicitly disposable site.
  * Define PTI_TEST_DISPOSABLE=true and PTI_TEST_WP_ROOT, then include this file.
@@ -27,10 +28,16 @@ function pti_audit_assert( $condition, $message ) {
     $GLOBALS['pti_assertions'][] = $message;
 }
 function pti_audit_private( $name, ...$args ) {
-    $method = new ReflectionMethod( $GLOBALS['pti'], $name );
+    $method = new ReflectionMethod( pti_test_target( $GLOBALS['pti'], $name ), $name );
     $method->setAccessible( true );
-    return $method->invoke( $GLOBALS['pti'], ...$args );
+    return $method->invoke( pti_test_target( $GLOBALS['pti'], $method->getName() ), ...$args );
 }
+
+// Late registrations must retain the facade identity used by existing integrations.
+$pti->register_settings();
+pti_audit_assert( array( $pti, 'sanitize_settings' ) === $GLOBALS['wp_registered_settings'][ PDF_Thumbnail_Inserter::OPTION_NAME ]['sanitize_callback'], 'Settings registration retains the original facade callback identity' );
+$pti_block = WP_Block_Type_Registry::get_instance()->get_registered( 'pdf-thumbnail-inserter/pdf-thumbnail' );
+pti_audit_assert( $pti_block && array( $pti, 'render_block' ) === $pti_block->render_callback, 'Dynamic block registration retains the original facade callback identity' );
 function pti_audit_pdf() {
     // Valid xref offsets; avoids relying on PDF.js/Ghostscript repair heuristics.
     $stream = "0.1 0.3 0.7 rg 10 10 180 280 re f\n";
@@ -504,7 +511,20 @@ try {
             && glob( $core_pattern ) === $before_core_files, 'A corrupting metadata transformation is rolled back to the exact previous values and files' );
         wp_delete_file( $previous_core_file );
         delete_post_meta( $pdf_id, '_wp_attachment_metadata' );
-        $generated = pti_audit_private( 'ensure_pdf_preview', $pdf_id );
+        $hook_observations = array();
+        $upload_callback = array( $pti, 'maybe_generate_pdf_preview_on_upload' );
+        $observe_generation_hook = function ( $metadata, $id ) use ( $pdf_id, $upload_callback, &$hook_observations ) {
+            if ( (int) $id === $pdf_id ) $hook_observations[] = has_filter( 'wp_generate_attachment_metadata', $upload_callback );
+            return $metadata;
+        };
+        add_filter( 'wp_generate_attachment_metadata', $observe_generation_hook, PHP_INT_MIN, 2 );
+        try {
+            $generated = pti_audit_private( 'ensure_pdf_preview', $pdf_id );
+        } finally {
+            remove_filter( 'wp_generate_attachment_metadata', $observe_generation_hook, PHP_INT_MIN );
+        }
+        pti_audit_assert( $hook_observations && array( false ) === array_values( array_unique( $hook_observations, SORT_REGULAR ) ), 'Core generation removes the exact originally registered upload callback during metadata generation' );
+        pti_audit_assert( 20 === has_filter( 'wp_generate_attachment_metadata', $upload_callback ), 'Core generation restores that same upload callback and priority afterward' );
         pti_audit_assert( ! is_wp_error( $generated ) && $generated['generated'], 'Explicit server generation reports newly generated preview accurately' );
         $again = pti_audit_private( 'ensure_pdf_preview', $pdf_id );
         pti_audit_assert( ! is_wp_error( $again ) && ! $again['generated'], 'Repeated server generation reuses existing preview' );

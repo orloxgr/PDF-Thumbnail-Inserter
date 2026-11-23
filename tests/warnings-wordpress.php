@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/component-access.php';
 /** Native regressions for warning corrections; only an owned disposable site. */
 if ( 'true' !== getenv( 'PTI_TEST_DISPOSABLE' ) || empty( $argv[1] ) ) exit( 'Disposable site required.' );
 require rtrim( $argv[1], '/\\' ) . '/wp-load.php';
@@ -11,7 +12,7 @@ function warning_assert( $ok, $message ) {
     if ( ! $ok ) throw new RuntimeException( $message );
     $GLOBALS['assertions'][] = $message;
 }
-$find = new ReflectionMethod( $plugin, 'find_attachment_filename_candidates' ); $find->setAccessible( true );
+$find = new ReflectionMethod( pti_test_target( $plugin, 'find_attachment_filename_candidates' ), 'find_attachment_filename_candidates' ); $find->setAccessible( true );
 $length = static function () { return 3; }; $more = static function () { return ' [custom-more]'; };
 try {
     $vars = $plugin->register_preview_query_vars( array( 'p', 'custom' ) );
@@ -69,18 +70,18 @@ try {
         $ids[] = wp_insert_attachment( array( 'post_title' => 'Different display title', 'post_status' => 'inherit', 'post_mime_type' => 'application/pdf' ), $path );
     }
     $literal_id = $ids[1];
-    $matches = $find->invoke( $plugin, array( $stem . '_100%_' ) );
+    $matches = $find->invoke( pti_test_target( $plugin, $find->getName() ), array( $stem . '_100%_' ) );
     warning_assert( array( $literal_id ) === $matches, 'Percent and underscore in filenames remain literal data, not SQL wildcards' );
-    warning_assert( array() === $find->invoke( $plugin, array( "' OR 1=1 --" ) ), 'A SQL-looking filename fragment cannot broaden the attachment query' );
-    $two = $find->invoke( $plugin, array( $stem . '_100%_', $stem . 'X100' ) );
+    warning_assert( array() === $find->invoke( pti_test_target( $plugin, $find->getName() ), array( "' OR 1=1 --" ) ), 'A SQL-looking filename fragment cannot broaden the attachment query' );
+    $two = $find->invoke( pti_test_target( $plugin, $find->getName() ), array( $stem . '_100%_', $stem . 'X100' ) );
     warning_assert( 2 === count( $two ) && in_array( $literal_id, $two, true ), 'Short needle lists are padded without manufacturing additional matches' );
     wp_update_post( array( 'ID' => $literal_id, 'post_date' => '2000-01-01 00:00:00' ) );
-    $exact = $find->invoke( $plugin, array( get_post_meta( $literal_id, '_wp_attached_file', true ), get_post_meta( $ids[2], '_wp_attached_file', true ) ), 'exact' );
+    $exact = $find->invoke( pti_test_target( $plugin, $find->getName() ), array( get_post_meta( $literal_id, '_wp_attached_file', true ), get_post_meta( $ids[2], '_wp_attached_file', true ) ), 'exact' );
     warning_assert( $literal_id === $exact[0], 'Exact URL variants retain caller priority even when a lower-priority candidate is newer' );
     $ordinary = get_posts( array( 'post_type' => 'post', 'post__in' => array( $post_id ), 'fields' => 'ids' ) );
     warning_assert( array( $post_id ) === $ordinary, 'Scoped filename query clauses are removed before unrelated WordPress queries' );
     wp_delete_attachment( $literal_id, true );
-    warning_assert( array() === $find->invoke( $plugin, array( $stem . '_100%_' ) ), 'Attachment deletion invalidates a previously cached filename result' );
+    warning_assert( array() === $find->invoke( pti_test_target( $plugin, $find->getName() ), array( $stem . '_100%_' ) ), 'Attachment deletion invalidates a previously cached filename result' );
     echo wp_json_encode( array( 'status' => 'PASS', 'wordpress' => get_bloginfo( 'version' ), 'php' => PHP_VERSION, 'assertions' => $assertions ), JSON_PRETTY_PRINT ) . "\n";
 } finally {
     remove_filter( 'excerpt_length', $length ); remove_filter( 'excerpt_more', $more );

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/component-access.php';
 /** Fresh-process lifecycle phases; see README for the required disposable-site sequence. */
 if ( 'cli' !== PHP_SAPI || 'true' !== getenv( 'PTI_TEST_DISPOSABLE' ) || empty( $argv[1] ) || empty( $argv[2] ) ) {
     exit( 'Requires CLI, PTI_TEST_DISPOSABLE=true, a fresh local WordPress root and a phase.' );
@@ -20,9 +21,9 @@ function lifecycle_assert( $condition, $message ) {
     $GLOBALS['assertions'][] = $message;
 }
 function lifecycle_private( $name, ...$args ) {
-    $method = new ReflectionMethod( PDF_Thumbnail_Inserter::instance(), $name );
+    $method = new ReflectionMethod( pti_test_target( PDF_Thumbnail_Inserter::instance(), $name ), $name );
     $method->setAccessible( true );
-    return $method->invoke( PDF_Thumbnail_Inserter::instance(), ...$args );
+    return $method->invoke( pti_test_target( PDF_Thumbnail_Inserter::instance(), $method->getName() ), ...$args );
 }
 if ( 'init' === $phase ) {
     lifecycle_assert( ! is_file( WP_PLUGIN_DIR . '/' . $plugin_file ) && ! is_file( $state_path ), 'A genuinely fresh site has no target plugin or previous lifecycle fixture' );

@@ -3,8 +3,15 @@ includes:
 parameters:
     level: 5
     phpVersion: 70400
+    bootstrapFiles:
+        - bootstrap.php
+    dynamicConstantNames:
+        - PDF_THUMBNAIL_INSERTER_FILE
+        - PDF_THUMBNAIL_INSERTER_PATH
+        - PDF_THUMBNAIL_INSERTER_URL
     paths:
         - ../../pdf-thumbnail-inserter.php
+        - ../../includes
     scanDirectories:
         - ../../dist/readiness/integrations/elementor
         - ../../dist/readiness/integrations/elementor-pro

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/component-access.php';
 /** Run with: php tests/preview-regression.php (no WordPress installation needed). */
 if ( 'cli' !== PHP_SAPI ) {
     exit;
@@ -92,9 +93,9 @@ function wp_get_upload_dir() { return $GLOBALS['uploads'] ?? array(); }
 require getenv( 'PTI_TEST_PLUGIN' ) ?: dirname( __DIR__ ) . '/pdf-thumbnail-inserter.php';
 $plugin = PDF_Thumbnail_Inserter::instance();
 function call_private( $name, ...$args ) {
-    $method = new ReflectionMethod( $GLOBALS['plugin'], $name );
+    $method = new ReflectionMethod( pti_test_target( $GLOBALS['plugin'], $name ), $name );
     $method->setAccessible( true );
-    return $method->invoke( $GLOBALS['plugin'], ...$args );
+    return $method->invoke( pti_test_target( $GLOBALS['plugin'], $method->getName() ), ...$args );
 }
 function check( $condition, $message ) {
     if ( ! $condition ) {
@@ -103,9 +104,9 @@ function check( $condition, $message ) {
 }
 
 // Seed only the media resolver boundary to isolate WGL HTML matching.
-$cache = new ReflectionProperty( $plugin, 'pdf_featured_image_cache' );
+$cache = new ReflectionProperty( pti_test_state( $plugin ), 'pdf_featured_image_cache' );
 $cache->setAccessible( true );
-$cache->setValue( $plugin, array(
+$cache->setValue( pti_test_state( $plugin ), array(
     '101:' . md5( wp_json_encode( 'large' ) ) => array( 'id' => 0, 'url' => '', 'pdf_url' => $base_url . 'sample.pdf' ),
     '102:' . md5( wp_json_encode( 'large' ) ) => array( 'id' => 102, 'url' => $base_url . 'saved.jpg', 'pdf_url' => $base_url . 'sample.pdf' ),
     '103:' . md5( wp_json_encode( 'large' ) ) => array( 'id' => 0, 'url' => '', 'pdf_url' => '' ),
@@ -183,9 +184,9 @@ check( call_private( 'is_news_page_request' ), 'Configured listing pagination wo
 unset( $_SERVER['REQUEST_URI'] );
 $no_pdf = call_private( 'get_pdf_featured_image_fallback_data', 999, 'large' );
 check( '' === $no_pdf['url'] && '' === $no_pdf['pdf_url'], 'Posts without a PDF never receive a fake cover' );
-$resolver = new ReflectionProperty( $plugin, 'first_pdf_resolver_cache' );
+$resolver = new ReflectionProperty( pti_test_state( $plugin ), 'first_pdf_resolver_cache' );
 $resolver->setAccessible( true );
-$resolver->setValue( $plugin, array(
+$resolver->setValue( pti_test_state( $plugin ), array(
     '1001:' . md5( wp_json_encode( 'large' ) ) . ':0' => array( 'pdf_url' => $base_url . 'sample.pdf', 'attachment_id' => 42, 'preview_url' => '', 'preview_id' => 0 ),
     '1002:' . md5( wp_json_encode( 'large' ) ) . ':0' => array( 'pdf_url' => $base_url . 'sample.pdf', 'attachment_id' => 42, 'preview_url' => $base_url . 'actual-preview.jpg', 'preview_id' => 42 ),
 ) );

@@ -2,6 +2,8 @@
 
 These analysis-only declarations correct demonstrably inaccurate vendor PHPDocs for the supported WordPress range and the actual Elementor source. They do not execute at runtime, disable a rule, exclude code, introduce an ignore pattern or create a baseline. The PHPStan level remains 5, targeting PHP 7.4. Preserve the real Elementor/Pro scan directories; the stubs amend only the listed declarations.
 
+The modular code is analyzed in full through `includes/`, alongside the bootstrap. `bootstrap.php` supplies the three string path/URL constants normally computed by WordPress functions; `dynamicConstantNames` prevents treating its example URL as a production literal. This analysis bootstrap is never included by the plugin or packaged. The stub is self-contained: empty declarations for the four referenced WordPress/Elementor classes satisfy PHPStan's independent stub validation without replacing their real source methods. Previously unspecified nested array value types are explicitly `mixed`; the outer argument shape and typed parameters remain checked by the seven negative probes. See [PHPStan's stub validation rules](https://phpstan.org/user-guide/stub-files#why-is-phpstan-complaining-about-class-not-found-in-a-stub-file).
+
 | Declaration | Source evidence and retained precision |
 | --- | --- |
 | `register_block_type` argument `api_version` | Core `WP_Block_Type::$api_version` is an integer; the block metadata schema and actual WP 6.0 / 7.1 registrations use integers 2 / 3. The vendor stub incorrectly says string. The rest of its detailed argument shape, first argument and return type are copied unchanged from wordpress-stubs 7.1.2. |

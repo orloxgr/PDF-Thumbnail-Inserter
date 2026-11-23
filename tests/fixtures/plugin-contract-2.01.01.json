@@ -1,0 +1,1373 @@
+{
+    "final": true,
+    "constants": {
+        "TRANSIENT_REGEN_REPORT": "pdf_thumbnail_inserter_regen_report",
+        "TRANSIENT_SERVER_JOB": "pdf_thumbnail_inserter_server_job",
+        "SERVER_SCAN_LIMIT": 100,
+        "SERVER_RENDER_LIMIT": 10,
+        "OPTION_NAME": "pdf_thumbnail_inserter_defaults",
+        "LEGACY_OPTION_NAME": "pdf_thumbnail_defaults",
+        "NONCE_ACTION": "pdf_thumbnail_inserter_nonce",
+        "ADMIN_ACTION_REGENERATE_MISSING": "pdf_thumbnail_inserter_regenerate_missing",
+        "VIEWER_QUERY_VAR": "pdf_thumbnail_inserter_viewer",
+        "COVER_QUERY_VAR": "pdf_thumbnail_inserter_cover",
+        "META_PREVIEW_ID": "_pdf_thumbnail_preview_id",
+        "META_PREVIEW_ERROR": "_pdf_thumbnail_preview_error",
+        "META_PREVIEW_GENERATED_AT": "_pdf_thumbnail_preview_generated_at",
+        "META_PARENT_PDF": "_pdf_thumbnail_parent_pdf_id"
+    },
+    "public_api": {
+        "add_attachment_fields": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "form_fields",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "post",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "add_browser_preview_to_media_response": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "response",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "attachment",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "metadata",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "add_module_attributes_to_preview_renderer": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "attributes",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "add_module_type_to_preview_renderer": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "tag",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "handle",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "src",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "add_plugin_action_links": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "links",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "add_settings_menu": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "ajax_fetch_pdf_data": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "ajax_list_missing_previews": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "ajax_save_browser_preview": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "begin_excerpt_context": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "excerpt",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "post",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "cleanup_generated_preview": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "attachment_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "end_excerpt_context": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "excerpt",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "enqueue_admin_assets": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "hook",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "enqueue_block_editor_assets": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "enqueue_browser_upload_assets": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "enqueue_frontend_listing_assets": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "filter_category_archive_content": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "content",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "filter_category_archive_excerpt_output": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "excerpt",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "filter_excerpt_attachment_source": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "content",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "filter_list_excerpt_attachment_text": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "excerpt",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "post",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "filter_listing_output": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "html",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "get_current_render_post_id": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "get_elementor_featured_image_fallback_value": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "post_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": true,
+                    "variadic": false,
+                    "reference": false,
+                    "default": 0
+                }
+            ]
+        },
+        "get_elementor_featured_image_widget_value": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "post_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": true,
+                    "variadic": false,
+                    "reference": false,
+                    "default": 0
+                }
+            ]
+        },
+        "handle_regenerate_missing_previews": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "has_first_pdf_preview_as_featured_image": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "has_thumbnail",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "post",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "thumbnail_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "instance": {
+            "static": true,
+            "return": "",
+            "parameters": []
+        },
+        "invalidate_attachment_lookup_metadata": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "meta_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "post_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "meta_key",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "load_textdomain": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "maybe_generate_pdf_preview_on_upload": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "metadata",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "attachment_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "context",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "maybe_render_document_cover": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "maybe_render_pdfjs_viewer": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "parse_public_preview_request": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "query_vars",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "protect_pdf_attachment_deletion": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "delete",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "post",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "force_delete",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "register_block": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "register_elementor_featured_image_fallback_tag": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "dynamic_tags",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "register_elementor_featured_image_fallback_widget": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "widgets_manager",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "register_preview_query_vars": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "query_vars",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "register_settings": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "release_deleted_pdf_lock": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "post_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "release_pdf_deletion_locks": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "post_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": true,
+                    "variadic": false,
+                    "reference": false,
+                    "default": 0
+                }
+            ]
+        },
+        "render_block": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "attributes",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "render_featured_pdf_frame": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "pdf_url",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "title",
+                    "type": "",
+                    "nullable": true,
+                    "optional": true,
+                    "variadic": false,
+                    "reference": false,
+                    "default": ""
+                },
+                {
+                    "name": "height",
+                    "type": "",
+                    "nullable": true,
+                    "optional": true,
+                    "variadic": false,
+                    "reference": false,
+                    "default": 360
+                }
+            ]
+        },
+        "render_first_pdf_preview_as_featured_image": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "html",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "post_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "post_thumbnail_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "size",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "attr",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "render_media_button": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "render_pdf_canvas_preview_for_post": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "pdf_url",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "title",
+                    "type": "",
+                    "nullable": true,
+                    "optional": true,
+                    "variadic": false,
+                    "reference": false,
+                    "default": ""
+                }
+            ]
+        },
+        "render_settings_page": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "render_shortcode": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "atts",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "replace_pdf_file_block_preview": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "block_content",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "block",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "resolve_first_pdf_for_post": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "post_id",
+                    "type": "int",
+                    "nullable": false,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "size",
+                    "type": "",
+                    "nullable": true,
+                    "optional": true,
+                    "variadic": false,
+                    "reference": false,
+                    "default": "full"
+                },
+                {
+                    "name": "generate_if_missing",
+                    "type": "bool",
+                    "nullable": false,
+                    "optional": true,
+                    "variadic": false,
+                    "reference": false,
+                    "default": true
+                }
+            ]
+        },
+        "sanitize_settings": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "input",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "should_suppress_elementor_post_content": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "post_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        },
+        "start_listing_output_buffer": {
+            "static": false,
+            "return": "",
+            "parameters": []
+        },
+        "use_first_pdf_preview_as_featured_image": {
+            "static": false,
+            "return": "",
+            "parameters": [
+                {
+                    "name": "thumbnail_id",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                },
+                {
+                    "name": "post",
+                    "type": "",
+                    "nullable": true,
+                    "optional": false,
+                    "variadic": false,
+                    "reference": false,
+                    "default": null
+                }
+            ]
+        }
+    },
+    "hooks": [
+        [
+            "action",
+            [
+                "init",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "load_textdomain"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "change_locale",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "load_textdomain"
+                ]
+            ]
+        ],
+        [
+            "filter",
+            [
+                "query_vars",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "register_preview_query_vars"
+                ],
+                9223372036854775807
+            ]
+        ],
+        [
+            "filter",
+            [
+                "request",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "parse_public_preview_request"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "added_post_meta",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "invalidate_attachment_lookup_metadata"
+                ],
+                10,
+                3
+            ]
+        ],
+        [
+            "action",
+            [
+                "updated_post_meta",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "invalidate_attachment_lookup_metadata"
+                ],
+                10,
+                3
+            ]
+        ],
+        [
+            "action",
+            [
+                "deleted_post_meta",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "invalidate_attachment_lookup_metadata"
+                ],
+                10,
+                3
+            ]
+        ],
+        [
+            "action",
+            [
+                "init",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "register_block"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "admin_menu",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "add_settings_menu"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "admin_init",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "register_settings"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "admin_enqueue_scripts",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "enqueue_admin_assets"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "wp_enqueue_media",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "enqueue_browser_upload_assets"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "init",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "enqueue_block_editor_assets"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "wp_enqueue_scripts",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "enqueue_frontend_listing_assets"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "media_buttons",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "render_media_button"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "wp_ajax_pdf_thumbnail_inserter_fetch_pdf_data",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "ajax_fetch_pdf_data"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "wp_ajax_pdf_thumbnail_inserter_list_missing_previews",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "ajax_list_missing_previews"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "wp_ajax_pdf_thumbnail_inserter_save_browser_preview",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "ajax_save_browser_preview"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "admin_post_pdf_thumbnail_inserter_regenerate_missing",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "handle_regenerate_missing_previews"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "delete_attachment",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "cleanup_generated_preview"
+                ]
+            ]
+        ],
+        [
+            "filter",
+            [
+                "pre_delete_attachment",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "protect_pdf_attachment_deletion"
+                ],
+                9223372036854775807,
+                3
+            ]
+        ],
+        [
+            "action",
+            [
+                "clean_post_cache",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "release_deleted_pdf_lock"
+                ]
+            ]
+        ],
+        [
+            "action",
+            [
+                "shutdown",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "release_pdf_deletion_locks"
+                ]
+            ]
+        ],
+        [
+            "shortcode",
+            [
+                "pdf_thumbnail_inserter",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "render_shortcode"
+                ]
+            ]
+        ],
+        [
+            "shortcode",
+            [
+                "pdf_thumbnail",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "render_shortcode"
+                ]
+            ]
+        ],
+        [
+            "filter",
+            [
+                "attachment_fields_to_edit",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "add_attachment_fields"
+                ],
+                10,
+                2
+            ]
+        ],
+        [
+            "filter",
+            [
+                "wp_prepare_attachment_for_js",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "add_browser_preview_to_media_response"
+                ],
+                10,
+                3
+            ]
+        ],
+        [
+            "filter",
+            [
+                "wp_generate_attachment_metadata",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "maybe_generate_pdf_preview_on_upload"
+                ],
+                20,
+                3
+            ]
+        ],
+        [
+            "filter",
+            [
+                "render_block_core/file",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "replace_pdf_file_block_preview"
+                ],
+                10,
+                2
+            ]
+        ],
+        [
+            "filter",
+            [
+                "has_post_thumbnail",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "has_first_pdf_preview_as_featured_image"
+                ],
+                20,
+                3
+            ]
+        ],
+        [
+            "filter",
+            [
+                "post_thumbnail_id",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "use_first_pdf_preview_as_featured_image"
+                ],
+                20,
+                2
+            ]
+        ],
+        [
+            "filter",
+            [
+                "post_thumbnail_html",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "render_first_pdf_preview_as_featured_image"
+                ],
+                20,
+                5
+            ]
+        ],
+        [
+            "filter",
+            [
+                "get_the_excerpt",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "begin_excerpt_context"
+                ],
+                -9223372036854775808,
+                2
+            ]
+        ],
+        [
+            "filter",
+            [
+                "get_the_excerpt",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "end_excerpt_context"
+                ],
+                9223372036854775807
+            ]
+        ],
+        [
+            "filter",
+            [
+                "the_content",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "filter_excerpt_attachment_source"
+                ],
+                1
+            ]
+        ],
+        [
+            "filter",
+            [
+                "the_excerpt",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "filter_category_archive_excerpt_output"
+                ],
+                99
+            ]
+        ],
+        [
+            "filter",
+            [
+                "the_content",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "filter_category_archive_content"
+                ],
+                99
+            ]
+        ],
+        [
+            "action",
+            [
+                "template_redirect",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "maybe_render_pdfjs_viewer"
+                ],
+                0
+            ]
+        ],
+        [
+            "action",
+            [
+                "template_redirect",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "maybe_render_document_cover"
+                ],
+                0
+            ]
+        ],
+        [
+            "action",
+            [
+                "template_redirect",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "start_listing_output_buffer"
+                ],
+                20
+            ]
+        ],
+        [
+            "action",
+            [
+                "elementor/dynamic_tags/register",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "register_elementor_featured_image_fallback_tag"
+                ],
+                100
+            ]
+        ],
+        [
+            "action",
+            [
+                "elementor/widgets/register",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "register_elementor_featured_image_fallback_widget"
+                ],
+                100
+            ]
+        ],
+        [
+            "filter",
+            [
+                "wp_script_attributes",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "add_module_attributes_to_preview_renderer"
+                ]
+            ]
+        ],
+        [
+            "filter",
+            [
+                "script_loader_tag",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "add_module_type_to_preview_renderer"
+                ],
+                10,
+                3
+            ]
+        ],
+        [
+            "filter",
+            [
+                "plugin_action_links_pdf-thumbnail-inserter/pdf-thumbnail-inserter.php",
+                [
+                    "PDF_Thumbnail_Inserter",
+                    "add_plugin_action_links"
+                ]
+            ]
+        ]
+    ]
+}

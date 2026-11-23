@@ -1,0 +1,17 @@
+{
+    "status": "PASS",
+    "wordpress": "7.1.5",
+    "php_client": "8.2.30",
+    "assertions": [
+        "Authenticated Media Add New loads, setting=0",
+        "Browser upload module is emitted only when enabled, setting=0",
+        "Real core REST raw PDF upload succeeds, setting=0",
+        "REST upload retains correct MIME, owner, model ID and local PDF bytes",
+        "The upload event model ID resolves through the actual authenticated plugin endpoint",
+        "Authenticated Media Add New loads, setting=1",
+        "Browser upload module is emitted only when enabled, setting=1",
+        "Real core REST raw PDF upload succeeds, setting=1",
+        "REST upload retains correct MIME, owner, model ID and local PDF bytes",
+        "The upload event model ID resolves through the actual authenticated plugin endpoint"
+    ]
+}

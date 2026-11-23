@@ -1,0 +1,613 @@
+[
+  {
+    "name": "install-wp-7.1.5",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "install",
+      "<repository>\\dist\\pdf-thumbnail-inserter-2.01.02.zip",
+      "--force",
+      "--path=<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "active-wp-7.1.5",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "is-active",
+      "pdf-thumbnail-inserter",
+      "--path=<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "install-wp-6.0",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "install",
+      "<repository>\\dist\\pdf-thumbnail-inserter-2.01.02.zip",
+      "--force",
+      "--path=<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "active-wp-6.0",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "is-active",
+      "pdf-thumbnail-inserter",
+      "--path=<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-74-architecture-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/architecture-regression.php"
+    ]
+  },
+  {
+    "name": "test-74-preview-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/preview-regression.php"
+    ]
+  },
+  {
+    "name": "test-74-security-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/security-regression.php"
+    ]
+  },
+  {
+    "name": "test-74-readiness-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/readiness-regression.php"
+    ]
+  },
+  {
+    "name": "test-74-readiness",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 270,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "<repository>\\dist\\readiness\\run-readiness-wordpress-minimum.php"
+    ]
+  },
+  {
+    "name": "test-74-readiness-imagick",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 286,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "-dextension=<repository>\\dist\\readiness\\imagick-php74\\php_imagick.dll",
+      "<repository>\\dist\\readiness\\run-readiness-wordpress-minimum.php"
+    ]
+  },
+  {
+    "name": "test-74-preview-lock-concurrency",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/preview-lock-concurrency.php",
+      "<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-74-deletion-concurrency",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 12,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/deletion-concurrency.php",
+      "<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-74-preview-discovery-queries",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/preview-discovery-queries.php",
+      "<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-74-upload-http",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 10,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/upload-http.php",
+      "<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-74-reference-lookup-wordpress",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 0,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/reference-lookup-wordpress.php",
+      "<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-74-warnings-wordpress",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 17,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/warnings-wordpress.php",
+      "<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-74-public-resources-http",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 13,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/public-resources-http.php",
+      "<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-74-translations-wordpress",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 0,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/translations-wordpress.php",
+      "<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-74-server-maintenance",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 20,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "-dextension=<repository>\\dist\\readiness\\imagick-php74\\php_imagick.dll",
+      "tests/server-maintenance-wordpress.php",
+      "<repository>\\dist\\readiness\\wp-6.0"
+    ]
+  },
+  {
+    "name": "test-82-architecture-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/architecture-regression.php"
+    ]
+  },
+  {
+    "name": "test-82-preview-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/preview-regression.php"
+    ]
+  },
+  {
+    "name": "test-82-security-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/security-regression.php"
+    ]
+  },
+  {
+    "name": "test-82-readiness-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/readiness-regression.php"
+    ]
+  },
+  {
+    "name": "test-82-readiness",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 271,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "<repository>\\dist\\readiness\\run-readiness-wordpress.php"
+    ]
+  },
+  {
+    "name": "test-82-readiness-imagick",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 287,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "-dextension=<repository>\\dist\\readiness\\imagick-php82\\php_imagick.dll",
+      "<repository>\\dist\\readiness\\run-readiness-wordpress.php"
+    ]
+  },
+  {
+    "name": "test-82-preview-lock-concurrency",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/preview-lock-concurrency.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-82-deletion-concurrency",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 12,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/deletion-concurrency.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-82-preview-discovery-queries",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/preview-discovery-queries.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-82-upload-http",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 10,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/upload-http.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-82-reference-lookup-wordpress",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 0,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/reference-lookup-wordpress.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-82-warnings-wordpress",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 17,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/warnings-wordpress.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-82-public-resources-http",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 13,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/public-resources-http.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-82-translations-wordpress",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 0,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/translations-wordpress.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-82-server-maintenance",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 20,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "-dextension=<repository>\\dist\\readiness\\imagick-php82\\php_imagick.dll",
+      "tests/server-maintenance-wordpress.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-server-maintenance-http",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": 35,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "tests/server-maintenance-http.php",
+      "<repository>\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "test-browser-maintenance-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "node",
+      "<repository>\\tests\\browser-maintenance-regression.cjs"
+    ]
+  },
+  {
+    "name": "test-browser-upload-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "node",
+      "<repository>\\tests\\browser-upload-regression.cjs"
+    ]
+  },
+  {
+    "name": "test-editor-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "node",
+      "<repository>\\tests\\editor-regression.cjs"
+    ]
+  },
+  {
+    "name": "test-preview-renderer-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "node",
+      "<repository>\\tests\\preview-renderer-regression.cjs"
+    ]
+  },
+  {
+    "name": "test-server-maintenance-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "node",
+      "<repository>\\tests\\server-maintenance-regression.cjs"
+    ]
+  },
+  {
+    "name": "test-viewer-regression",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "node",
+      "<repository>\\tests\\viewer-regression.cjs"
+    ]
+  },
+  {
+    "name": "syntax",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "python",
+      "scripts/check_syntax.py",
+      "--php",
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "--report",
+      "<repository>\\dist\\modular-refactor\\syntax.json"
+    ]
+  },
+  {
+    "name": "phpstan",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=1G",
+      "<repository>\\dist\\readiness\\tooling\\vendor\\phpstan\\phpstan\\phpstan",
+      "analyse",
+      "--configuration=tools/phpstan/phpstan.neon",
+      "--no-progress",
+      "--error-format=json"
+    ]
+  },
+  {
+    "name": "contracts",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "python",
+      "scripts/check_phpstan_contracts.py",
+      "--php",
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "--report",
+      "<repository>\\dist\\modular-refactor\\contracts.json"
+    ]
+  },
+  {
+    "name": "compatibility",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "<repository>\\dist\\release-preparation-1.11.51\\compatibility\\vendor\\squizlabs\\php_codesniffer\\bin\\phpcs",
+      "--standard=PHPCompatibilityWP",
+      "--runtime-set",
+      "testVersion",
+      "7.4-8.4",
+      "--report=json",
+      "pdf-thumbnail-inserter.php",
+      "includes"
+    ]
+  },
+  {
+    "name": "plugin-check",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "check",
+      "pdf-thumbnail-inserter",
+      "--path=<repository>\\dist\\readiness\\wp-7.1.5",
+      "--require=<repository>\\dist\\readiness\\runtime-proof.php",
+      "--format=json"
+    ]
+  },
+  {
+    "name": "reproducible-package",
+    "status": "PASS",
+    "exit": 0,
+    "assertions": null,
+    "command": [
+      "python",
+      "scripts/package.py"
+    ]
+  }
+]

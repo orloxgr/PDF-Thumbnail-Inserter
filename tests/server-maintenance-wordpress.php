@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/component-access.php';
 /** Real resumable server maintenance: PTI_TEST_DISPOSABLE=true php this-file.php /local/wp */
 if ( 'cli' !== PHP_SAPI || 'true' !== getenv( 'PTI_TEST_DISPOSABLE' ) || empty( $argv[1] ) ) {
     exit( 'Requires CLI, PTI_TEST_DISPOSABLE=true and a disposable WordPress root.' );
@@ -13,10 +14,10 @@ $methods = array();
 function maintenance_private( $method, ...$args ) {
     global $plugin, $methods;
     if ( ! isset( $methods[ $method ] ) ) {
-        $methods[ $method ] = new ReflectionMethod( $plugin, $method );
+        $methods[ $method ] = new ReflectionMethod( pti_test_target( $plugin, $method ), $method );
         $methods[ $method ]->setAccessible( true );
     }
-    return $methods[ $method ]->invoke( $plugin, ...$args );
+    return $methods[ $method ]->invoke( pti_test_target( $plugin, $methods[ $method ]->getName() ), ...$args );
 }
 $assertions = array();
 function maintenance_assert( $condition, $message ) {

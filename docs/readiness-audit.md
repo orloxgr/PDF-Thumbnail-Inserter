@@ -1,5 +1,12 @@
 # PDF Thumbnail Inserter — current readiness
 
+## Version 2.01.02 — modular PHP architecture
+
+**Plugin Check: 0 errors / 0 warnings.** Eighteen focused subsystems, a shared request-state object and a compatible public facade replace the monolithic implementation. The exact 250-file ZIP passes the two-version native/HTTP/concurrency matrix, fresh lifecycle and actual 2.01.01 upgrade.
+
+- [Architecture, implementation, executed checks and limits](modular-refactor-2.01.02.md).
+- [Machine-readable results](modular-refactor-2.01.02.json), [Plugin Check](plugin-check-2.01.02.json), [manifest](release-manifest-2.01.02.json) and [evidence](evidence/modular-2.01.02/).
+
 ## Version 2.01.01
 
 **Plugin Check: 0 errors / 0 warnings.** Both readmes use only the requested plain-text development/changelog references. Source/build details are in development.txt, which is included alongside readme.txt and changelog.txt in the 230-file plugin ZIP. README.md remains outside the ZIP and its version/author/license banner is removed.

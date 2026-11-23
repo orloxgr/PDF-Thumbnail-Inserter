@@ -1,5 +1,12 @@
 # PDF Thumbnail Inserter — Changelog
 
+### 2.01.02
+
+- Split the plugin into focused PHP subsystems with explicit dependencies and shared request-local state.
+- Preserve the public plugin API, hook callbacks, shortcode aliases, settings and stored content.
+- Extend syntax checks, static analysis and reproducible packaging to cover all runtime includes.
+- Add a regression contract captured from release 2.01.01 for public signatures, constants and hook registration order.
+
 ### 2.01.01
 
 - Remove the version/author/license banner from the GitHub README.

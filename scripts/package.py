@@ -1,6 +1,6 @@
 """Build the installable ZIP using the existing release's single-folder runtime layout.
 
-Only the distributable root files and Git-tracked assets/blocks are shipped.
+Only the distributable root files and Git-tracked includes/assets/blocks are shipped.
 Run from any directory: python scripts/package.py
 """
 from pathlib import Path
@@ -16,14 +16,17 @@ SLUG = "pdf-thumbnail-inserter"
 def build():
     source = (ROOT / f"{SLUG}.php").read_text(encoding="utf-8")
     version = re.search(r"\* Version:\s+(\d+\.\d+\.\d+)", source).group(1)
-    assert f"const VERSION = '{version}';" in source, "PHP version mismatch"
+    coordinator = (ROOT / "includes/class-plugin.php").read_text(encoding="utf-8")
+    assert f"const VERSION = '{version}';" in coordinator, "PHP version mismatch"
     readme = (ROOT / "readme.txt").read_text(encoding="utf-8")
     assert re.search(rf"^Stable tag:\s*{re.escape(version)}$", readme, re.M), "Stable tag mismatch"
-    tracked = subprocess.check_output(["git", "ls-files", "-z", "--", "assets", "blocks"], cwd=ROOT)
+    tracked = subprocess.check_output(["git", "ls-files", "-z", "--", "includes", "assets", "blocks"], cwd=ROOT)
     changelog = (ROOT / "changelog.txt").read_text(encoding="utf-8")
     assert re.search(rf"^### {re.escape(version)}$", changelog, re.M), "Changelog version mismatch"
     files = sorted(["LICENSE", "readme.txt", "development.txt", "changelog.txt", f"{SLUG}.php"] + tracked.decode("utf-8").strip("\0").split("\0"))
     assert len(files) == len(set(files)), "Duplicate archive entries"
+    runtime_php = {file.relative_to(ROOT).as_posix() for file in (ROOT / "includes").rglob("*.php")}
+    assert runtime_php <= set(files), "Stage every runtime PHP include before packaging"
     assert all(not any(part.startswith(".") or part in ("tests", "node_modules", "vendor") for part in Path(name).parts) for name in files)
     # Match canonical Git text bytes even in a Windows checkout with core.autocrlf.
     eol_records = subprocess.check_output(["git", "ls-files", "--eol", "-z", "--", *files], cwd=ROOT)

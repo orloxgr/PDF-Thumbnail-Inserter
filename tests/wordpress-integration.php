@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/component-access.php';
 /**
  * Destructive fixtures: run ONLY on a disposable WordPress site.
  * Define PTI_TEST_DISPOSABLE=true, optionally PTI_TEST_WP_ROOT and PTI_TEST_ZIP,
@@ -45,9 +46,9 @@ pti_assert( is_plugin_active( $plugin_file ), 'Plugin must be active at bootstra
 $plugin = PDF_Thumbnail_Inserter::instance();
 $GLOBALS['plugin'] = $plugin; // WP-CLI eval-file includes this test in a local scope.
 function pti_private( $name, ...$args ) {
-    $method = new ReflectionMethod( $GLOBALS['plugin'], $name );
+    $method = new ReflectionMethod( pti_test_target( $GLOBALS['plugin'], $name ), $name );
     $method->setAccessible( true );
-    return $method->invoke( $GLOBALS['plugin'], ...$args );
+    return $method->invoke( pti_test_target( $GLOBALS['plugin'], $method->getName() ), ...$args );
 }
 $data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_file );
 pti_assert( $data['Version'] === PDF_Thumbnail_Inserter::VERSION, 'Plugin header and constant mismatch' );

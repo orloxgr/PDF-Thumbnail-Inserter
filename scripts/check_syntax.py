@@ -10,6 +10,7 @@ parser.add_argument("--report", type=Path, help="Optional JSON evidence file")
 args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 php_files = [root / "pdf-thumbnail-inserter.php", *sorted((root / "tests").glob("*.php"))]
+php_files += sorted((root / "includes").rglob("*.php"))
 php_files += sorted(file for file in (root / "tools/phpstan").glob("*")
                     if file.is_file() and file.suffix in (".php", ".stub"))
 js_files = sorted(file for directory in ("assets", "blocks") for file in (root / directory).rglob("*")

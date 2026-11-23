@@ -1,0 +1,2 @@
+{"wp":"7.1.5","php":"8.2.30","attachments":100,"cold_queries":3,"budget":10}
+PASS: 100 cold attachments discovered within constant query budget, without image generation.

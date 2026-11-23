@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/component-access.php';
 /**
  * Real cross-process locking and crash recovery on a disposable WordPress site.
  * PTI_TEST_DISPOSABLE=true php tests/preview-lock-concurrency.php /path/to/wp
@@ -10,14 +11,14 @@ require_once rtrim( $argv[1], '/\\' ) . '/wp-load.php';
 if ( 'local' !== wp_get_environment_type() || ! defined( 'DISABLE_WP_CRON' ) || ! DISABLE_WP_CRON ) {
     throw new RuntimeException( 'Only local, explicitly isolated sites with cron disabled are accepted.' );
 }
-$method = new ReflectionMethod( PDF_Thumbnail_Inserter::instance(), 'with_pdf_preview_lock' );
+$method = new ReflectionMethod( pti_test_target( PDF_Thumbnail_Inserter::instance(), 'with_pdf_preview_lock' ), 'with_pdf_preview_lock' );
 $method->setAccessible( true );
 if ( isset( $argv[2] ) && 'worker' === $argv[2] ) {
     $pdf = $argv[3];
     $ready = $argv[4];
     $release = $argv[5];
     $hold = 'hold' === $argv[6];
-    $result = $method->invoke( PDF_Thumbnail_Inserter::instance(), $pdf, function () use ( $ready, $release, $hold ) {
+    $result = $method->invoke( pti_test_target( PDF_Thumbnail_Inserter::instance(), $method->getName() ), $pdf, function () use ( $ready, $release, $hold ) {
         file_put_contents( $ready, 'locked' );
         if ( $hold ) {
             $deadline = microtime( true ) + 20;
