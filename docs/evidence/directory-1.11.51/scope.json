@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "changed_packaged_files": [
+    "pdf-thumbnail-inserter/README.md",
+    "pdf-thumbnail-inserter/pdf-thumbnail-inserter.php",
+    "pdf-thumbnail-inserter/readme.txt"
+  ],
+  "php_behavior_changes": false,
+  "unchanged_distributed_assets_and_blocks": 225,
+  "icon_files_in_installable_zip": false
+}

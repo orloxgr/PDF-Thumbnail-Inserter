@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "version": "1.11.51",
+  "sha256": "b7a3c6ac15d8871ee0a63f51be835cd6f8ac3d7528fe838dd5c6f97e76d85117",
+  "runtime_files": 229,
+  "plugin_check": {
+    "errors": 0,
+    "warnings": 0,
+    "default_checks": 36,
+    "runtime_checks": 5
+  },
+  "syntax_files": 41,
+  "javascript_regression_suites": 6,
+  "native_readiness_assertions": 269,
+  "lifecycle_assertions": {
+    "fresh": 59,
+    "upgrade": 56
+  },
+  "icons": [
+    {
+      "file": ".wordpress-org/icon-128x128.png",
+      "width": 128,
+      "height": 128,
+      "bytes": 10970,
+      "sha256": "5ee5628be690168a943d8151937b4e8a40414e6d99e2264f263c8a617a7a7343"
+    },
+    {
+      "file": ".wordpress-org/icon-256x256.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 41253,
+      "sha256": "e759ed8f7e137f473059bfd4ebd30e55d52adc780824f38996b4fe2a50d0d651"
+    }
+  ],
+  "scope": {
+    "status": "PASS",
+    "changed_packaged_files": [
+      "pdf-thumbnail-inserter/README.md",
+      "pdf-thumbnail-inserter/pdf-thumbnail-inserter.php",
+      "pdf-thumbnail-inserter/readme.txt"
+    ],
+    "php_behavior_changes": false,
+    "unchanged_distributed_assets_and_blocks": 225,
+    "icon_files_in_installable_zip": false
+  },
+  "prior_full_functional_baseline": "v1.11.50",
+  "limits": [
+    "No new browser session; prior unchanged-asset browser evidence retained.",
+    "Minimum WordPress 6.0 and native Imagick scenarios use the unchanged functional baseline; not rerun for this documentation/artwork release.",
+    "The accepted Gutenberg 7.1 visual iframe limitation remains.",
+    "PHPCompatibilityWP is static analysis for PHP 7.4-8.4; native PHP executions use 7.4.27 and 8.2.30.",
+    "GitHub publication does not submit the plugin or directory artwork to WordPress.org."
+  ]
+}

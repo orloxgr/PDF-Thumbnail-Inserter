@@ -1,6 +1,6 @@
 # PDF Thumbnail Inserter
 
-**Version:** 1.11.50
+**Version:** 1.11.51
 **Author:** Byron Iniotakis
 **License:** GPL-3.0-or-later
 
@@ -133,13 +133,18 @@ With the same disposable-site root and `PTI_TEST_DISPOSABLE=true`, `tests/refere
 
 `tests/lifecycle-wordpress.php` must start on a **fresh disposable local site without this plugin or its options**. Set `PTI_TEST_DISPOSABLE=true`. Each phase is a separate PHP process: `php tests/lifecycle-wordpress.php /path/to/wp PHASE`. Run `init`, install/activate the ZIP with WordPress/WP-CLI, run `fresh` and `legacy`, deactivate the plugin, run `inactive`, uninstall through WordPress (including removal of its files), run `uninstalled`, reinstall/activate the ZIP, and run `reinstalled`. The synthetic PDF, child preview, settings and stored content are retained for an upgrade check. To establish an actual published starting version, install that release ZIP and run `baseline ZIP_PATH`; then install/activate the new version and run `upgraded VERSION` followed by `cleanup VERSION`. Never run these commands on production. An additional HTTP server or browser is not required for these native lifecycle checks.
 
-`python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt`.
+`python scripts/verify_pdfjs.py` checks the pinned PDF.js npm artifact integrity, compares every bundled library/resource/notice against its documented upstream source and queries the npm advisory API for that exact version. It downloads public metadata/artifacts only; it does not upgrade runtime files. Corresponding source/build links and supplemental QuickJS notice provenance are recorded in `assets/pdfjs/VERSION.txt` and the **Source Code and Build Instructions** section of `readme.txt`.
 
 Build the installable ZIP with `python scripts/package.py`. This preserves the existing `pdf-thumbnail-inserter/` archive layout and includes only plugin root files and Git-tracked assets/blocks. The script checks version consistency, archive integrity, its runtime-only manifest, and every packaged byte against the source. Output goes to `dist/`; tests, development scripts, agent skills, Git metadata and local archives are excluded. Stage new runtime assets before building.
 
 The [readiness audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/main/docs/readiness-audit.md) records the complete requirement matrix, fixes, tool findings and verification limits.
 
 ## Changelog
+
+### 1.11.51
+
+- Add direct public links to this release's plugin source, packaging instructions, exact PDF.js source/build tools and supplemental license-notice provenance in the WordPress.org readme.
+- Prepare a document-preview directory icon at 128×128 and 256×256. Directory artwork and its upload instructions live in `.wordpress-org/`, outside the installable ZIP.
 
 ### 1.11.50
 

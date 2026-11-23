@@ -1,0 +1,205 @@
+[
+  {
+    "name": "syntax",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "python",
+      "scripts/check_syntax.py",
+      "--php",
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "--report",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\dist\\release-preparation-1.11.51\\syntax.json"
+    ]
+  },
+  {
+    "name": "preview-regression-74",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "tests/preview-regression.php"
+    ]
+  },
+  {
+    "name": "security-regression-74",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "tests/security-regression.php"
+    ]
+  },
+  {
+    "name": "readiness-regression-74",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php7.4.27/php.exe",
+      "-dxdebug.mode=off",
+      "tests/readiness-regression.php"
+    ]
+  },
+  {
+    "name": "preview-regression-82",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "tests/preview-regression.php"
+    ]
+  },
+  {
+    "name": "security-regression-82",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "tests/security-regression.php"
+    ]
+  },
+  {
+    "name": "readiness-regression-82",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "tests/readiness-regression.php"
+    ]
+  },
+  {
+    "name": "browser-maintenance-regression",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "node",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\tests\\browser-maintenance-regression.cjs"
+    ]
+  },
+  {
+    "name": "browser-upload-regression",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "node",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\tests\\browser-upload-regression.cjs"
+    ]
+  },
+  {
+    "name": "editor-regression",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "node",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\tests\\editor-regression.cjs"
+    ]
+  },
+  {
+    "name": "preview-renderer-regression",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "node",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\tests\\preview-renderer-regression.cjs"
+    ]
+  },
+  {
+    "name": "server-maintenance-regression",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "node",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\tests\\server-maintenance-regression.cjs"
+    ]
+  },
+  {
+    "name": "viewer-regression",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "node",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\tests\\viewer-regression.cjs"
+    ]
+  },
+  {
+    "name": "phpstan",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=1G",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\dist\\readiness\\tooling\\vendor\\phpstan\\phpstan\\phpstan",
+      "analyse",
+      "--configuration=tools/phpstan/phpstan.neon",
+      "--no-progress",
+      "--error-format=json"
+    ]
+  },
+  {
+    "name": "phpstan-contract-probe",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "python",
+      "scripts/check_phpstan_contracts.py",
+      "--php",
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "--report",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\dist\\release-preparation-1.11.51\\phpstan-contract-probe.json"
+    ]
+  },
+  {
+    "name": "php-compatibility",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\dist\\release-preparation-1.11.51\\compatibility\\vendor\\squizlabs\\php_codesniffer\\bin\\phpcs",
+      "--standard=PHPCompatibilityWP",
+      "--runtime-set",
+      "testVersion",
+      "7.4-8.4",
+      "--report=json",
+      "pdf-thumbnail-inserter.php"
+    ]
+  },
+  {
+    "name": "install-exact-zip",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "install",
+      "D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\dist\\pdf-thumbnail-inserter-1.11.51.zip",
+      "--force",
+      "--activate",
+      "--path=D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\dist\\readiness\\wp-7.1.5"
+    ]
+  },
+  {
+    "name": "active-exact-zip",
+    "status": "PASS",
+    "exit": 0,
+    "command": [
+      "C:/wamp64/bin/php/php8.2.30/php.exe",
+      "-dxdebug.mode=off",
+      "-dmemory_limit=512M",
+      "C:/wpcli/wp-cli.phar",
+      "plugin",
+      "is-active",
+      "pdf-thumbnail-inserter",
+      "--path=D:\\Users\\Byron\\Documents\\GitHub\\PDF-Thumbnail-Inserter\\dist\\readiness\\wp-7.1.5"
+    ]
+  }
+]

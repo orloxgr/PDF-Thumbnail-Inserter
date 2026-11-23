@@ -1,6 +1,16 @@
 # PDF Thumbnail Inserter — current readiness
 
-## Version 1.11.50
+## Version 1.11.51
+
+**Plugin Check: 0 errors / 0 warnings.** This documentation/artwork release adds direct source/build references to `readme.txt` and the selected WordPress.org text-document icon. Its PHP behavior and all distributed assets/blocks match the 1.11.50 functional baseline; only version metadata changes in PHP.
+
+- [Current changes, executed checks and verification limits](directory-preparation-1.11.51.md).
+- [Exact installed-ZIP Plugin Check and runtime selection](plugin-check-1.11.51.json).
+- [229-file manifest](release-manifest-1.11.51.json) and [machine-readable checkpoint](directory-preparation-1.11.51.json).
+- [New syntax, regressions, analysis, native WordPress and fresh/upgrade lifecycle evidence](evidence/directory-1.11.51/).
+- [Directory icon, original source, generation prompt and upload instructions](../.wordpress-org/README.md).
+
+## Functional baseline 1.11.50
 
 **Plugin Check: 0 errors / 0 warnings. PHPStan: 0 findings** at unchanged level 5 / PHP 7.4 target, with source-verified dependency contracts. No new ignores, suppressions, baseline, exclusions, skip flags or lowered thresholds.
 
