@@ -263,11 +263,11 @@ final class PDF_Thumbnail_Inserter_Elementor {
                             $this->add_link_attributes( 'link', $link );
                             echo '<a class="pti-featured-media-link" ';
                             $this->print_render_attribute_string( 'link' );
-                            echo '>' . $media_html . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            echo '>' . wp_kses( $media_html, PDF_Thumbnail_Inserter_HTML::media() ) . '</a>';
                             return;
                         }
 
-                        echo $media_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo wp_kses( $media_html, PDF_Thumbnail_Inserter_HTML::media() );
                     }
                 }
             );

@@ -50,14 +50,14 @@ $request = function ( $identity, $overrides = array() ) use ( $base ) {
         'location' => wp_remote_retrieve_header( $response, 'location' ),
         'json' => json_decode( wp_remote_retrieve_body( $response ), true ) );
 };
-$ajax = function ( $identity, $action, $fields = array(), $image_name = null ) use ( $base ) {
+$ajax = function ( $identity, $action, $fields = array(), $image_name = null, $image_field = 'preview' ) use ( $base ) {
     $body = array_merge( array( 'action' => 'pdf_thumbnail_inserter_' . $action, 'nonce' => $identity['ajax_nonce'] ), $fields );
     $headers = array( 'Cookie' => $identity['cookie'] );
     if ( null !== $image_name ) {
         $boundary = 'pti' . bin2hex( random_bytes( 16 ) );
         $multipart = '';
         foreach ( $body as $name => $value ) $multipart .= '--' . $boundary . "\r\nContent-Disposition: form-data; name=\"" . $name . "\"\r\n\r\n" . $value . "\r\n";
-        $multipart .= '--' . $boundary . "\r\nContent-Disposition: form-data; name=\"preview\"; filename=\"" . $image_name . "\"\r\nContent-Type: image/png\r\n\r\n"
+        $multipart .= '--' . $boundary . "\r\nContent-Disposition: form-data; name=\"" . $image_field . "\"; filename=\"" . $image_name . "\"\r\nContent-Type: image/png\r\n\r\n"
             . file_get_contents( WP_PLUGIN_DIR . '/pdf-thumbnail-inserter/assets/images/pdf-placeholder.png' ) . "\r\n--" . $boundary . "--\r\n";
         $body = $multipart;
         $headers['Content-Type'] = 'multipart/form-data; boundary=' . $boundary;
@@ -109,6 +109,10 @@ try {
     maintenance_http_assert( 403 === $denied['status'], 'An author cannot scan the full library through maintenance discovery' );
     $bad_upload = $ajax( $author, 'save_browser_preview', array( 'attachment_id' => $author_pdf, 'automatic' => 1 ), 'preview.php' );
     maintenance_http_assert( 400 === $bad_upload['status'], 'A real HTTP image upload with a PHP extension is rejected' );
+    $bad_upload = $ajax( $author, 'save_browser_preview', array( 'attachment_id' => $author_pdf, 'automatic' => 1 ) );
+    maintenance_http_assert( 400 === $bad_upload['status'] && false === $bad_upload['json']['success'], 'A missing upload is rejected at the authenticated HTTP boundary' );
+    $bad_upload = $ajax( $author, 'save_browser_preview', array( 'attachment_id' => $author_pdf, 'automatic' => 1 ), 'preview.png', 'preview[]' );
+    maintenance_http_assert( 400 === $bad_upload['status'] && false === $bad_upload['json']['success'], 'A nested multi-file upload is rejected at the authenticated HTTP boundary' );
     $uploaded = $ajax( $author, 'save_browser_preview', array( 'attachment_id' => $author_pdf, 'automatic' => 1 ), 'preview.png' );
     maintenance_http_assert( 200 === $uploaded['status'] && ! empty( $uploaded['json']['data']['generated'] ), 'The owner can save an actual multipart image when the automatic setting is on' );
     $repeated = $ajax( $author, 'save_browser_preview', array( 'attachment_id' => $author_pdf, 'automatic' => 1 ), 'preview.png' );

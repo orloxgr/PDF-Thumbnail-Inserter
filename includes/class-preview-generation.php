@@ -322,14 +322,26 @@ final class PDF_Thumbnail_Inserter_PreviewGeneration {
                         if ( ! $imagick->writeImage( $temp_path ) || ! wp_getimagesize( $temp_path ) ) {
                             return '';
                         }
-                        // Publish atomically: WP_Filesystem::move may fall back to a non-atomic copy.
-                        if ( ! @rename( $temp_path, $preview_path ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.rename_rename
+                        require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+                        require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
+                        // Core's local move uses rename first. A copy fallback would expose a partial image.
+                        $filesystem = new class( null ) extends WP_Filesystem_Direct {
+                            public function copy( $source, $destination, $overwrite = false, $mode = false ) {
+                                return false;
+                            }
+                        };
+                        // Only a corrupt regular preview may be removed. Never recursively delete a destination.
+                        // Newer core move(overwrite=true) pre-deletes its destination; use no-overwrite publication.
+                        if ( is_link( $preview_path ) || ( file_exists( $preview_path ) && ! is_file( $preview_path ) ) ) {
+                            return '';
+                        }
+                        if ( is_file( $preview_path ) && ! $filesystem->delete( $preview_path, false, 'f' ) ) {
+                            return '';
+                        }
+                        if ( ! $filesystem->move( $temp_path, $preview_path ) ) {
                             return '';
                         }
                         $this->featured_images->invalidate_preview_caches();
-                        require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
-                        require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
-                        $filesystem = new WP_Filesystem_Direct( null );
                         $filesystem->chmod( $preview_path, 0644 );
                         delete_transient( $failure_key );
                         return $preview_path;

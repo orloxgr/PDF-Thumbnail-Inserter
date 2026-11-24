@@ -1,5 +1,13 @@
 # PDF Thumbnail Inserter — Changelog
 
+### 2.01.04
+
+- Remove every runtime PHPCS suppression and enforce annotation-free WordPress security checks.
+- Apply a narrow KSES schema at HTML output boundaries and escape SVG template values directly, preserving canvas rendering, responsive images and SVG geometry.
+- Render validated link target/rel values instead of raw compatibility attribute fragments.
+- Validate and sanitize individual preview upload fields without altering WordPress's unslashed file names.
+- Add real WordPress regressions for malicious markup, URL protocols, link contexts and preserved SVG/canvas output.
+
 ### 2.01.03
 
 - Restore first-PDF thumbnails in Elementor Pro Posts and Archive Posts skins when Elementor rejects a virtual PDF featured-image ID.

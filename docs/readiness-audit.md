@@ -1,5 +1,12 @@
 # PDF Thumbnail Inserter — current readiness
 
+## Version 2.01.04 — annotation-free security checks
+
+**0 runtime PHPCS suppressions. WPCS security/file-function checks and Plugin Check: 0 errors / 0 warnings.** Real WordPress KSES, escaped SVG templates, individual upload-field validation, managed OS locks and atomic WordPress filesystem publication replace the annotated paths. The earlier clean tool reports honored existing annotations; only this release additionally enforces annotation-free checks.
+
+- [Findings, concrete fixes, complete checks and limits](security-2.01.04.md).
+- [Machine-readable results](security-2.01.04.json), [Plugin Check](plugin-check-2.01.04.json), [manifest](release-manifest-2.01.04.json) and [evidence](evidence/security-2.01.04/).
+
 ## Version 2.01.03 — Elementor Posts PDF thumbnails
 
 **Plugin Check: 0 errors / 0 warnings.** Correct the built-in Elementor Pro Posts/Archive Posts image-control path that rejects virtual PDF IDs. All six real skins and both saved/browser-only media paths are verified; the exact ZIP passes the existing native matrix and fresh/published-upgrade lifecycle.

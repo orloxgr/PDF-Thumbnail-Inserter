@@ -3,6 +3,7 @@
 ```sh
 php -l pdf-thumbnail-inserter.php
 python scripts/check_syntax.py
+python scripts/check_security.py --phpcs /path/to/wpcs/phpcs
 php tests/preview-regression.php
 php tests/security-regression.php
 php tests/readiness-regression.php
@@ -15,12 +16,19 @@ node tests/server-maintenance-regression.cjs
 node tests/viewer-regression.cjs
 ```
 
+The security command requires PHPCS with WordPress Coding Standards installed. It rejects all runtime PHPCS suppression annotations and runs escaping, validated/sanitized input, nonce and alternative-function checks with annotations ignored and severity 1. No custom escaping/sanitization registrations, baselines or exclusions are used.
+
+`tests/security-output-wordpress.php /path/to/local/wordpress` requires `PTI_TEST_DISPOSABLE=true` and an active plugin on a local site with cron disabled. It uses real WordPress KSES, shortcode/card renderers and escaped SVG templates to check hostile attribute fragments, URLs and markup, along with intact accessible canvases, responsive images and both document-cover shapes. The older boundary-double suites are separate from these native security checks.
+
+Native advisory locks use SplFileObject::flock and explicit unlocking/destruction on every exit path. Their persistent zero-byte lock files are retained so concurrent workers lock the same inode. Server image publication uses WP_Filesystem_Direct::move without overwrite through a local adapter whose copy method refuses a non-atomic fallback. Under the PDF lock, only an existing corrupt regular preview may be removed; directory and symlink destinations are rejected. This avoids newer core's recursive destination deletion when overwrite is requested. A failed publication leaves its temporary image to the existing cleanup path. Validated local paths, cross-process serialization, corrupt-preview replacement, destination preservation and failure cleanup are covered by native/concurrency tests. SVG covers use a fixed template with context-specific escaping; this also preserves the case-sensitive viewBox attribute on WordPress versions whose HTML KSES serializer lowercases it.
+
 ## PHP architecture
 
 `pdf-thumbnail-inserter.php` contains the plugin header, direct-access guard, root path constants and bootstrap. `includes/class-plugin.php` preserves `PDF_Thumbnail_Inserter::instance()`, its public methods/constants and the ordered WordPress callbacks. It creates and wires the internal collaborators before registering hooks. Subsystems call their explicitly declared collaborators; no service locator, magic dispatch or external autoloader is used.
 
 | Runtime file under includes/ | Responsibility |
 | --- | --- |
+| class-html.php | Narrow output schemas and legacy link-context validation |
 | class-settings.php | Defaults, validation and legacy option migration |
 | class-admin.php | Settings/media UI and environment status |
 | class-assets.php | Conditional script/style registration and loading |
@@ -72,7 +80,7 @@ The [readiness audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/mai
 The plugin's source code, tests and release packaging script are publicly maintained at:
 https://github.com/orloxgr/PDF-Thumbnail-Inserter
 
-For the source corresponding to this release, use the v2.01.03 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
+For the source corresponding to this release, use the v2.01.04 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
 
 The plugin bundles the official PDF.js 6.3.289 distribution under the Apache-2.0 license. Its minified module and worker retain their upstream contents; `build/pdf.min.mjs` and `build/pdf.worker.min.mjs` are named `pdf.min.js` and `pdf.worker.min.js` in this plugin.
 

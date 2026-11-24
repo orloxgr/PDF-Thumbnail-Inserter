@@ -26,7 +26,7 @@ final class PDF_Thumbnail_Inserter_RuntimeState {
          */
         public $category_visual_rendered = array();
 
-        /** @var array<int,array{path:string,lock:resource}> Locks held through core attachment deletion. */
+        /** @var array<int,array{path:string,lock:SplFileObject}> Locks held through core attachment deletion. */
         public $attachment_delete_locks = array();
 
         /** @var array<string,string> Validated public read-only request parameters. */

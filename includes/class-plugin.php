@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+require_once __DIR__ . '/class-html.php';
 require_once __DIR__ . '/class-runtime-state.php';
 require_once __DIR__ . '/class-translations.php';
 require_once __DIR__ . '/class-viewer.php';
@@ -25,7 +26,7 @@ require_once __DIR__ . '/class-elementor.php';
 require_once __DIR__ . '/class-listing-filters.php';
 
 final class PDF_Thumbnail_Inserter {
-        const VERSION = '2.01.03';
+        const VERSION = '2.01.04';
         const TRANSIENT_REGEN_REPORT = 'pdf_thumbnail_inserter_regen_report';
         const TRANSIENT_SERVER_JOB = 'pdf_thumbnail_inserter_server_job';
         const SERVER_SCAN_LIMIT = 100;

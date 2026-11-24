@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "version": "2.01.04",
+  "sha256": "d9c3f8a3a358e0448c368ba5f03a2b6cdce6c1f5cf2198bd622410c2b39b553e",
+  "files": 251,
+  "runtime_php_files": 22,
+  "removed_suppression_annotations": 27,
+  "baseline_without_annotations": {
+    "version": "2.01.03",
+    "wpcs_errors": 23,
+    "wpcs_warnings": 5,
+    "escaping": 22,
+    "input_sanitization": 1,
+    "alternative_filesystem_functions": 5
+  },
+  "final_wpcs": {
+    "errors": 0,
+    "warnings": 0,
+    "severity": 1,
+    "ignore_annotations": true,
+    "suppression_annotations": 0,
+    "custom_sanitizer_or_escaper_registrations": false,
+    "sniffs": [
+      "WordPress.Security.EscapeOutput",
+      "WordPress.Security.ValidatedSanitizedInput",
+      "WordPress.Security.NonceVerification",
+      "WordPress.WP.AlternativeFunctions"
+    ]
+  },
+  "plugin_check": {
+    "errors": 0,
+    "warnings": 0,
+    "default_checks": 36,
+    "runtime_checks": 5
+  },
+  "native_regression_assertions": 1116,
+  "additional_real_wordpress_security_assertions": 62,
+  "real_http_maintenance_assertions": 37,
+  "real_elementor_skin_assertions": 33,
+  "fresh_lifecycle_assertions": 59,
+  "published_2_01_03_upgrade_assertions": 56,
+  "syntax_checks": 67,
+  "phpstan": {
+    "level": 5,
+    "findings": 0,
+    "negative_contract_probes": 7
+  },
+  "compatibility": "PHPCompatibilityWP 7.4-8.4: 0 errors / 0 warnings",
+  "environments": [
+    "WordPress 6.0 / PHP 7.4.27 / MariaDB 11.4.12, without and with Imagick/Ghostscript",
+    "WordPress 7.1.5 / PHP 8.2.30 / SQLite integration 3.1.3, without and with Imagick/Ghostscript",
+    "Elementor and Elementor Pro 4.4.1"
+  ],
+  "limits": [
+    "No production site was modified.",
+    "No new full-browser visual session for this release; previous 2.01.03 browser proof is retained and real KSES/DOM/HTTP tests cover the changed output.",
+    "The prior user-accepted WordPress 7.1 Gutenberg editor iframe limitation remains.",
+    "The full PHP compatibility range was checked statically; PHP 7.4.27 and 8.2.30 were executed.",
+    "Passing tools and regressions is not a guarantee against all possible vulnerabilities."
+  ]
+}

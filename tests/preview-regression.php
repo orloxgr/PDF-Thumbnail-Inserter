@@ -27,6 +27,8 @@ function esc_attr( $value ) { return htmlspecialchars( (string) $value, ENT_QUOT
 function esc_html( $value ) { return esc_attr( $value ); }
 function esc_url_raw( $value ) { return (string) $value; }
 function esc_url( $value ) { return esc_attr( $value ); }
+// Boundary double only. Real KSES filtering is exercised by security-output-wordpress.php.
+function wp_kses( $value, $allowed_html ) { return $value; }
 function absint( $value ) { return abs( (int) $value ); }
 function wp_parse_args( $args, $defaults = array() ) { return array_merge( $defaults, $args ); }
 function wp_parse_url( $url, $component = -1 ) { return parse_url( $url, $component ); }

@@ -1,0 +1,383 @@
+{
+  "totals": {
+    "errors": 23,
+    "warnings": 5,
+    "fixable": 0
+  },
+  "files": {
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\pdf-thumbnail-inserter.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-admin.php": {
+      "errors": 1,
+      "warnings": 0,
+      "messages": [
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$this'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 335,
+          "column": 77
+        }
+      ]
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-assets.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-blocks.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-cards.php": {
+      "errors": 17,
+      "warnings": 0,
+      "messages": [
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['target_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 209,
+          "column": 112
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['rel_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 209,
+          "column": 215
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$this'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 210,
+          "column": 40
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$this'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 214,
+          "column": 40
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['target_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 221,
+          "column": 136
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['rel_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 221,
+          "column": 239
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['target_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 229,
+          "column": 108
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['rel_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 229,
+          "column": 211
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['target_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 293,
+          "column": 112
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['rel_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 293,
+          "column": 215
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$this'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 294,
+          "column": 40
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$this'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 298,
+          "column": 40
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['target_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 305,
+          "column": 136
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['rel_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 305,
+          "column": 239
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['target_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 313,
+          "column": 108
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$context['rel_attr']'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 313,
+          "column": 211
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$card_html'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 516,
+          "column": 30
+        }
+      ]
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-discovery.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-elementor.php": {
+      "errors": 2,
+      "warnings": 0,
+      "messages": [
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$media_html'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 266,
+          "column": 40
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$media_html'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 270,
+          "column": 30
+        }
+      ]
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-featured-images.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-file-resolver.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-listing-filters.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-maintenance.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-media.php": {
+      "errors": 1,
+      "warnings": 0,
+      "messages": [
+        {
+          "message": "Detected usage of a non-sanitized input variable: $_FILES['preview']",
+          "source": "WordPress.Security.ValidatedSanitizedInput.InputNotSanitized",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 161,
+          "column": 60
+        }
+      ]
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-plugin.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-preview-generation.php": {
+      "errors": 0,
+      "warnings": 1,
+      "messages": [
+        {
+          "message": "rename() is discouraged. Use WP_Filesystem::move() to rename a file.",
+          "source": "WordPress.WP.AlternativeFunctions.rename_rename",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 326,
+          "column": 33
+        }
+      ]
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-preview-storage.php": {
+      "errors": 0,
+      "warnings": 4,
+      "messages": [
+        {
+          "message": "File operations should use WP_Filesystem methods instead of direct PHP filesystem calls. Found: fclose().",
+          "source": "WordPress.WP.AlternativeFunctions.file_system_operations_fclose",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 58,
+          "column": 17
+        },
+        {
+          "message": "File operations should use WP_Filesystem methods instead of direct PHP filesystem calls. Found: fopen().",
+          "source": "WordPress.WP.AlternativeFunctions.file_system_operations_fopen",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 68,
+          "column": 22
+        },
+        {
+          "message": "File operations should use WP_Filesystem methods instead of direct PHP filesystem calls. Found: fclose().",
+          "source": "WordPress.WP.AlternativeFunctions.file_system_operations_fclose",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 74,
+          "column": 17
+        },
+        {
+          "message": "File operations should use WP_Filesystem methods instead of direct PHP filesystem calls. Found: fclose().",
+          "source": "WordPress.WP.AlternativeFunctions.file_system_operations_fclose",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 242,
+          "column": 17
+        }
+      ]
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-previews.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-reference-lookup.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-runtime-state.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-settings.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-translations.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\dist\\security-2.01.04\\baseline-2.01.03\\pdf-thumbnail-inserter\\includes\\class-viewer.php": {
+      "errors": 2,
+      "warnings": 0,
+      "messages": [
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$this'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 261,
+          "column": 18
+        },
+        {
+          "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$shape'.",
+          "source": "WordPress.Security.EscapeOutput.OutputNotEscaped",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 261,
+          "column": 60
+        }
+      ]
+    }
+  },
+  "summary_by_rule": {
+    "WordPress.Security.EscapeOutput.OutputNotEscaped": 22,
+    "WordPress.Security.ValidatedSanitizedInput.InputNotSanitized": 1,
+    "WordPress.WP.AlternativeFunctions.rename_rename": 1,
+    "WordPress.WP.AlternativeFunctions.file_system_operations_fclose": 3,
+    "WordPress.WP.AlternativeFunctions.file_system_operations_fopen": 1
+  },
+  "suppression_annotations": 27,
+  "version": "2.01.03",
+  "zip_sha256": "e7980f3a33172a4f7198125ba1185cb858aed869e770cfda113a0b0458abbfd3"
+}

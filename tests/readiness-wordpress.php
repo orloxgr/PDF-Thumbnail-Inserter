@@ -445,9 +445,21 @@ try {
         $pti_created_paths[] = $standalone;
         $pti_created_paths[] = $standalone . '.lock';
         file_put_contents( $standalone . '.lock', '' );
+        file_put_contents( $standalone, 'corrupt existing preview' );
         $generated = pti_audit_private( 'generate_standalone_pdf_preview', $pti_pdf_path, dirname( $pti_pdf_path ), pathinfo( $pti_pdf_path, PATHINFO_FILENAME ), $uploads['basedir'] );
-        pti_audit_assert( wp_normalize_path( $standalone ) === $generated && wp_getimagesize( $standalone ), 'Real Ghostscript/Imagick preview ignores stale legacy lock file; generated=' . $generated );
+        pti_audit_assert( wp_normalize_path( $standalone ) === $generated && wp_getimagesize( $standalone ), 'Real Ghostscript/Imagick preview replaces corrupt output and ignores stale legacy lock file; generated=' . $generated );
         wp_delete_file( $standalone );
+        mkdir( $standalone );
+        file_put_contents( $standalone . '/keep.txt', 'owned destination fixture' );
+        clearstatcache( true, $standalone );
+        try {
+            $failed_move = pti_audit_private( 'generate_standalone_pdf_preview', $pti_pdf_path, dirname( $pti_pdf_path ), pathinfo( $pti_pdf_path, PATHINFO_FILENAME ), $uploads['basedir'] );
+            pti_audit_assert( '' === $failed_move && is_dir( $standalone ) && file_get_contents( $standalone . '/keep.txt' ) === 'owned destination fixture' && ! file_exists( $standalone . '.tmp.jpg' ), 'Failed atomic publication preserves the destination and removes the temporary image: ' . wp_json_encode( array( $failed_move, is_dir( $standalone ), file_exists( $standalone . '.tmp.jpg' ) ) ) );
+        } finally {
+            if ( is_file( $standalone . '/keep.txt' ) ) wp_delete_file( $standalone . '/keep.txt' );
+            if ( is_dir( $standalone ) ) rmdir( $standalone );
+            delete_transient( 'pdf_thumbnail_inserter_preview_fail_' . md5( wp_normalize_path( realpath( $pti_pdf_path ) ) . ':' . (string) filemtime( $pti_pdf_path ) ) );
+        }
         $core_pattern = dirname( $pti_pdf_path ) . '/' . pathinfo( $pti_pdf_path, PATHINFO_FILENAME ) . '-pdf*.*';
         $before_core_files = glob( $core_pattern );
         $reject_pdf_metadata = function ( $check, $id, $key ) use ( $pdf_id ) {

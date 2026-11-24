@@ -332,7 +332,7 @@ final class PDF_Thumbnail_Inserter_Admin {
                             </tr>
                             <tr>
                                 <th scope="row"><?php echo esc_html__( 'Saved cover preview', 'pdf-thumbnail-inserter' ); ?></th>
-                                <td><div style="max-width:480px"><?php echo $this->viewer->render_document_cover_svg( __( 'PDF title', 'pdf-thumbnail-inserter' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div></td>
+                                <td><div style="max-width:480px"><?php $this->viewer->print_document_cover_svg( __( 'PDF title', 'pdf-thumbnail-inserter' ) ); ?></div></td>
                             </tr>
                         </tbody>
                     </table>

@@ -55,23 +55,26 @@ final class PDF_Thumbnail_Inserter_PreviewStorage {
             try {
                 return call_user_func( $callback );
             } finally {
-                fclose( $lock ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Releases the native OS lock.
+                $lock->flock( LOCK_UN );
+                unset( $lock );
             }
         }
 
+        /** @return SplFileObject|WP_Error */
         public function acquire_preview_file_lock( $lock_path ) {
             if ( is_link( $lock_path ) || ( file_exists( $lock_path ) && ! is_file( $lock_path ) ) ) {
                 return new WP_Error( 'preview_lock_failed', __( 'Could not lock PDF preview generation.', 'pdf-thumbnail-inserter' ) );
             }
 
             // A native stream is required for the OS advisory lock; no credentials or remote filesystem are involved.
-            $lock = @fopen( $lock_path, 'c' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
-            if ( false === $lock ) {
+            try {
+                $lock = new SplFileObject( $lock_path, 'c' );
+            } catch ( RuntimeException $error ) {
                 return new WP_Error( 'preview_lock_failed', __( 'Could not lock PDF preview generation.', 'pdf-thumbnail-inserter' ) );
             }
 
-            if ( ! flock( $lock, LOCK_EX | LOCK_NB ) ) {
-                fclose( $lock ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Failed native lock must be closed.
+            if ( ! $lock->flock( LOCK_EX | LOCK_NB ) ) {
+                unset( $lock );
                 return new WP_Error( 'preview_busy', __( 'A preview operation is already running. Please try again shortly.', 'pdf-thumbnail-inserter' ) );
             }
             return $lock;
@@ -239,7 +242,7 @@ final class PDF_Thumbnail_Inserter_PreviewStorage {
         public function release_pdf_deletion_locks( $post_id = 0 ) {
             foreach ( $this->state->attachment_delete_locks as $id => $entry ) {
                 if ( $post_id && (int) $post_id !== $id ) continue;
-                fclose( $entry['lock'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Releases a native deletion lock.
+                $entry['lock']->flock( LOCK_UN );
                 unset( $this->state->attachment_delete_locks[ $id ] );
             }
         }

@@ -189,6 +189,13 @@ final class PDF_Thumbnail_Inserter_Viewer {
         }
 
         public function render_document_cover_svg( $title, $shape = 'landscape' ) {
+            ob_start();
+            $this->print_document_cover_svg( $title, $shape );
+            return (string) ob_get_clean();
+        }
+
+        /** Render fixed SVG markup with every dynamic value escaped in its output context. */
+        public function print_document_cover_svg( $title, $shape = 'landscape' ) {
             $settings = $this->settings->get_settings();
             $defaults = $this->settings->get_defaults();
             $background = '#f6f7f7';
@@ -215,25 +222,21 @@ final class PDF_Thumbnail_Inserter_Viewer {
             }
             $overflow = count( $lines ) > 3;
             $lines = array_slice( $lines, 0, 3 );
-            $title_text = '';
-            foreach ( $lines as $index => $title_line ) {
-                $title_line = wp_html_excerpt( $title_line, $max_chars, '…' );
-                if ( $overflow && 2 === $index ) {
-                    $title_line = wp_html_excerpt( $title_line, $max_chars - 1, '' ) . '…';
-                }
-                $title_text .= sprintf( '<tspan x="%1$d" y="%2$d">%3$s</tspan>', $text_x, ( $portrait ? 650 : 338 ) + $index * 68, esc_html( $title_line ) );
-            }
-
-            // All text and colors are escaped; no scripts, external assets or fonts.
-            return sprintf(
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %7$d %8$d" width="%7$d" height="%8$d" role="img" aria-label="%1$s" style="max-width:100%%;height:auto">'
-                . '<rect width="%7$d" height="%8$d" fill="%2$s"/><rect width="18" height="%8$d" fill="%3$s"/>'
-                . '<g transform="translate(%9$d,%10$d)" fill="none" stroke="%3$s" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"><path d="M100 205h115l65 65v250H100z"/><path d="M215 205v65h65M135 330h110M135 375h110M135 420h70"/></g>'
-                . '<g font-family="Arial, sans-serif"><text x="%11$d" y="%12$d" font-size="32" font-weight="700" fill="%3$s">%4$s</text><text font-size="48" font-weight="600" fill="%5$s">%6$s</text></g>'
-                . '<rect x="%11$d" y="%13$d" width="110" height="8" rx="4" fill="%3$s"/></svg>',
-                esc_attr( trim( $label . ' ' . $title ) ), esc_attr( $background ), esc_attr( $accent ), esc_html( $label ), esc_attr( $text ), $title_text,
-                $portrait ? 730 : 1170, $portrait ? 960 : 725, $portrait ? 165 : 0, $portrait ? -80 : 0, $text_x, $portrait ? 550 : 235, $portrait ? 865 : 560
-            );
+            // SVG attribute names are case-sensitive. Do not serialize this template through HTML KSES.
+            ?>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 <?php echo (int) ( $portrait ? 730 : 1170 ); ?> <?php echo (int) ( $portrait ? 960 : 725 ); ?>" width="<?php echo (int) ( $portrait ? 730 : 1170 ); ?>" height="<?php echo (int) ( $portrait ? 960 : 725 ); ?>" role="img" aria-label="<?php echo esc_attr( trim( $label . ' ' . $title ) ); ?>" style="max-width:100%;height:auto">
+                <rect width="<?php echo (int) ( $portrait ? 730 : 1170 ); ?>" height="<?php echo (int) ( $portrait ? 960 : 725 ); ?>" fill="<?php echo esc_attr( $background ); ?>"/><rect width="18" height="<?php echo (int) ( $portrait ? 960 : 725 ); ?>" fill="<?php echo esc_attr( $accent ); ?>"/>
+                <g transform="translate(<?php echo (int) ( $portrait ? 165 : 0 ); ?>,<?php echo (int) ( $portrait ? -80 : 0 ); ?>)" fill="none" stroke="<?php echo esc_attr( $accent ); ?>" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"><path d="M100 205h115l65 65v250H100z"/><path d="M215 205v65h65M135 330h110M135 375h110M135 420h70"/></g>
+                <g font-family="Arial, sans-serif"><text x="<?php echo (int) $text_x; ?>" y="<?php echo (int) ( $portrait ? 550 : 235 ); ?>" font-size="32" font-weight="700" fill="<?php echo esc_attr( $accent ); ?>"><?php echo esc_html( $label ); ?></text><text font-size="48" font-weight="600" fill="<?php echo esc_attr( $text ); ?>">
+                    <?php foreach ( $lines as $index => $title_line ) :
+                        $title_line = wp_html_excerpt( $title_line, $max_chars, '…' );
+                        if ( $overflow && 2 === $index ) $title_line = wp_html_excerpt( $title_line, $max_chars - 1, '' ) . '…';
+                        ?><tspan x="<?php echo (int) $text_x; ?>" y="<?php echo (int) ( ( $portrait ? 650 : 338 ) + $index * 68 ); ?>"><?php echo esc_html( $title_line ); ?></tspan><?php
+                    endforeach; ?>
+                </text></g>
+                <rect x="<?php echo (int) $text_x; ?>" y="<?php echo (int) ( $portrait ? 865 : 560 ); ?>" width="110" height="8" rx="4" fill="<?php echo esc_attr( $accent ); ?>"/>
+            </svg>
+            <?php
         }
 
         public function maybe_render_document_cover() {
@@ -258,7 +261,7 @@ final class PDF_Thumbnail_Inserter_Viewer {
             header( 'X-Robots-Tag: noindex' );
             header( "Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; sandbox" );
             header( 'Cache-Control: public, max-age=3600' );
-            echo $this->render_document_cover_svg( $title, $shape ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            $this->print_document_cover_svg( $title, $shape );
             exit;
         }
 }

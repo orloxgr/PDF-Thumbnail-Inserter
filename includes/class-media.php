@@ -157,8 +157,19 @@ final class PDF_Thumbnail_Inserter_Media {
                 wp_send_json_error( array( 'message' => $file_data->get_error_message() ), 400 );
             }
 
-            // Raw upload fields are shape-checked below; wp_handle_upload validates the HTTP upload and MIME.
-            $uploaded_file = isset( $_FILES['preview'] ) ? $_FILES['preview'] : null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            // Read only the single-file schema. $_FILES is not slashed by WordPress.
+            if ( ! isset( $_FILES['preview']['name'], $_FILES['preview']['tmp_name'], $_FILES['preview']['type'], $_FILES['preview']['error'], $_FILES['preview']['size'] )
+                || ! is_string( $_FILES['preview']['name'] ) || ! is_string( $_FILES['preview']['tmp_name'] )
+                || ! is_string( $_FILES['preview']['type'] ) || ! is_scalar( $_FILES['preview']['error'] ) || ! is_scalar( $_FILES['preview']['size'] ) ) {
+                wp_send_json_error( array( 'message' => __( 'Invalid preview image upload.', 'pdf-thumbnail-inserter' ) ), 400 );
+            }
+            $uploaded_file = array(
+                'name' => sanitize_file_name( $_FILES['preview']['name'] ),
+                'tmp_name' => sanitize_text_field( $_FILES['preview']['tmp_name'] ),
+                'type' => sanitize_mime_type( $_FILES['preview']['type'] ),
+                'error' => absint( $_FILES['preview']['error'] ),
+                'size' => absint( $_FILES['preview']['size'] ),
+            );
             $result = $this->preview_storage->with_pdf_preview_lock(
                 $file_data['path'],
                 function () use ( $attachment_id, $file_data, $uploaded_file ) {
@@ -207,7 +218,7 @@ final class PDF_Thumbnail_Inserter_Media {
                 return new WP_Error( 'browser_preview_failed', __( 'Preview image upload is too large or empty.', 'pdf-thumbnail-inserter' ), array( 'status' => 400 ) );
             }
 
-            $uploaded_name = sanitize_file_name( wp_unslash( (string) $uploaded_file['name'] ) );
+            $uploaded_name = sanitize_file_name( (string) $uploaded_file['name'] );
             if ( ! $uploaded_name ) {
                 $uploaded_name = sprintf( 'pdf-%d-browser-preview.jpg', $attachment_id );
             }
