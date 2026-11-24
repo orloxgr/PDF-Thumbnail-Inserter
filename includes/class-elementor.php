@@ -11,10 +11,54 @@ final class PDF_Thumbnail_Inserter_Elementor {
     /** @var PDF_Thumbnail_Inserter_Settings */
     private $settings;
 
+    /** @var PDF_Thumbnail_Inserter_Viewer */
+    private $viewer;
+
     /** Wire the request-local collaborators before registering any hooks. */
-    public function set_dependencies( PDF_Thumbnail_Inserter_FeaturedImages $featured_images, PDF_Thumbnail_Inserter_Settings $settings ) {
+    public function set_dependencies( PDF_Thumbnail_Inserter_FeaturedImages $featured_images, PDF_Thumbnail_Inserter_Settings $settings, PDF_Thumbnail_Inserter_Viewer $viewer ) {
         $this->featured_images = $featured_images;
         $this->settings = $settings;
+        $this->viewer = $viewer;
+    }
+
+    /**
+     * Supply Posts skin media when Elementor rejects a virtual PDF featured ID.
+     * Its image control intentionally accepts image attachments only, unlike core.
+     *
+     * @param string $html Existing image output.
+     * @param array  $settings Widget settings passed to the Elementor image control.
+     * @param string $image_size_key Image-size control name.
+     * @param string $image_key Image value control name.
+     * @return string
+     */
+    public function filter_posts_thumbnail_html( $html, $settings, $image_size_key, $image_key ) {
+        if ( '' !== $html ) return $html;
+
+        $skin = isset( $settings['_skin'] ) ? $settings['_skin'] : '';
+        $skins = array( 'cards', 'classic', 'full_content', 'archive_cards', 'archive_classic', 'archive_full_content' );
+        if ( ! in_array( $skin, $skins, true ) || $skin . '_thumbnail_size' !== $image_size_key || $image_key !== $image_size_key ) return $html;
+
+        $image = isset( $settings[ $image_key ] ) && is_array( $settings[ $image_key ] ) ? $settings[ $image_key ] : array();
+        if ( ! empty( $image['url'] ) ) return $html;
+
+        $post_id = $this->featured_images->get_current_render_post_id();
+        if ( ! $post_id || ! $this->featured_images->should_use_first_pdf_preview_as_featured_image( $post_id )
+            || $this->featured_images->has_real_featured_image_id( $post_id ) ) return $html;
+
+        $size_key = $image_size_key . '_size';
+        $size = isset( $settings[ $size_key ] ) && is_string( $settings[ $size_key ] ) ? $settings[ $size_key ] : 'large';
+        $fallback = $this->featured_images->get_pdf_featured_image_fallback_data( $post_id, $size );
+        if ( ! empty( $image['id'] ) && absint( $image['id'] ) !== absint( $fallback['id'] ) ) return $html;
+
+        if ( ! empty( $fallback['url'] ) ) {
+            return sprintf(
+                '<img class="pti-featured-image-or-pdf-preview wp-post-image" src="%1$s" alt="%2$s" loading="lazy" decoding="async">',
+                esc_url( $fallback['url'] ),
+                esc_attr( get_the_title( $post_id ) )
+            );
+        }
+
+        return ! empty( $fallback['pdf_url'] ) ? $this->viewer->render_pdf_canvas_preview( $fallback['pdf_url'], get_the_title( $post_id ) ) : $html;
     }
 
         public function get_elementor_featured_image_fallback_value( $post_id = 0 ) {

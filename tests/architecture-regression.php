@@ -52,5 +52,6 @@ if ( in_array( '--snapshot', $argv, true ) ) {
     exit;
 }
 $expected = json_decode( file_get_contents( __DIR__ . '/fixtures/plugin-contract-2.01.01.json' ), true );
+$expected['hooks'][] = array( 'filter', array( 'elementor/image_size/get_attachment_image_html', array( 'PDF_Thumbnail_Inserter_Elementor', 'filter_posts_thumbnail_html' ), 20, 4 ) );
 if ( $contract !== $expected ) throw new RuntimeException( 'Public API or ordered WordPress callbacks differ from release 2.01.01' );
 echo 'PASS: ' . count( $api ) . ' public method signatures, ' . count( $pti_hooks ) . " ordered callbacks, constants, root paths and idempotent bootstrap.\n";

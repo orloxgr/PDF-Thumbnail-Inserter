@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "baseline": true,
+  "wordpress": "7.1.5",
+  "php": "8.2.30",
+  "elementor": "4.4.1",
+  "elementor_pro": "4.4.1",
+  "assertions": [
+    "A real core-generated preview exists while the attachment remains application/pdf",
+    "The virtual featured ID is the PDF; no stored featured image was assigned",
+    "cards: reproduces missing thumbnail despite a real PDF preview",
+    "classic: reproduces missing thumbnail despite a real PDF preview",
+    "full_content: reproduces missing thumbnail despite a real PDF preview",
+    "archive_cards: reproduces missing thumbnail despite a real PDF preview",
+    "archive_classic: reproduces missing thumbnail despite a real PDF preview",
+    "archive_full_content: reproduces missing thumbnail despite a real PDF preview",
+    "Rendering leaves stored featured metadata, PDF metadata and preview files unchanged"
+  ]
+}

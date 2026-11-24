@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "browser": "Codex in-app browser",
+  "scope": "Standalone loopback page exporting actual Elementor Pro Cards/Classic thumbnail HTML and its installed CSS, real core-generated JPEG and real bundled PDF.js rendering of the same synthetic PDF. This is not a full Faun-theme or live-site visual test.",
+  "cases": [
+    "Cards: existing core preview visible",
+    "Classic: existing core preview visible",
+    "Cards: browser-only PDF canvas visible",
+    "Classic: canvas removed by KSES is recreated and the PDF is visible"
+  ],
+  "script_sha256": "ec0154394e23d9b9f5c5d7fe289a2a52722040366ce57c599a650973f1b2a3d6",
+  "screenshot": "browser-proof.png",
+  "production_changes": false,
+  "assets": "Exact canonical bytes extracted from the tested 2.01.03 installable ZIP"
+}

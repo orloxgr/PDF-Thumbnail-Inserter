@@ -1,0 +1,392 @@
+[
+  {
+    "file": "pdf-thumbnail-inserter.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/architecture-regression.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/component-access.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/deletion-concurrency.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/elementor-posts-wordpress.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/lifecycle-wordpress.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/preview-discovery-queries.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/preview-lock-concurrency.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/preview-regression.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/public-resources-http.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/readiness-regression.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/readiness-wordpress.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/reference-lookup-wordpress.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/security-regression.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/server-maintenance-http.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/server-maintenance-wordpress.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/translations-wordpress.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/upload-http.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/warnings-wordpress.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/wordpress-integration.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-admin.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-assets.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-blocks.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-cards.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-discovery.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-elementor.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-featured-images.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-file-resolver.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-listing-filters.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-maintenance.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-media.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-plugin.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-preview-generation.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-preview-storage.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-previews.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-reference-lookup.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-runtime-state.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-settings.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-translations.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "includes/class-viewer.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tools/phpstan/bootstrap.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tools/phpstan/contract-probe.php",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tools/phpstan/runtime-contracts.stub",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/js/admin.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/js/browser-maintenance.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/js/browser-preview.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/js/browser-upload.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/js/classic-editor.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/js/pdf-runtime.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/js/pdf-thumbnail-preview.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/pdfjs/image_decoders/pdf.image_decoders.min.mjs",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/pdfjs/image_decoders/pdf.image_decoders.mjs",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/pdfjs/pdf.min.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/pdfjs/pdf.worker.min.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/pdfjs/wasm/jbig2_nowasm_fallback.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/pdfjs/wasm/openjpeg_nowasm_fallback.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/pdfjs/wasm/quickjs-eval.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "assets/pdfjs-viewer/viewer.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "blocks/pdf-thumbnail/index.js",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/browser-maintenance-regression.cjs",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/browser-upload-regression.cjs",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/editor-regression.cjs",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/preview-renderer-regression.cjs",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/server-maintenance-regression.cjs",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  },
+  {
+    "file": "tests/viewer-regression.cjs",
+    "status": "PASS",
+    "exit": 0,
+    "diagnostic": ""
+  }
+]

@@ -1,5 +1,12 @@
 # PDF Thumbnail Inserter — current readiness
 
+## Version 2.01.03 — Elementor Posts PDF thumbnails
+
+**Plugin Check: 0 errors / 0 warnings.** Correct the built-in Elementor Pro Posts/Archive Posts image-control path that rejects virtual PDF IDs. All six real skins and both saved/browser-only media paths are verified; the exact ZIP passes the existing native matrix and fresh/published-upgrade lifecycle.
+
+- [Cause, correction, executed checks and deployment limits](elementor-posts-2.01.03.md).
+- [Machine-readable results](elementor-posts-2.01.03.json), [Plugin Check](plugin-check-2.01.03.json), [manifest](release-manifest-2.01.03.json) and [evidence](evidence/elementor-2.01.03/).
+
 ## Version 2.01.02 — modular PHP architecture
 
 **Plugin Check: 0 errors / 0 warnings.** Eighteen focused subsystems, a shared request-state object and a compatible public facade replace the monolithic implementation. The exact 250-file ZIP passes the two-version native/HTTP/concurrency matrix, fresh lifecycle and actual 2.01.01 upgrade.

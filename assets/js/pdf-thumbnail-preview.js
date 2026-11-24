@@ -35,11 +35,19 @@ async function renderPreview(element) {
     }
 
     const fileUrl = element.dataset.pdfUrl || '';
-    const canvas = element.querySelector('canvas');
+    let canvas = element.querySelector('canvas');
     const status = element.querySelector('.pti-pdf-canvas-preview__status');
 
-    if (!fileUrl || !canvas) {
+    if (!fileUrl) {
         return;
+    }
+
+    // Elementor Classic sanitizes image-control HTML with wp_kses_post(),
+    // which retains our data-bearing span but removes the canvas element.
+    if (!canvas) {
+        canvas = document.createElement('canvas');
+        canvas.setAttribute('aria-hidden', 'true');
+        element.prepend(canvas);
     }
 
     element.dataset.ptiRendered = '1';

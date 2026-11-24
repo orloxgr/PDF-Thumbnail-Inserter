@@ -1,5 +1,12 @@
 # PDF Thumbnail Inserter — Changelog
 
+### 2.01.03
+
+- Restore first-PDF thumbnails in Elementor Pro Posts and Archive Posts skins when Elementor rejects a virtual PDF featured-image ID.
+- Preserve existing images, image-off controls, configured fallback scope and stored metadata.
+- Recreate a preview canvas removed by Elementor Classic HTML sanitization so browser-only PDF thumbnails can render.
+- Add actual Elementor Pro skin regressions for the reported missing-preview path.
+
 ### 2.01.02
 
 - Split the plugin into focused PHP subsystems with explicit dependencies and shared request-local state.

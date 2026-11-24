@@ -11,14 +11,15 @@ class MutationObserver {
     observe() {}
     disconnect() { this.disconnected = true; }
 }
-function preview(id) {
+function preview(id, hasCanvas = true) {
     const canvas = { style: {}, getContext: () => ({}) };
     const status = { hidden: false };
     const classes = new Set();
     return {
         dataset: { pdfUrl: `https://example.org/${id}.pdf` }, clientWidth: 640,
-        classList: { add: value => classes.add(value) }, classes, canvas, status,
-        querySelector: selector => selector === 'canvas' ? canvas : status,
+        classList: { add: value => classes.add(value) }, classes, canvas: hasCanvas ? canvas : null, status,
+        querySelector(selector) { return selector === 'canvas' ? this.canvas : status; },
+        prepend(value) { this.canvas = value; },
         querySelectorAll: () => [], matches: () => true,
     };
 }
@@ -40,7 +41,7 @@ let source = fs.readFileSync(path.join(__dirname, '../assets/js/pdf-thumbnail-pr
     .replace('export function watchPreviewRendering', 'function watchPreviewRendering');
 source += '\nglobalThis.watchPreviewRendering = watchPreviewRendering;';
 let libraryRequests = 0;
-const context = { getPdfLibrary: async () => { libraryRequests++; return pdfjsLib; }, URL, WeakSet, MutationObserver, window: { devicePixelRatio: 2 }, document: { readyState: 'loading', addEventListener() {} }, console: { error: (...args) => errors.push(args) } };
+const context = { getPdfLibrary: async () => { libraryRequests++; return pdfjsLib; }, URL, WeakSet, MutationObserver, window: { devicePixelRatio: 2 }, document: { readyState: 'loading', addEventListener() {}, createElement(name) { assert.equal(name, 'canvas'); return { style: {}, attributes: {}, getContext: () => ({}), setAttribute(key, value) { this.attributes[key] = value; } }; } }, console: { error: (...args) => errors.push(args) } };
 vm.runInNewContext(source, context);
 const disconnectEmpty = context.watchPreviewRendering({ querySelectorAll: () => [] });
 assert.equal(libraryRequests, 0, 'A listing/editor without canvases does not load PDF.js');
@@ -89,6 +90,14 @@ function documentWithPage(width, height) {
     assert.equal(tasks.length, 6, 'Repeated mutations do not decode the same preview twice');
     tasks[5].resolve(documentWithPage(200, 300));
     await flush();
+    const sanitized = preview(7, false);
+    mutations[1].callback([{ addedNodes: [sanitized] }]);
+    await flush();
+    assert.equal(tasks.length, 7, 'A KSES-sanitized Elementor preview recreates its missing canvas');
+    assert.equal(sanitized.canvas.attributes['aria-hidden'], 'true');
+    tasks[6].resolve(documentWithPage(200, 300));
+    await flush();
+    assert(sanitized.classes.has('is-loaded') && sanitized.canvas.width > 0, 'The recreated canvas receives the PDF page');
     assert(tasks.every(task => task.destroyed === 1), 'Every worker is destroyed after success or failure');
     assert.equal(errors.length, 1, 'Only the deliberately unreadable PDF reports a failure');
     disconnect();

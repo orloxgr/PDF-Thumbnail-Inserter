@@ -43,6 +43,8 @@ node tests/viewer-regression.cjs
 
 The public facade remains the callback owner, including callbacks registered later by settings, block registration, output buffering and temporary metadata-hook removal. The internal components and their wiring methods are not extension APIs. This is an organizational refactor: option/meta names, persistent data, shortcode aliases and PHP 7.4 / WordPress 6.0 requirements are retained; no speed improvement is claimed.
 
+The Elementor component also filters `elementor/image_size/get_attachment_image_html` for the built-in Posts and Archive Posts thumbnail controls. Elementor rejects PDF IDs in its image control even when core has a valid PDF preview. The filter supplies only missing skin media, preserves existing images and explicit selections, and follows the plugin's listing/fallback settings. `tests/elementor-posts-wordpress.php` exercises all six real Elementor Pro skins with a core-generated PDF preview, image-off controls, repeated widgets, requested sizes, real featured images, absent previews and unchanged stored metadata/files. It requires a disposable local WordPress root, active Elementor/Pro, real Imagick and `PTI_TEST_DISPOSABLE=true`. The browser renderer can recreate a canvas removed by Elementor Classic's normal HTML sanitization.
+
 `tests/architecture-regression.php` compares public signatures/defaults/constants and the ordered hook registrations against a contract captured from the published 2.01.01 ZIP. It also checks root paths, callable callbacks, no bootstrap output and repeated loading. `tests/component-access.php` lets existing behavior tests reach the owning component without exposing test helpers in the distributed plugin; it also supports the old monolithic release for upgrade tests.
 
 `tests/wordpress-integration.php` installs the ZIP and checks real WordPress APIs on an explicitly disposable site. It requires `PTI_TEST_DISPOSABLE=true`; see its header for the install and verification phases. The test creates attachments and changes settings, so use a fresh test database.
@@ -70,7 +72,7 @@ The [readiness audit](https://github.com/orloxgr/PDF-Thumbnail-Inserter/blob/mai
 The plugin's source code, tests and release packaging script are publicly maintained at:
 https://github.com/orloxgr/PDF-Thumbnail-Inserter
 
-For the source corresponding to this release, use the v2.01.02 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
+For the source corresponding to this release, use the v2.01.03 tag. The plugin's own PHP, JavaScript and CSS are distributed as readable source and need no compilation. From a checkout of that tag, run `python scripts/package.py` with Python 3 and Git available to create the installable ZIP in `dist/`.
 
 The plugin bundles the official PDF.js 6.3.289 distribution under the Apache-2.0 license. Its minified module and worker retain their upstream contents; `build/pdf.min.mjs` and `build/pdf.worker.min.mjs` are named `pdf.min.js` and `pdf.worker.min.js` in this plugin.
 

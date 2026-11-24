@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "tool": "Gitleaks 8.30.1",
+  "scans": [
+    {
+      "scope": "repository",
+      "status": "PASS",
+      "findings": 0,
+      "command": [
+        "<repository>\\dist\\documentation-1.11.52\\tools\\gitleaks\\gitleaks.exe",
+        "dir",
+        "<repository>\\dist\\live-preview-debug\\repository-snapshot",
+        "--redact",
+        "--no-banner",
+        "--no-color",
+        "--ignore-gitleaks-allow",
+        "--report-format=json",
+        "--report-path=<repository>\\dist\\live-preview-debug\\gitleaks-repository.json"
+      ]
+    },
+    {
+      "scope": "installable-zip",
+      "status": "PASS",
+      "findings": 0,
+      "command": [
+        "<repository>\\dist\\documentation-1.11.52\\tools\\gitleaks\\gitleaks.exe",
+        "dir",
+        "<repository>\\dist\\live-preview-debug\\package",
+        "--redact",
+        "--no-banner",
+        "--no-color",
+        "--ignore-gitleaks-allow",
+        "--report-format=json",
+        "--report-path=<repository>\\dist\\live-preview-debug\\gitleaks-installable-zip.json"
+      ]
+    },
+    {
+      "scope": "git-history",
+      "status": "PASS",
+      "findings": 0,
+      "command": [
+        "<repository>\\dist\\documentation-1.11.52\\tools\\gitleaks\\gitleaks.exe",
+        "git",
+        "--log-opts=--all",
+        "<repository>",
+        "--redact",
+        "--no-banner",
+        "--no-color",
+        "--ignore-gitleaks-allow",
+        "--report-format=json",
+        "--report-path=<repository>\\dist\\live-preview-debug\\gitleaks-git-history.json"
+      ]
+    }
+  ],
+  "own_infrastructure_and_deployment_patterns_in_zip": [],
+  "reviewed_upstream_virtual_paths": [
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/image_decoders/pdf.image_decoders.min.mjs",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    },
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/image_decoders/pdf.image_decoders.mjs",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    },
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/image_decoders/pdf.image_decoders.mjs.map",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    },
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/pdf.worker.min.js",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    },
+    {
+      "file": "pdf-thumbnail-inserter/assets/pdfjs/wasm/openjpeg_nowasm_fallback.js",
+      "path": "/home/web_user",
+      "classification": "Official PDF.js/Emscripten virtual filesystem default; upstream byte identity verified"
+    }
+  ],
+  "root_files": [
+    "LICENSE",
+    "changelog.txt",
+    "development.txt",
+    "pdf-thumbnail-inserter.php",
+    "readme.txt"
+  ],
+  "zip_files": 250,
+  "excluded": [
+    "README.md",
+    ".git",
+    ".agents",
+    ".wordpress-org",
+    "tests",
+    "tools",
+    "scripts",
+    "docs",
+    "node_modules",
+    ".env",
+    "wp-config.php"
+  ],
+  "manual_review": [
+    "First-party PHP and JavaScript contain no literal network endpoint; WordPress-generated local AJAX/REST URLs and local bundled modules are used.",
+    "The plugin header intentionally retains public author/repository/license metadata.",
+    "The legacy configurable listing slug is retained for backward compatibility and contains no host or credential."
+  ],
+  "limits": "Pattern scans and manual review do not prove that every possible secret format is detectable."
+}

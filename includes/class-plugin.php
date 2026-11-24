@@ -25,7 +25,7 @@ require_once __DIR__ . '/class-elementor.php';
 require_once __DIR__ . '/class-listing-filters.php';
 
 final class PDF_Thumbnail_Inserter {
-        const VERSION = '2.01.02';
+        const VERSION = '2.01.03';
         const TRANSIENT_REGEN_REPORT = 'pdf_thumbnail_inserter_regen_report';
         const TRANSIENT_SERVER_JOB = 'pdf_thumbnail_inserter_server_job';
         const SERVER_SCAN_LIMIT = 100;
@@ -149,7 +149,7 @@ final class PDF_Thumbnail_Inserter {
             $this->cards->set_dependencies( $this->discovery, $this->file_resolver, $this->listing_filters, $this->previews, $this->reference_lookup, $this->settings, $this->viewer );
             $this->discovery->set_dependencies( $this->file_resolver, $this->preview_generation, $this->previews, $this->reference_lookup, $this->state );
             $this->reference_lookup->set_dependencies( $this->discovery, $this->file_resolver );
-            $this->elementor->set_dependencies( $this->featured_images, $this->settings );
+            $this->elementor->set_dependencies( $this->featured_images, $this->settings, $this->viewer );
             $this->listing_filters->set_dependencies( $this, $this->featured_images, $this->settings, $this->state );
 
             add_action( 'init', array( $this, 'load_textdomain' ) );
@@ -197,6 +197,7 @@ final class PDF_Thumbnail_Inserter {
             add_filter( 'wp_script_attributes', array( $this, 'add_module_attributes_to_preview_renderer' ) );
             add_filter( 'script_loader_tag', array( $this, 'add_module_type_to_preview_renderer' ), 10, 3 );
             add_filter( 'plugin_action_links_' . plugin_basename( PDF_THUMBNAIL_INSERTER_FILE ), array( $this, 'add_plugin_action_links' ) );
+            add_filter( 'elementor/image_size/get_attachment_image_html', array( $this->elementor, 'filter_posts_thumbnail_html' ), 20, 4 );
         }
 
         public function load_textdomain() {
