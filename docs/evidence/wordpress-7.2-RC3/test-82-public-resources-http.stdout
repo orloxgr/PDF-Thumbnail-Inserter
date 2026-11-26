@@ -1,0 +1,20 @@
+{
+    "status": "PASS",
+    "wordpress": "7.2-RC3",
+    "php_client": "8.2.30",
+    "assertions": [
+        "An anonymous legacy viewer URL still renders the actual viewer for a Greek\/ampersand filename",
+        "The public viewer retains its same-origin CSP",
+        "The actual viewer rejects a foreign\/traversal\/nested file argument",
+        "The actual viewer rejects a foreign\/traversal\/nested file argument",
+        "The actual viewer rejects a foreign\/traversal\/nested file argument",
+        "An anonymous legacy cover URL returns a real SVG resource",
+        "The routed cover is valid XML and preserves case-insensitive portrait selection",
+        "Routed Greek\/title markup is sanitized and escaped for SVG output",
+        "A present but invalid cover selector returns 404 rather than a normal page",
+        "A present but invalid cover selector returns 404 rather than a normal page",
+        "Registering legacy resource parameters does not hijack an ordinary page request",
+        "Public viewer\/cover requests do not change attachment metadata or settings",
+        "Public resource access does not generate an image or save an error marker"
+    ]
+}

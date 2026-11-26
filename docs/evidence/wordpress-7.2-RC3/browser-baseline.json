@@ -1,0 +1,12 @@
+{
+  "scope": "PDF Thumbnail Inserter and Elementor/Pro inactive; core Hello world post",
+  "editorCanvasPresent": true,
+  "logs": [
+    {
+      "level": "warn",
+      "message": "[api-fetch][preload] Some preloads were never consumed: Array(1)",
+      "timestamp": "2026-11-26T12:26:41.001Z",
+      "url": "http://127.0.0.1:9432/wp-includes/js/dist/api-fetch.min.js?ver=6cf932e67c46d9f2e92d"
+    }
+  ]
+}

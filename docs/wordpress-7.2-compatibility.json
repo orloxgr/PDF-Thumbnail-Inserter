@@ -1,0 +1,74 @@
+{
+  "assessment": "PASS for executed RC3 checks; full visual editor acceptance remains incomplete",
+  "checked_on": "2026-11-26",
+  "plugin_version": "2.01.04",
+  "plugin_release_commit": "27abc29ec824abc2fcc5f656bfb403b89d3398d5",
+  "plugin_sha256": "d9c3f8a3a358e0448c368ba5f03a2b6cdce6c1f5cf2198bd622410c2b39b553e",
+  "plugin_runtime_changed": false,
+  "installed_plugin_files_compared": 251,
+  "wordpress": "7.2-RC3",
+  "core_sha256": "59262c84d871e2cfbad5efd637a09ee5fdf8731e9764324f5df70d26a607fb40",
+  "core_checksum_verified": true,
+  "database": "MariaDB 11.4.12, independent database, owned loopback port 13308",
+  "native_php": [
+    "7.4.27",
+    "8.2.30"
+  ],
+  "http_server_php": "8.2.30 with Imagick/Ghostscript",
+  "native_main_assertions": 1118,
+  "native_security_assertions": 62,
+  "elementor_pro_4_4_1_skin_assertions": 33,
+  "http_maintenance_assertions": 35,
+  "fresh_lifecycle_assertions": 59,
+  "wordpress_upgrade": "Actual WordPress 7.1.5 to 7.2-RC3 core and database update with unchanged published plugin 2.01.04",
+  "wordpress_upgrade_assertions": 56,
+  "plugin_check": {
+    "version": "2.2.0",
+    "errors": 0,
+    "warnings": 0,
+    "default_checks": 36,
+    "runtime_checks": 5
+  },
+  "wpcs_security": {
+    "errors": 0,
+    "warnings": 0,
+    "runtime_suppressions": 0,
+    "annotations_ignored": true
+  },
+  "phpstan_level_5_findings": 0,
+  "node_suites": 6,
+  "browser_preview": {
+    "generated": 1,
+    "skipped": 0,
+    "failed": 0,
+    "saved_jpeg_pixels": [
+      1200,
+      1800
+    ],
+    "attachment_ownership_verified": true
+  },
+  "editor_browser": {
+    "inserter_registration": true,
+    "inserted_pdf_thumbnail_block": true,
+    "saved_draft_serialization": true,
+    "visual_canvas_and_inspector_controls": "NOT VERIFIED: embedded browser leaves editor iframe blank; same blank canvas reproduced on core Hello world with target plugin and Elementor inactive",
+    "console_warnings": "Two deprecations with Elementor disappear when Elementor is inactive. One api-fetch unused-preload warning persists with the target plugin also inactive. All are retained in browser-logs.json; none are suppressed."
+  },
+  "verification_limits": [
+    "7.2 is an RC3 pre-release, not final 7.2.",
+    "No Chrome/Edge extension browser was available; the embedded browser iframe limitation prevents complete visual Gutenberg/inspector verification.",
+    "Native PHP 7.4 and 8.2 were executed; actual HTTP server was PHP 8.2.30.",
+    "Elementor/Pro 4.4.1 actual skin methods were exercised; WGL/full-theme visual integration was not repeated for RC3.",
+    "The image-processing pipeline for raster images was not browser-tested; WordPress documents PDFs as remaining on the classic upload path.",
+    "Initial SQLite/PHP 7.4 lab could not bootstrap; completed checks use MariaDB.",
+    "Initial HTTP probes encountered an admin redirect and pretty-permalink canonical redirect; final fixture uses plain permalinks, like the existing HTTP suite.",
+    "No production site, plugin code, version, readme Tested up to, existing release or release artifact changed."
+  ],
+  "sources": [
+    "https://make.wordpress.org/core/2026/11/20/wordpress-7-2-field-guide/",
+    "https://wordpress.org/news/2026/11/wordpress-7-2-release-candidate-3/",
+    "https://make.wordpress.org/core/2026/11/17/media-changes-in-wordpress-7-2/",
+    "https://make.wordpress.org/core/2026/11/10/editor-components-updates-in-wordpress-7-2/",
+    "https://make.wordpress.org/core/2026/11/17/preparing-for-jquery-4-with-wordpress-7-2/"
+  ]
+}

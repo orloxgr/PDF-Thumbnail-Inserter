@@ -1,5 +1,12 @@
 # PDF Thumbnail Inserter — current readiness
 
+## WordPress 7.2-RC3 compatibility — 26 November 2026
+
+The unchanged published **2.01.04** passes the executed RC3 native, HTTP, browser-preview and lifecycle checks, including actual core/database upgrade from WordPress 7.1.5. Plugin Check and annotation-free WPCS: **0 errors / 0 warnings**. Full visual Gutenberg/inspector acceptance remains incomplete because the available browser's editor iframe is blank even with the target plugin inactive. This is an RC assessment; `Tested up to` and release artifacts remain unchanged.
+
+- [Field-guide comparison, results, console warnings and limits](wordpress-7.2-compatibility.md).
+- [Machine-readable assessment](wordpress-7.2-compatibility.json) and [evidence](evidence/wordpress-7.2-RC3/).
+
 ## Version 2.01.04 — annotation-free security checks
 
 **0 runtime PHPCS suppressions. WPCS security/file-function checks and Plugin Check: 0 errors / 0 warnings.** Real WordPress KSES, escaped SVG templates, individual upload-field validation, managed OS locks and atomic WordPress filesystem publication replace the annotated paths. The earlier clean tool reports honored existing annotations; only this release additionally enforces annotation-free checks.

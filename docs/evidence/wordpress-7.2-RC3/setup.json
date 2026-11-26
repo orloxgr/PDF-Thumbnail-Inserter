@@ -1,0 +1,9 @@
+{
+  "core": "7.2-RC3",
+  "core_zip_sha256": "59262c84d871e2cfbad5efd637a09ee5fdf8731e9764324f5df70d26a607fb40",
+  "core_url": "https://wordpress.org/wordpress-7.2-RC3.zip",
+  "plugin": "2.01.04",
+  "plugin_sha256": "d9c3f8a3a358e0448c368ba5f03a2b6cdce6c1f5cf2198bd622410c2b39b553e",
+  "core_checksums": "PASS",
+  "plugin_installed_bytes": "PASS"
+}

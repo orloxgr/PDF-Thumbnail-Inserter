@@ -1,0 +1,282 @@
+[
+  {
+    "name": "fresh-core-install",
+    "status": "PASS"
+  },
+  {
+    "name": "fresh-checksums",
+    "status": "PASS"
+  },
+  {
+    "name": "fresh-init",
+    "status": "PASS",
+    "phase": "init",
+    "wordpress": "7.2-RC3",
+    "php": "8.2.30",
+    "assertions": [
+      "A genuinely fresh site has no target plugin or previous lifecycle fixture",
+      "Fresh installation has neither current nor legacy settings",
+      "Synthetic existing PDF and legacy/block content exist before plugin installation"
+    ]
+  },
+  {
+    "name": "fresh-plugin-install",
+    "status": "PASS"
+  },
+  {
+    "name": "fresh-fresh",
+    "status": "PASS",
+    "phase": "fresh",
+    "wordpress": "7.2-RC3",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Fresh installed plugin is active in a new WordPress request",
+      "A clean installation exposes all documented defaults",
+      "The dynamic block registers after fresh activation",
+      "Existing legacy content renders after fresh installation"
+    ]
+  },
+  {
+    "name": "fresh-legacy",
+    "status": "PASS",
+    "phase": "legacy",
+    "wordpress": "7.2-RC3",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Legacy migration runs with the target plugin active",
+      "Migration preserves the exact legacy option, including an unknown stored value",
+      "Migrated plugin settings are not autoloaded",
+      "The plugin publishes a real owned child preview before lifecycle transitions"
+    ]
+  },
+  {
+    "name": "fresh-deactivate",
+    "status": "PASS"
+  },
+  {
+    "name": "fresh-inactive",
+    "status": "PASS",
+    "phase": "inactive",
+    "wordpress": "7.2-RC3",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Both settings options survive the lifecycle transition exactly",
+      "The generated image attachment and its original bytes remain intact",
+      "Preview linkage and ownership metadata are preserved",
+      "An inactive/uninstalled plugin is absent from a fresh request"
+    ]
+  },
+  {
+    "name": "fresh-uninstall",
+    "status": "PASS"
+  },
+  {
+    "name": "fresh-uninstalled",
+    "status": "PASS",
+    "phase": "uninstalled",
+    "wordpress": "7.2-RC3",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Both settings options survive the lifecycle transition exactly",
+      "The generated image attachment and its original bytes remain intact",
+      "Preview linkage and ownership metadata are preserved",
+      "An inactive/uninstalled plugin is absent from a fresh request",
+      "WordPress uninstall actually removed the plugin files"
+    ]
+  },
+  {
+    "name": "fresh-reinstall",
+    "status": "PASS"
+  },
+  {
+    "name": "fresh-reinstalled",
+    "status": "PASS",
+    "phase": "reinstalled",
+    "wordpress": "7.2-RC3",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Both settings options survive the lifecycle transition exactly",
+      "The generated image attachment and its original bytes remain intact",
+      "Preview linkage and ownership metadata are preserved",
+      "Reinstalled/upgraded plugin is active in a fresh request",
+      "Installed header and runtime constant match the expected lifecycle version",
+      "Reinstalled/upgraded code reuses the existing generated preview",
+      "Preserved legacy and block content render with the preserved settings and image"
+    ]
+  },
+  {
+    "name": "fresh-cleanup",
+    "status": "PASS",
+    "phase": "cleanup",
+    "wordpress": "7.2-RC3",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Both settings options survive the lifecycle transition exactly",
+      "The generated image attachment and its original bytes remain intact",
+      "Preview linkage and ownership metadata are preserved",
+      "Reinstalled/upgraded plugin is active in a fresh request",
+      "Installed header and runtime constant match the expected lifecycle version",
+      "Reinstalled/upgraded code reuses the existing generated preview",
+      "Preserved legacy and block content render with the preserved settings and image",
+      "Deleting the original PDF while active removes its owned preview"
+    ]
+  },
+  {
+    "name": "upgrade-core-install",
+    "status": "PASS"
+  },
+  {
+    "name": "upgrade-checksums",
+    "status": "PASS"
+  },
+  {
+    "name": "upgrade-init",
+    "status": "PASS",
+    "phase": "init",
+    "wordpress": "7.1.5",
+    "php": "8.2.30",
+    "assertions": [
+      "A genuinely fresh site has no target plugin or previous lifecycle fixture",
+      "Fresh installation has neither current nor legacy settings",
+      "Synthetic existing PDF and legacy/block content exist before plugin installation"
+    ]
+  },
+  {
+    "name": "upgrade-plugin-install",
+    "status": "PASS"
+  },
+  {
+    "name": "upgrade-fresh",
+    "status": "PASS",
+    "phase": "fresh",
+    "wordpress": "7.1.5",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Fresh installed plugin is active in a new WordPress request",
+      "A clean installation exposes all documented defaults",
+      "The dynamic block registers after fresh activation",
+      "Existing legacy content renders after fresh installation"
+    ]
+  },
+  {
+    "name": "upgrade-legacy",
+    "status": "PASS",
+    "phase": "legacy",
+    "wordpress": "7.1.5",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Legacy migration runs with the target plugin active",
+      "Migration preserves the exact legacy option, including an unknown stored value",
+      "Migrated plugin settings are not autoloaded",
+      "The plugin publishes a real owned child preview before lifecycle transitions"
+    ]
+  },
+  {
+    "name": "upgrade-baseline",
+    "status": "PASS",
+    "phase": "baseline",
+    "wordpress": "7.1.5",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Both settings options survive the lifecycle transition exactly",
+      "The generated image attachment and its original bytes remain intact",
+      "Preview linkage and ownership metadata are preserved",
+      "Reinstalled/upgraded plugin is active in a fresh request",
+      "Installed header and runtime constant match the expected lifecycle version",
+      "Reinstalled/upgraded code reuses the existing generated preview",
+      "Preserved legacy and block content render with the preserved settings and image",
+      "The published baseline has a concrete local release artifact",
+      "The published baseline ZIP opens successfully",
+      "The installed baseline entrypoint matches the published ZIP bytes"
+    ]
+  },
+  {
+    "name": "upgrade-core-72",
+    "status": "PASS"
+  },
+  {
+    "name": "upgrade-database",
+    "status": "PASS"
+  },
+  {
+    "name": "upgrade-core-checksums",
+    "status": "PASS"
+  },
+  {
+    "name": "upgrade-upgraded",
+    "status": "PASS",
+    "phase": "upgraded",
+    "wordpress": "7.2-RC3",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Both settings options survive the lifecycle transition exactly",
+      "The generated image attachment and its original bytes remain intact",
+      "Preview linkage and ownership metadata are preserved",
+      "Reinstalled/upgraded plugin is active in a fresh request",
+      "Installed header and runtime constant match the expected lifecycle version",
+      "Reinstalled/upgraded code reuses the existing generated preview",
+      "Preserved legacy and block content render with the preserved settings and image"
+    ]
+  },
+  {
+    "name": "upgrade-cleanup",
+    "status": "PASS",
+    "phase": "cleanup",
+    "wordpress": "7.2-RC3",
+    "php": "8.2.30",
+    "assertions": [
+      "The phase uses its existing disposable lifecycle state",
+      "The fixture identity still matches its original attachment path",
+      "The original PDF bytes are preserved",
+      "Stored legacy shortcode and dynamic block content are unchanged",
+      "Both settings options survive the lifecycle transition exactly",
+      "The generated image attachment and its original bytes remain intact",
+      "Preview linkage and ownership metadata are preserved",
+      "Reinstalled/upgraded plugin is active in a fresh request",
+      "Installed header and runtime constant match the expected lifecycle version",
+      "Reinstalled/upgraded code reuses the existing generated preview",
+      "Preserved legacy and block content render with the preserved settings and image",
+      "Deleting the original PDF while active removes its owned preview"
+    ]
+  }
+]

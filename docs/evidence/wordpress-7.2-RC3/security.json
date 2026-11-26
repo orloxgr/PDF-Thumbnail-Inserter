@@ -1,0 +1,121 @@
+{
+  "totals": {
+    "errors": 0,
+    "warnings": 0,
+    "fixable": 0
+  },
+  "files": {
+    "<repository>\\pdf-thumbnail-inserter.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-admin.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-assets.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-blocks.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-cards.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-discovery.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-elementor.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-featured-images.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-file-resolver.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-html.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-listing-filters.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-maintenance.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-media.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-plugin.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-preview-generation.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-preview-storage.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-previews.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-reference-lookup.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-runtime-state.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-settings.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-translations.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    },
+    "<repository>\\includes\\class-viewer.php": {
+      "errors": 0,
+      "warnings": 0,
+      "messages": []
+    }
+  },
+  "runtime_files": 22,
+  "suppressions": 0
+}

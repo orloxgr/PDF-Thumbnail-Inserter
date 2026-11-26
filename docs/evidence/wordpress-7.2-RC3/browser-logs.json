@@ -1,0 +1,38 @@
+{
+  "editorWithElementor": [
+    {
+      "level": "warn",
+      "message": "select( 'core/edit-post' ).isEditorPanelEnabled is deprecated since version 6.5. Please use select( 'core/editor' ).isEditorPanelEnabled instead.",
+      "timestamp": "2026-11-26T12:20:57.834Z",
+      "url": "http://127.0.0.1:9432/wp-includes/js/dist/deprecated.min.js?ver=fe587bac92b7d0ef760e"
+    },
+    {
+      "level": "warn",
+      "message": "[api-fetch][preload] Some preloads were never consumed: Array(1)",
+      "timestamp": "2026-11-26T12:20:57.914Z",
+      "url": "http://127.0.0.1:9432/wp-includes/js/dist/api-fetch.min.js?ver=6cf932e67c46d9f2e92d"
+    },
+    {
+      "level": "warn",
+      "message": "Using custom components as toolbar controls is deprecated since version 5.6. Please use ToolbarItem, ToolbarButton or ToolbarDropdownMenu components instead. See: https://developer.wordpress.org/block-editor/components/toolbar-button/#inside-blockcontrols",
+      "timestamp": "2026-11-26T12:20:58.073Z",
+      "url": "http://127.0.0.1:9432/wp-includes/js/dist/deprecated.min.js?ver=fe587bac92b7d0ef760e"
+    }
+  ],
+  "editorWithoutElementor": [
+    {
+      "level": "warn",
+      "message": "[api-fetch][preload] Some preloads were never consumed: Array(1)",
+      "timestamp": "2026-11-26T12:25:00.142Z",
+      "url": "http://127.0.0.1:9432/wp-includes/js/dist/api-fetch.min.js?ver=6cf932e67c46d9f2e92d"
+    }
+  ],
+  "editorWithoutTargetPluginOrElementor": [
+    {
+      "level": "warn",
+      "message": "[api-fetch][preload] Some preloads were never consumed: Array(1)",
+      "timestamp": "2026-11-26T12:26:41.001Z",
+      "url": "http://127.0.0.1:9432/wp-includes/js/dist/api-fetch.min.js?ver=6cf932e67c46d9f2e92d"
+    }
+  ]
+}
